@@ -13,7 +13,7 @@ export default function UploadPhoto() {
   const checkForCameraPermission = async () => {
     const { status } = await ImagePicker.getMediaLibraryPermissionsAsync();
     if (status !== 'granted') {
-      alert("Please grant camera roll permissions inside your system's settings");
+      alert('Please grant camera roll permissions inside your system\'s settings');
     } else {
       console.log('Media Permissions are granted');
     }
@@ -42,7 +42,7 @@ export default function UploadPhoto() {
       </View>
     </View>
   );
-};
+}
 
 const photoUploaderStyles = StyleSheet.create({
   container: {
