@@ -3,6 +3,7 @@ import { StyleSheet, Text, View, SafeAreaView } from 'react-native';
 import { AppBar, IconButton, Stack, HStack } from '@react-native-material/core';
 import { Octicons, Entypo, AntDesign } from '@expo/vector-icons';
 
+import MainFeed from './components/MainFeed/MainFeed.js';
 import AccountPage from './components/AccountPage/AccountPage.js';
 
 export default function App() {
@@ -19,6 +20,7 @@ export default function App() {
           style={styles.appBar}
         />
       </View>
+      <MainFeed/>
       <View style={styles.container}>
         <AccountPage style={styles.userPage} />
       </View>
