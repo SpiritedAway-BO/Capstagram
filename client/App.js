@@ -1,7 +1,7 @@
 import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View } from 'react-native';
 
-import UploadPhoto from './components/UploadPhoto.js';
+import UploadPhoto from './components/UserPage/UploadPhoto.js';
 
 export default function App() {
   return (
