@@ -2,20 +2,20 @@ import React from 'react';
 import UploadPhoto from './UploadPhoto.js';
 import { Image, View, Platform, TouchableOpacity, Text, StyleSheet } from 'react-native';
 
-export default function UserPage() {
+export default function AccountPage() {
   return (
-    <View style={userPageStyles.userPageContainer}>
+    <View style={AccountPageStyles.AccountPageContainer}>
       <UploadPhoto />
     </View>
   );
-};
+}
 
-const userPageStyles = StyleSheet.create({
-  userPageView: {
+const AccountPageStyles = StyleSheet.create({
+  AccountPageView: {
     width: '100%',
     height: 45,
   },
-  userPageContainer: {
+  AccountPageContainer: {
     width: '100%',
   },
 });

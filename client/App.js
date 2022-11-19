@@ -1,17 +1,17 @@
 import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View, SafeAreaView } from 'react-native';
-import { AppBar } from "@react-native-material/core";
+import { AppBar } from '@react-native-material/core';
 
-import UserPage from './components/UserPage/UserPage.js';
+import AccountPage from './components/AccountPage/UserPage.js';
 
 export default function App() {
   return (
-    <SafeAreaView>
+    <SafeAreaView style={styles.safeContainer}>
       <View style={styles.topBarView}>
         <AppBar title="Capstagram" color="black" position="sticky" trailing={<Text>'hi'</Text>} style={styles.appBar}/>
       </View>
       <View style={styles.container}>
-        <UserPage style={styles.userPage} />
+        <AccountPage style={styles.userPage}/>
       </View>
     </SafeAreaView>
   );
@@ -28,5 +28,11 @@ const styles = StyleSheet.create({
     width: '100%',
   },
   appBar: {
+  },
+  userPage: {
+  },
+  safeContainer: {
+    alignItems: 'center',
+    justifyContent: 'center',
   },
 });
