@@ -1,10 +1,11 @@
 import React from 'react';
 import { Image, View, Platform, TouchableOpacity, Text, StyleSheet } from 'react-native';
 
-export default function Friends() {
+export default function Auth() {
   return (
     <View>
-      <Text>Hello</Text>
+      <Text>Login In Page</Text>
+      <Text>I put this here so I can commit again</Text>
     </View>
   );
 }
