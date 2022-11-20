@@ -4,7 +4,7 @@ import { Image, View, Platform, TouchableOpacity, Text, StyleSheet } from 'react
 export default function Auth() {
   return (
     <View>
-      <Text>Hello</Text>
+      <Text>Sign Up Page</Text>
     </View>
   );
 }
