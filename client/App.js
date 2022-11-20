@@ -2,12 +2,21 @@ import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View, SafeAreaView } from 'react-native';
 import { AppBar, IconButton, Stack, HStack, Button } from '@react-native-material/core';
 import { Octicons, Entypo, AntDesign } from '@expo/vector-icons';
+import { NavigationContainer } from '@react-navigation/native';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
 import MainFeed from './components/MainFeed/MainFeed.js';
 import AccountPage from './components/AccountPage/AccountPage.js';
-import Auth from './components/Auth/Auth.js';
+import Auth from './components/Auth/LoginPage.js';
+import UserPage from './components/UserPage/UserPage.js';
+import AddPhoto from './components/AddPhoto/AddPhoto.js';
+import CaptionsGalore from './components/CaptionsGalore/CaptionsGalore.js';
+import Friends from './components/Friends/Friends.js';
+import Search from './components/Search/Search.js';
 
-export default function App() {
+// const NavStack = createNativeStackNavigator();
+
+HomeScreen = ({ navigation }) => {
   return (
     <SafeAreaView style={styles.safeContainer}>
       <View style={styles.topBarView}>
@@ -24,14 +33,14 @@ export default function App() {
       {/* <MainFeed/> */}
       <View style={styles.container}>
         <Stack divider={true} spacing={2}>
-          <Button title="Account Page" />
-          <Button title="Add Photo" />
-          <Button title="Authentication" />
-          <Button title="Captions Galore" />
-          <Button title="Friends" />
-          <Button title="Main Feed" />
-          <Button title="Search" />
-          <Button title="User Page" />
+          <Button title="Account Page" onPress={() => navigation.navigate('Account Page')} />
+          <Button title="Add Photo" onPress={() => navigation.navigate('Add Photo')} />
+          <Button title="Authentication" onPress={() => navigation.navigate('Auth')} />
+          <Button title="Captions Galore" onPress={() => navigation.navigate('Captions Galore')} />
+          <Button title="Friends" onPress={() => navigation.navigate('Friends')} />
+          <Button title="Main Feed" onPress={() => navigation.navigate('Main Feed')} />
+          <Button title="Search" onPress={() => navigation.navigate('Search')} />
+          <Button title="User Page" onPress={() => navigation.navigate('User Page')} />
         </Stack>
         {/* <AccountPage style={styles.userPage} /> */}
       </View>
@@ -56,7 +65,29 @@ export default function App() {
       </View>
     </SafeAreaView>
   );
-}
+};
+
+const NavStack = createNativeStackNavigator();
+
+App = () => {
+  return (
+    <NavigationContainer>
+      <NavStack.Navigator initialRouteName="Home">
+        <NavStack.Screen name="Home" component={HomeScreen} />
+        <NavStack.Screen name="Main Feed" component={MainFeed} />
+        <NavStack.Screen name="Auth" component={Auth} />
+        <NavStack.Screen name="User Page" component={UserPage} />
+        <NavStack.Screen name="Account Page" component={AccountPage} />
+        <NavStack.Screen name="Add Photo" component={AddPhoto} />
+        <NavStack.Screen name="Captions Galore" component={CaptionsGalore} />
+        <NavStack.Screen name="Friends" component={Friends} />
+        <NavStack.Screen name="Search" component={Search} />
+      </NavStack.Navigator>
+    </NavigationContainer>
+  );
+};
+
+export default App;
 
 const styles = StyleSheet.create({
   container: {
@@ -75,10 +106,6 @@ const styles = StyleSheet.create({
   appBar: {
   },
   bottomAppBar: {
-    // flexDirection: 'row',
-    // alignItems: 'center',
-    // width: '100%',
-    // padding: 0,
   },
   userPage: {
   },
