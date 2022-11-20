@@ -6,6 +6,9 @@ import { Octicons, Entypo, AntDesign } from '@expo/vector-icons';
 import MainFeed from './components/MainFeed/MainFeed.js';
 import AccountPage from './components/AccountPage/AccountPage.js';
 import Auth from './components/Auth/Auth.js';
+import Friends from './components/Friends/Friends.js';
+import CaptionsGalore from './components/CaptionsGalore/CaptionsGalore.js';
+
 
 export default function App() {
   return (
