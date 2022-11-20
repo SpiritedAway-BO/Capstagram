@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Image, View, Platform, TouchableOpacity, Text, StyleSheet } from 'react-native';
+import { Image, Button, View, Platform, TouchableOpacity, Text, StyleSheet } from 'react-native';
 import { Divider } from "@react-native-material/core";
 
 export default function UserPage() {
@@ -20,6 +20,13 @@ export default function UserPage() {
       </View>
       <Divider style={{ marginTop: 60 }} leadingInset={16} />
       <Text variant="h3">My Posts is this Working Under a divider???!!!?!?!</Text>
+
+
+
+      {/* For Testing!!!!! V V V V V V V */}
+      <Button title="Home" onPress={() => {}}/>
+      <Button title="Friends" onPress={() => {}}/>
+      <Button title="Personal Wins" onPress={() => {}}/>
     </View>
   );
 }
