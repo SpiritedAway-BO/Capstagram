@@ -9,7 +9,9 @@ npm-debug.*
 *.mobileprovision
 *.orig.*
 web-build/
-client/components/Auth/firebase/.env
+.env
+example.env
+
 
 # macOS
 .DS_Store
