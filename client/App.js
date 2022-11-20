@@ -106,10 +106,6 @@ const styles = StyleSheet.create({
   appBar: {
   },
   bottomAppBar: {
-    // flexDirection: 'row',
-    // alignItems: 'center',
-    // width: '100%',
-    // padding: 0,
   },
   userPage: {
   },
