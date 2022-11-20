@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Image, View, Platform, TouchableOpacity, Text, StyleSheet } from 'react-native';
-import { Divider } from "@react-native-material/core";
+import { Divider } from '@react-native-material/core';
 
 export default function UserPage() {
   const [p, setP] = useState(null);
@@ -27,7 +27,7 @@ export default function UserPage() {
 const myPostsStyles = StyleSheet.create({
   container: {
     flex: 1,
-    flexdirection: "column",
+    flexdirection: 'column',
     elevation: 2,
     height: 500,
     width: 200,

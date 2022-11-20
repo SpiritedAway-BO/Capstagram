@@ -14,7 +14,6 @@ import CaptionsGalore from './components/CaptionsGalore/CaptionsGalore.js';
 import Friends from './components/Friends/Friends.js';
 import Search from './components/Search/Search.js';
 
-// const NavStack = createNativeStackNavigator();
 
 HomeScreen = ({ navigation }) => {
   return (
