@@ -1,9 +1,10 @@
 import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View, SafeAreaView } from 'react-native';
-import { AppBar, IconButton, Stack, HStack } from '@react-native-material/core';
+import { AppBar, IconButton, Stack, HStack, Button } from '@react-native-material/core';
 import { Octicons, Entypo, AntDesign } from '@expo/vector-icons';
 
 import AccountPage from './components/AccountPage/AccountPage.js';
+import Auth from './components/Auth/Auth.js';
 
 export default function App() {
   return (
@@ -20,20 +21,30 @@ export default function App() {
         />
       </View>
       <View style={styles.container}>
-        <AccountPage style={styles.userPage} />
+        <Stack divider={true} spacing={2}>
+          <Button title="Account Page" />
+          <Button title="Add Photo" />
+          <Button title="Authentication" />
+          <Button title="Captions Galore" />
+          <Button title="Friends" />
+          <Button title="Main Feed" />
+          <Button title="Search" />
+          <Button title="User Page" />
+        </Stack>
+        {/* <AccountPage style={styles.userPage} /> */}
       </View>
       <View style={styles.bottomBarView}>
         <AppBar
           variant="bottom"
           color="black"
           leading={props => (
-            <HStack>
+            <HStack spacing={80}>
               <IconButton icon={props => <Entypo name="home" size={28} color="white" />}{...props} />
               <IconButton icon={props => <AntDesign name="search1" size={28} color="white" />}{...props} />
             </HStack>
           )}
           trailing={props => (
-            <HStack>
+            <HStack spacing={80}>
               <IconButton icon={props => <AntDesign name="user" size={28} color="white" />}{...props} />
               <IconButton icon={props => <Entypo name="dots-three-vertical" size={28} color="white" />}{...props} />
             </HStack>
