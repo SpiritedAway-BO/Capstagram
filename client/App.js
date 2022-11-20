@@ -21,7 +21,7 @@ export default function App() {
           style={styles.appBar}
         />
       </View>
-      <MainFeed/>
+      {/* <MainFeed/> */}
       <View style={styles.container}>
         <Stack divider={true} spacing={2}>
           <Button title="Account Page" />
