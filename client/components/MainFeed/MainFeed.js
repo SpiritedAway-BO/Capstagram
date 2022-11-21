@@ -1,21 +1,31 @@
 import React from 'react';
-import { Image, View, Text, StyleSheet } from 'react-native';
-import { Surface, Stack } from '@react-native-material/core';
+import { View, ScrollView, StyleSheet } from 'react-native';
+import Post from './Post.js';
 
-export default function MainFeed() {
+const MainFeed = () => {
   return (
-    <View>
-      <Surface
-        elevation={5}
-        category="large"
-        style={{ width: 300, height: 400 }}>
-        <View>
-          <Image source={{uri: 'https://img.freepik.com/free-vector/cute-rabbit-with-duck-working-laptop-cartoon-illustration_56104-471.jpg?w=2000'}} style={{width: '100%', height: '80%'}}/>
-          <Text>user1: caption1</Text>
-          <Text>user2: caption2</Text>
-          <Text>user3: caption3</Text>
-        </View>
-      </Surface>
+    <View style={styles.mainContainer}>
+      <ScrollView style={styles.feedContainer}>
+        <Post/>
+        <Post/>
+        <Post/>
+        <Post/>
+        <Post/>
+      </ScrollView>
     </View>
   );
-}
+};
+
+const styles = StyleSheet.create({
+  mainContainer: {
+    justifyContent: 'center',
+    alignItems: 'center',
+    width: '100%',
+    backgroundColor: 'white',
+  },
+  feedContainer: {
+    width: '100%',
+  }
+});
+
+export default MainFeed;
