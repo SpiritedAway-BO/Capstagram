@@ -10,46 +10,87 @@ var DATA = [{
   caption: 'It\'s the little things in life',
   upvotes: 5,
   usericon: '../../assets/favicon.png',
-  voted: true
+  voted: true,
+  timestamp: Date()
 },
 {
   id: 1234568,
-  username: 'thisGuy',
+  username: 'thisGuy2',
   caption: 'Let me show you my Pokemon!',
   upvotes: 15,
+  usericon: '../../assets/favicon.png',
+  voted: false
+},
+{
+  id: 1234569,
+  username: 'thisGuy3',
+  caption: 'Are we there yet?',
+  upvotes: 0,
+  usericon: '../../assets/favicon.png',
+  voted: false
+},
+{
+  id: 1234570,
+  username: 'thisGuy4',
+  caption: 'Let me show you the world!',
+  upvotes: 3,
+  usericon: '../../assets/favicon.png',
+  voted: false
+},
+{
+  id: 1234571,
+  username: 'thisGuy5',
+  caption: 'All your base are belongs to us!',
+  upvotes: 2,
+  usericon: '../../assets/favicon.png',
+  voted: false
+},
+{
+  id: 1234572,
+  username: 'thisGuy6',
+  caption: 'I can haz cheezeburger?',
+  upvotes: 4,
   usericon: '../../assets/favicon.png',
   voted: false
 }];
 
 const CaptionItem = ({ caption }) => (
   <View style={styles.item}>
-    <Avatar image={{ uri: 'https://mui.com/static/images/avatar/1.jpg' }}
-      size={35}
-      style={styles.avatar}
-    />
-    <Image source={{url: caption.usericon}}
-      style={{width: 50, height: 50 }} />
-    { caption.voted ? <Ionicons name="ios-heart" size={35} color="#FF842B" /> : <Ionicons name="ios-heart-outline" size={35} color="#FF842B" />}
-    <Text style={styles.title}>{caption.username}</Text>
+    <View style={styles.userInfo} >
+      <Avatar image={{ uri: 'https://mui.com/static/images/avatar/1.jpg' }}
+        size={35}
+        style={styles.avatar}
+      />
+      <Text style={styles.title}>{caption.username}</Text>
+    </View>
     <Text style={styles.title}>{caption.caption}</Text>
-    <Text style={styles.title}>{caption.upvotes}</Text>
-    <Text style={styles.title}>{caption.voted}</Text>
+    { caption.voted ?
+      <View style={styles.heartIcon}>
+        <Text style={styles.title}>{caption.upvotes}</Text>
+        <Ionicons name="ios-heart" size={35} color="#FF842B" />
+      </View> :
+      <View style={styles.heartIcon}>
+        <Text style={styles.title}>{caption.upvotes}</Text>
+        <Ionicons style={styles.heartIcon} name="ios-heart-outline" size={35} color="#FF842B" />
+      </View>}
   </View>
 );
 
 const CaptionsGalore = () => {
 
-  const renderItem = ({ item }) => (
+  const renderCaption = ({ item }) => (
     <CaptionItem caption={item} />
   );
 
   return (
     <SafeAreaView style={styles.container}>
-      <FlatList //this is like map
-        data={DATA}
-        renderItem={renderItem}
-        keyExtractor={item => item.id}
-      />
+      <View style={styles.captionBox}>
+        <FlatList //this is like map
+          data={DATA}
+          renderItem={renderCaption}
+          keyExtractor={item => item.id}
+        />
+      </View>
     </SafeAreaView>
   );
 };
@@ -58,77 +99,34 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     marginTop: StatusBar.currentHeight || 0,
+    backgroundColor: '#f9c2ff',
+  },
+  captionBox: {
+    backgroundColor: '#f9c2ff',
+    // padding: 20,
+    margin: 20,
+  },
+  userInfo: {
+    flexDirection: 'row',
+    justifyContent: 'flex-start',
+  },
+  heartIcon: {
+    flexDirection: 'row',
+    justifyContent: 'flex-end',
   },
   item: {
-    backgroundColor: '#f9c2ff',
+    backgroundColor: '#fff',
     padding: 20,
-    marginVertical: 8,
-    marginHorizontal: 16,
+    // marginHorizontal: 16,
   },
   title: {
     fontSize: 24,
+    paddingHorizontal: 5,
   },
   avatar: {
     borderRadius: '50%',
-  }
+  },
+
 });
 
 export default CaptionsGalore;
-
-// const CaptionTitle = ({caption}) => {
-//   console.log('caption', caption);
-//   return (
-//     <View style={styles.item}>
-//       <Text style={styles.caption}>{caption}</Text>
-//     </View>
-//   );
-// };
-
-
-// export default function CaptionsGalore() {
-//   console.log('here');
-
-//   const renderCaption = ({caption}) => {
-//     console.log('caption');
-//     return (
-//       <CaptionTitle caption={caption.caption} />
-//     );
-//   };
-
-//   return (
-//     <SafeAreaView style={styles.container}>
-//       <FlatList
-//         data={DATA}
-//         renderCaption={renderCaption}
-//         keyExtractor={(caption) => caption.id}
-//       />
-//     </SafeAreaView>
-//   );
-// }
-
-// const styles = StyleSheet.create({
-//   container: {
-//     flex: 1,
-//     marginTop: StatusBar.currentHeight || 0,
-//   },
-//   caption: {
-//     backgroundColor: '#f9c2ff',
-//     padding: 20,
-//     marginVertical: 8,
-//     marginHorizontal: 16,
-//   },
-//   title: {
-//     fontSize: 32,
-//   },
-// });
-
-// // container: {
-// //   minWidth: '100%', //makes banner as wide as the screen
-// //   top: 0, //this moves the title away from the top
-// //   padding: 10, //this makes the
-// //   backgroundColor: 'black',
-// //   color: 'white',
-// //   fontSize: 25,
-// //   textAlign: 'center',
-// //   marginTop: -20, //reduces the overhead padding between the header and the Apptop
-// // },
