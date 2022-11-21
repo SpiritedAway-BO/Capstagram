@@ -16,9 +16,9 @@ import Search from './components/Search/Search.js';
 
 // const NavStack = createNativeStackNavigator();
 
-Homconst queryClient = new QueryClient();
+const queryClient = new QueryClient();
 
-eScreen = ({ navigation }) => {
+HomeScreen = ({ navigation }) => {
   return (
     <QueryClientProvider client={queryClient}>
       <SafeAreaView style={styles.safeContainer}>
