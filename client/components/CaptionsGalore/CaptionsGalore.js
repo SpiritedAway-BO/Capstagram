@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState, useEffect} from 'react';
 import { Image, View, Platform, TouchableOpacity, Text, StyleSheet, FlatList, StatusBar, SafeAreaView} from 'react-native';
 import { AntDesign, Ionicons } from '@expo/vector-icons';
 import { Stack, Avatar } from '@react-native-material/core';
@@ -33,9 +33,9 @@ var DATA = [{
   id: 1234570,
   username: 'thisGuy4',
   caption: 'Let me show you the world!',
-  upvotes: 3,
+  upvotes: 33,
   usericon: '../../assets/favicon.png',
-  voted: false
+  voted: true
 },
 {
   id: 1234571,
@@ -54,27 +54,46 @@ var DATA = [{
   voted: false
 }];
 
-const CaptionItem = ({ caption }) => (
-  <View style={styles.item}>
-    <View style={styles.userInfo} >
-      <Avatar image={{ uri: 'https://mui.com/static/images/avatar/1.jpg' }}
-        size={35}
-        style={styles.avatar}
-      />
-      <Text style={styles.title}>{caption.username}</Text>
+const CaptionItem = ({ caption }) => {
+  const [voted, setVoted] = useState(caption.voted);
+  const [votes, setVotes] = useState(caption.upvotes);
+
+  useEffect(() => {
+    setVotes(caption.upvotes);
+  }, []);
+
+  //will need to send put/patch state to database? or somehow keep track
+  return (
+    <View style={styles.item}>
+      <View style={styles.userInfo} >
+        <Avatar image={{ uri: 'https://mui.com/static/images/avatar/1.jpg' }}
+          size={35}
+          style={styles.avatar}
+        />
+        <Text style={styles.title}>{caption.username}</Text>
+      </View>
+      <Text style={styles.title}>{caption.caption}</Text>
+      { voted ?
+        <View style={styles.heartIcon} >
+          <Text style={styles.title}>{votes}</Text>
+          <Ionicons name="ios-heart" size={30} color="#FF842B"
+            onPress={() => {
+              setVotes(votes - 1);
+              setVoted(!voted);
+            }}/>
+        </View> :
+        <View style={styles.heartIcon} >
+          <Text style={styles.title} >{votes}</Text>
+          <Ionicons style={styles.heartIcon} name="ios-heart-outline" size={30} color="#FF842B"
+            onPress={() => {
+              setVotes(votes + 1);
+              setVoted(!voted);
+            }}
+          />
+        </View>}
     </View>
-    <Text style={styles.title}>{caption.caption}</Text>
-    { caption.voted ?
-      <View style={styles.heartIcon}>
-        <Text style={styles.title}>{caption.upvotes}</Text>
-        <Ionicons name="ios-heart" size={35} color="#FF842B" />
-      </View> :
-      <View style={styles.heartIcon}>
-        <Text style={styles.title}>{caption.upvotes}</Text>
-        <Ionicons style={styles.heartIcon} name="ios-heart-outline" size={35} color="#FF842B" />
-      </View>}
-  </View>
-);
+  );
+};
 
 const CaptionsGalore = () => {
 
