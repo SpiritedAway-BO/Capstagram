@@ -4,7 +4,7 @@ import { AppBar, IconButton, Stack, HStack, Button } from '@react-native-materia
 import { Octicons, Entypo, AntDesign } from '@expo/vector-icons';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-
+import { QueryClientProvider, QueryClient } from '@tanstack/react-query';
 import MainFeed from './components/MainFeed/MainFeed.js';
 import AccountPage from './components/AccountPage/AccountPage.js';
 import Auth from './components/Auth/LoginPage.js';
@@ -16,11 +16,13 @@ import Search from './components/Search/Search.js';
 
 // const NavStack = createNativeStackNavigator();
 
+const queryClient = new QueryClient();
+
 HomeScreen = ({ navigation }) => {
   return (
-    <SafeAreaView style={styles.safeContainer}>
-      <View style={styles.topBarView}>
-        <AppBar
+      <SafeAreaView style={styles.safeContainer}>
+        <View style={styles.topBarView}>
+          <AppBar
           title="Capstagram"
           color="black"
           position="sticky"
@@ -29,10 +31,11 @@ HomeScreen = ({ navigation }) => {
           )}
           style={styles.appBar}
         />
-      </View>
+        </View>
       {/* <MainFeed/> */}
-      <View style={styles.container}>
-        <Stack divider={true} spacing={2}>
+
+        <View style={styles.container}>
+          <Stack divider={true} spacing={2}>
           <Button title="Account Page" onPress={() => navigation.navigate('Account Page')} />
           <Button title="Add Photo" onPress={() => navigation.navigate('Add Photo')} />
           <Button title="Authentication" onPress={() => navigation.navigate('Auth')} />
@@ -62,8 +65,8 @@ HomeScreen = ({ navigation }) => {
           )}
           style={styles.bottomAppBar}
         />
-      </View>
-    </SafeAreaView>
+        </View>
+      </SafeAreaView>
   );
 };
 
@@ -71,19 +74,21 @@ const NavStack = createNativeStackNavigator();
 
 App = () => {
   return (
-    <NavigationContainer>
-      <NavStack.Navigator initialRouteName="Home">
-        <NavStack.Screen name="Home" component={HomeScreen} />
-        <NavStack.Screen name="Main Feed" component={MainFeed} />
-        <NavStack.Screen name="Auth" component={Auth} />
-        <NavStack.Screen name="User Page" component={UserPage} />
-        <NavStack.Screen name="Account Page" component={AccountPage} />
-        <NavStack.Screen name="Add Photo" component={AddPhoto} />
-        <NavStack.Screen name="Captions Galore" component={CaptionsGalore} />
-        <NavStack.Screen name="Friends" component={Friends} />
-        <NavStack.Screen name="Search" component={Search} />
-      </NavStack.Navigator>
-    </NavigationContainer>
+    <QueryClientProvider client={queryClient}>
+      <NavigationContainer>
+        <NavStack.Navigator initialRouteName="Home">
+          <NavStack.Screen name="Home" component={HomeScreen} />
+          <NavStack.Screen name="Main Feed" component={MainFeed} />
+          <NavStack.Screen name="Auth" component={Auth} />
+          <NavStack.Screen name="User Page" component={UserPage} />
+          <NavStack.Screen name="Account Page" component={AccountPage} />
+          <NavStack.Screen name="Add Photo" component={AddPhoto} />
+          <NavStack.Screen name="Captions Galore" component={CaptionsGalore} />
+          <NavStack.Screen name="Friends" component={Friends} />
+          <NavStack.Screen name="Search" component={Search} />
+        </NavStack.Navigator>
+      </NavigationContainer>
+    </QueryClientProvider>
   );
 };
 
