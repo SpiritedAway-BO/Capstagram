@@ -1,10 +1,15 @@
 import React from 'react';
 import { Image, View, Platform, TouchableOpacity, Text, StyleSheet } from 'react-native';
+//import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import useFriends from '../../hooks/useFriends.js';
 
 export default function Search() {
-  const [{ isLoading: useFriendsGetIsLoading }, { data: friends }] = useFriends.get();
-  const [{ isLoading: useFriendsAddIsLoading }, isSuccess, isFailure, { mutate: useFriendsAddMutate }] = useFriends.add();
+
+  //const queryClient = useQueryClient()
+  //const {get, add} = useFriends();
+  //const {isLoading: useFriendsGetIsLoading, data: friends} = get;
+  const { isLoading: useFriendsGetIsLoading, data: friends } = useFriends().get;
+  const { isLoading: useFriendsAddIsLoading, isSuccess, isFailure, mutate: useFriendsAddMutate } = useFriends().add;
 
   if (useFriendsGetIsLoading) {
     return (
