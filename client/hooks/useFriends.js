@@ -6,14 +6,14 @@ import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query'
 const queryClient = useQueryClient()
 
 
-export const useFriends() {
+export const useFriends = () => {
   const getFriends = () => {
     return Axios.get(`http://localhost:3000/users/${currentUserId}/friends`)
   }
 
   const get = useQuery('friends', getFriends, {
-      select: (fetchResponse) => fetchResponse.data;
-  })
+    select: (fetchResponse) => fetchResponse.data,
+  });
 
 
   // POST add friend

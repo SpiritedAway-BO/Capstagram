@@ -43,6 +43,7 @@ HomeScreen = ({ navigation }) => {
             <Button title="Main Feed" onPress={() => navigation.navigate('Main Feed')} />
             <Button title="Search" onPress={() => navigation.navigate('Search')} />
             <Button title="User Page" onPress={() => navigation.navigate('User Page')} />
+            {/* <IconButton icon={props => <Octicons name="diff-added" size={28} color="black" {...props} />} /> */}
           </Stack>
           {/* <AccountPage style={styles.userPage} /> */}
         </View>
