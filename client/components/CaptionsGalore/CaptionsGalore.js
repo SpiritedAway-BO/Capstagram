@@ -123,7 +123,7 @@ const styles = StyleSheet.create({
   captionBox: {
     backgroundColor: '#f9c2ff',
     // padding: 20,
-    margin: 20,
+    // margin: 20,
   },
   userInfo: {
     flexDirection: 'row',
