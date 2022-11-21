@@ -7,17 +7,17 @@ export default function UploadPhoto() {
   const [photo, setPhoto] = useState(null);
 
   useEffect(() => {
-    checkForCameraPermission();
+    // checkForCameraPermission();
   }, []);
 
-  const checkForCameraPermission = async () => {
-    const { status } = await ImagePicker.getMediaLibraryPermissionsAsync();
-    if (status !== 'granted') {
-      alert('Please grant camera roll permissions inside your system\'s settings');
-    } else {
-      console.log('Media Permissions are granted');
-    }
-  };
+  // const checkForCameraPermission = async () => {
+  //   const { status } = await ImagePicker.getMediaLibraryPermissionsAsync();
+  //   if (status !== 'granted') {
+  //     alert('Please grant camera roll permissions inside your system\'s settings');
+  //   } else {
+  //     console.log('Media Permissions are granted');
+  //   }
+  // };
 
   const addPhoto = async () => {
     let _photo = await ImagePicker.launchImageLibraryAsync({
