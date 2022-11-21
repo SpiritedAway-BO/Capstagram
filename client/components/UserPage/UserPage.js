@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Image, Button, View, Platform, TouchableOpacity, Text, StyleSheet } from 'react-native';
+import { Image, Button, View, ScrollView, Platform, TouchableOpacity, Text, StyleSheet } from 'react-native';
 import { Divider } from "@react-native-material/core";
 
 export default function UserPage() {
@@ -13,34 +13,138 @@ export default function UserPage() {
   };
 
   return (
-    <View style={myPostsStyles.container}>
-      <View style={myPostsStyles.topBarContainer}>
-        {/* My Posts    Personal Wins     Friends */}
-        <Text variant="h3">My Posts is this above a divider?!</Text>
+    <ScrollView>
+      <View style={myPostsStyles.container}>
+
+      {/* Map over user's posts and print out like below */}
+        <View style={myPostsStyles.card}>
+          <View style={myPostsStyles.pictureContainer}>
+            <Image
+              style={myPostsStyles.picture}
+              source={{
+              uri: 'https://reactnative.dev/img/tiny_logo.png',
+            }}/>
+          </View>
+          <Divider style={{ marginTop: 10, marginBottom: 10 }} leadingInset={16} />
+          <View style={myPostsStyles.captions}>
+            <View style={myPostsStyles.captionUser}>
+              <Text style={{color: "white"}}>User 1</Text>
+            </View>
+            <View style={myPostsStyles.caption}>
+              <Text style={{color: "white"}}>Caption 1</Text>
+            </View>
+            <View style={myPostsStyles.likes}>
+              <Text style={{color: "white"}}>2 *</Text>
+            </View>
+          </View>
+        </View>
+
+        <View style={myPostsStyles.card}>
+          <View style={myPostsStyles.pictureContainer}>
+            <Image
+              style={myPostsStyles.picture}
+              source={{
+              uri: 'https://reactnative.dev/img/tiny_logo.png',
+            }}/>
+          </View>
+          <Divider style={{ marginTop: 10, marginBottom: 10 }} leadingInset={16} />
+          <View style={myPostsStyles.captions}>
+            <View style={myPostsStyles.captionUser}>
+              <Text style={{color: "white"}}>User 2</Text>
+            </View>
+            <View style={myPostsStyles.caption}>
+              <Text style={{color: "white"}}>Caption 2</Text>
+            </View>
+            <View style={myPostsStyles.likes}>
+              <Text style={{color: "white"}}>4 *</Text>
+            </View>
+          </View>
+        </View>
+
+        <View style={myPostsStyles.card}>
+          <View style={myPostsStyles.pictureContainer}>
+            <Image
+              style={myPostsStyles.picture}
+              source={{
+              uri: 'https://reactnative.dev/img/tiny_logo.png',
+            }}/>
+          </View>
+          <Divider style={{ marginTop: 10, marginBottom: 10 }} leadingInset={16} />
+          <View style={myPostsStyles.captions}>
+            <View style={myPostsStyles.captionUser}>
+              <Text style={{color: "white"}}>User 1</Text>
+            </View>
+            <View style={myPostsStyles.caption}>
+              <Text style={{color: "white"}}>Caption 1</Text>
+            </View>
+            <View style={myPostsStyles.likes}>
+              <Text style={{color: "white"}}>1 *</Text>
+            </View>
+            <View style={myPostsStyles.captionUser}>
+              <Text style={{color: "white"}}>User 2</Text>
+            </View>
+            <View style={myPostsStyles.caption}>
+              <Text style={{color: "white"}}>Caption 2</Text>
+            </View>
+            <View style={myPostsStyles.likes}>
+              <Text style={{color: "white"}}>1 *</Text>
+            </View>
+            <View style={myPostsStyles.captionUser}>
+              <Text style={{color: "white"}}>User 3</Text>
+            </View>
+            <View style={myPostsStyles.caption}>
+              <Text style={{color: "white"}}>Caption 3</Text>
+            </View>
+            <View style={myPostsStyles.likes}>
+              <Text style={{color: "white"}}>1 *</Text>
+            </View>
+          </View>
+        </View>
+
+
       </View>
-      <Divider style={{ marginTop: 60 }} leadingInset={16} />
-      <Text variant="h3">My Posts is this Working Under a divider???!!!?!?!</Text>
-
-
-
-      {/* For Testing!!!!! V V V V V V V */}
-      <Button title="Home" onPress={() => {}}/>
-      <Button title="Friends" onPress={() => {}}/>
-      <Button title="Personal Wins" onPress={() => {}}/>
-    </View>
+    </ScrollView>
   );
 }
 
 const myPostsStyles = StyleSheet.create({
   container: {
-    flex: 1,
     flexdirection: "column",
-    elevation: 2,
-    height: 500,
-    width: 200,
-    backgroundColor: '#D814FF',
-    position: 'relative',
-    borderRadius: 999,
-    overflow: 'auto',
+    height: "100%",
+    width: "100%",
+    backgroundColor: 'black',
+    alignItems: "center"
   },
+  topBarContainer: {
+    justifyContent: 'center',
+  },
+  card: {
+    alignItems: "center",
+
+  },
+  picture: {
+    width: 200,
+    height: 200
+  },
+  captions: {
+    flexDirection: "column",
+    width: 200,
+    height: 150,
+    alignItems: "center"
+  },
+  captionUser: {
+    width: 50,
+    height: 50,
+    flex: .75,
+  },
+  caption: {
+    width: 150,
+    height: 50,
+    flex: 2,
+  },
+  likes: {
+    flex: .5,
+    width: 25,
+    height: 50
+  }
 });
