@@ -1,12 +1,15 @@
 import React from 'react';
 import { Image, View, Platform, TouchableOpacity, Text, StyleSheet, FlatList, StatusBar, SafeAreaView} from 'react-native';
+import { AntDesign, Ionicons } from '@expo/vector-icons';
+import { Stack, Avatar } from '@react-native-material/core';
+
 
 var DATA = [{
   id: 1234567,
   username: 'thisGuy',
   caption: 'It\'s the little things in life',
   upvotes: 5,
-  usericon: './assets/favicon.png',
+  usericon: '../../assets/favicon.png',
   voted: true
 },
 {
@@ -14,21 +17,30 @@ var DATA = [{
   username: 'thisGuy',
   caption: 'Let me show you my Pokemon!',
   upvotes: 15,
-  usericon: './assets/favicon.png',
+  usericon: '../../assets/favicon.png',
   voted: false
 }];
 
-const Item = ({ caption }) => (
+const CaptionItem = ({ caption }) => (
   <View style={styles.item}>
-    <Text style={styles.title}>{caption}</Text>
-    <Text style={styles.title}>{caption}</Text>
+    <Avatar image={{ uri: 'https://mui.com/static/images/avatar/1.jpg' }}
+      size={35}
+      style={styles.avatar}
+    />
+    <Image source={{url: caption.usericon}}
+      style={{width: 50, height: 50 }} />
+    { caption.voted ? <Ionicons name="ios-heart" size={35} color="#FF842B" /> : <Ionicons name="ios-heart-outline" size={35} color="#FF842B" />}
+    <Text style={styles.title}>{caption.username}</Text>
+    <Text style={styles.title}>{caption.caption}</Text>
+    <Text style={styles.title}>{caption.upvotes}</Text>
+    <Text style={styles.title}>{caption.voted}</Text>
   </View>
 );
 
 const CaptionsGalore = () => {
 
   const renderItem = ({ item }) => (
-    <Item caption={item.caption} />
+    <CaptionItem caption={item} />
   );
 
   return (
@@ -54,8 +66,11 @@ const styles = StyleSheet.create({
     marginHorizontal: 16,
   },
   title: {
-    fontSize: 32,
+    fontSize: 24,
   },
+  avatar: {
+    borderRadius: '50%',
+  }
 });
 
 export default CaptionsGalore;
