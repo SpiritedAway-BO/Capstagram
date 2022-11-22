@@ -1,10 +1,11 @@
 import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View, SafeAreaView } from 'react-native';
-import { AppBar, IconButton, Stack, HStack, Button } from '@react-native-material/core';
+import { AppBar, IconButton, Stack, HStack, Button, FAB } from '@react-native-material/core';
 import { Octicons, Entypo, AntDesign } from '@expo/vector-icons';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-
+import { QueryClientProvider, QueryClient } from '@tanstack/react-query';
+import { FloatingAction } from 'react-native-floating-action';
 import MainFeed from './components/MainFeed/MainFeed.js';
 import AccountPage from './components/AccountPage/AccountPage.js';
 import Auth from './components/Auth/LoginPage.js';
@@ -15,7 +16,8 @@ import Friends from './components/Friends/Friends.js';
 import Search from './components/Search/Search.js';
 import SignUp from './components/Auth/SignUp';
 
-// const NavStack = createNativeStackNavigator();
+
+const queryClient = new QueryClient();
 
 HomeScreen = ({ navigation }) => {
   return (
@@ -45,7 +47,11 @@ HomeScreen = ({ navigation }) => {
           <Button title="Search" onPress={() => navigation.navigate('Search')} />
           <Button title="User Page" onPress={() => navigation.navigate('User Page')} />
         </Stack>
+        {/* <FloatingAction /> */}
         {/* <AccountPage style={styles.userPage} /> */}
+      </View>
+      <View>
+        <IconButton icon={props => <Octicons name="diff-added" size={28} color="black" {...props} />} onPress={() => navigation.navigate('Add Photo')} />
       </View>
       <View style={styles.bottomBarView}>
         <AppBar
@@ -74,20 +80,21 @@ const NavStack = createNativeStackNavigator();
 
 App = () => {
   return (
-    <NavigationContainer>
-      <NavStack.Navigator initialRouteName="Home">
-        <NavStack.Screen name="Home" component={HomeScreen} />
-        {/* <NavStack.Screen name="Login" component={Login} /> */}
-        <NavStack.Screen name="Sign Up" component={SignUp} />
-        <NavStack.Screen name="Main Feed" component={MainFeed} />
-        <NavStack.Screen name="User Page" component={UserPage} />
-        <NavStack.Screen name="Account Page" component={AccountPage} />
-        <NavStack.Screen name="Add Photo" component={AddPhoto} />
-        <NavStack.Screen name="Captions Galore" component={CaptionsGalore} />
-        <NavStack.Screen name="Friends" component={Friends} />
-        <NavStack.Screen name="Search" component={Search} />
-      </NavStack.Navigator>
-    </NavigationContainer>
+    <QueryClientProvider client={queryClient}>
+      <NavigationContainer>
+        <NavStack.Navigator initialRouteName="Home">
+          <NavStack.Screen name="Home" component={HomeScreen} />
+          <NavStack.Screen name="Main Feed" component={MainFeed} />
+          <NavStack.Screen name="Auth" component={Auth} />
+          <NavStack.Screen name="User Page" component={UserPage} />
+          <NavStack.Screen name="Account Page" component={AccountPage} />
+          <NavStack.Screen name="Add Photo" component={AddPhoto} />
+          <NavStack.Screen name="Captions Galore" component={CaptionsGalore} />
+          <NavStack.Screen name="Friends" component={Friends} />
+          <NavStack.Screen name="Search" component={Search} />
+        </NavStack.Navigator>
+      </NavigationContainer>
+    </QueryClientProvider>
   );
 };
 
@@ -99,6 +106,8 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff',
     alignItems: 'center',
     justifyContent: 'center',
+    width: '100%',
+    height: '100%',
   },
   topBarView: {
     width: '100%',
