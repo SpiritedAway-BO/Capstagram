@@ -12,4 +12,4 @@ const createCloudWidget = (cb) => {
   );
 };
 
-module.exports.createCloudinaryWidget = createCloudinaryWidget;
+module.exports.createCloudinaryWidget = createCloudWidget;

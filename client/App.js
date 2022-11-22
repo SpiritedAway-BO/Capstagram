@@ -1,10 +1,11 @@
 import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View, SafeAreaView } from 'react-native';
-import { AppBar, IconButton, Stack, HStack, Button } from '@react-native-material/core';
+import { AppBar, IconButton, Stack, HStack, Button, FAB } from '@react-native-material/core';
 import { Octicons, Entypo, AntDesign } from '@expo/vector-icons';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { QueryClientProvider, QueryClient } from '@tanstack/react-query';
+import { FloatingAction } from 'react-native-floating-action';
 import MainFeed from './components/MainFeed/MainFeed.js';
 import AccountPage from './components/AccountPage/AccountPage.js';
 import Auth from './components/Auth/LoginPage.js';
@@ -42,9 +43,12 @@ HomeScreen = ({ navigation }) => {
           <Button title="Main Feed" onPress={() => navigation.navigate('Main Feed')} />
           <Button title="Search" onPress={() => navigation.navigate('Search')} />
           <Button title="User Page" onPress={() => navigation.navigate('User Page')} />
-          {/* <IconButton icon={props => <Octicons name="diff-added" size={28} color="black" {...props} />} /> */}
         </Stack>
+        {/* <FloatingAction /> */}
         {/* <AccountPage style={styles.userPage} /> */}
+      </View>
+      <View>
+        <IconButton icon={props => <Octicons name="diff-added" size={28} color="black" {...props} />} onPress={() => navigation.navigate('Add Photo')} />
       </View>
       <View style={styles.bottomBarView}>
         <AppBar
@@ -99,6 +103,8 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff',
     alignItems: 'center',
     justifyContent: 'center',
+    width: '100%',
+    height: '100%',
   },
   topBarView: {
     width: '100%',
