@@ -20,9 +20,9 @@ const queryClient = new QueryClient();
 
 HomeScreen = ({ navigation }) => {
   return (
-      <SafeAreaView style={styles.safeContainer}>
-        <View style={styles.topBarView}>
-          <AppBar
+    <SafeAreaView style={styles.safeContainer}>
+      <View style={styles.topBarView}>
+        <AppBar
           title="Capstagram"
           color="black"
           position="sticky"
@@ -31,11 +31,11 @@ HomeScreen = ({ navigation }) => {
           )}
           style={styles.appBar}
         />
-        </View>
+      </View>
       {/* <MainFeed/> */}
 
-        <View style={styles.container}>
-          <Stack divider={true} spacing={2}>
+      <View style={styles.container}>
+        <Stack divider={true} spacing={2}>
           <Button title="Account Page" onPress={() => navigation.navigate('Account Page')} />
           <Button title="Add Photo" onPress={() => navigation.navigate('Add Photo')} />
           <Button title="Authentication" onPress={() => navigation.navigate('Auth')} />
@@ -65,8 +65,8 @@ HomeScreen = ({ navigation }) => {
           )}
           style={styles.bottomAppBar}
         />
-        </View>
-      </SafeAreaView>
+      </View>
+    </SafeAreaView>
   );
 };
 
