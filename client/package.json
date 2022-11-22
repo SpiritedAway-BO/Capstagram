@@ -27,7 +27,9 @@
     "react-native-web": "~0.18.9"
   },
   "devDependencies": {
-    "@babel/core": "^7.12.9"
+    "@babel/core": "^7.12.9",
+    "metro-react-native-babel-preset": "^0.73.3",
+    "react-native-dotenv": "^3.4.2"
   },
   "private": true
 }
