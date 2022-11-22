@@ -1,13 +1,26 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Image, View, Dimensions, TouchableOpacity, Text, StyleSheet, ScrollView, Alert, SafeAreaView } from 'react-native';
 import { RNS3 } from 'react-native-aws3';
 import * as ImagePicker from 'expo-image-picker';
-// import cloudinary from 'cloudinary';
-// import { createCloudinaryWidget } from '../../tools/cloudWidget.js';
+import * as Permissions from 'expo-permissions';
+import { Camera, CameraType } from 'expo-camera';
 
 export default function AddPhoto() {
   const [filePath, setFilePath] = useState({});
   const [uploadSuccessMessage, setUploadSuccessMessage] = useState('');
+
+  useEffect(() => {
+    const getPermissions = async () => {
+      const permission = await Permissions.getAsync(Permissions.CAMERA);
+      if (permission.status !== 'granted') {
+        const newPermission = await Permissions.askAsync(Permissions.CAMERA);
+        if (newPermission.status === 'granted') {
+          //its granted.
+        }
+      }
+    };
+    getPermissions();
+  }, []);
 
   const addPhoto = async () => {
     let _photo = await ImagePicker.launchImageLibraryAsync({
@@ -15,6 +28,14 @@ export default function AddPhoto() {
       allowsEditing: true,
       quality: 1,
     });
+    if (!_photo.canceled) {
+      console.log('chosen photo', _photo);
+      setFilePath(_photo);
+    }
+  };
+
+  const takePhoto = async () => {
+    let _photo = await ImagePicker.launchCameraAsync({});
     if (!_photo.canceled) {
       console.log('chosen photo', _photo);
       setFilePath(_photo);
@@ -85,8 +106,8 @@ export default function AddPhoto() {
   return (
     <SafeAreaView style={styles.container}>
       <Text style={styles.titleText}>
-        How to Upload any File or Image to AWS S3 Bucket{'\n'}
-        from React Native App
+        Press Choose Photo to select from gallery{'\n'}
+        Press Take Photo to take a new photo
       </Text>
       <View style={styles.container}>
         {filePath.uri ? (
@@ -118,13 +139,18 @@ export default function AddPhoto() {
           style={styles.buttonStyle}
           onPress={addPhoto}>
           <Text style={styles.textStyleWhite}>
-            Choose Image
+            Choose Photo
+          </Text>
+        </TouchableOpacity>
+        <TouchableOpacity
+          activeOpacity={0.5}
+          style={styles.buttonStyle}
+          onPress={takePhoto}>
+          <Text style={styles.textStyleWhite}>
+            Take Photo
           </Text>
         </TouchableOpacity>
       </View>
-      <Text style={{ textAlign: 'center' }}>
-        www.aboutreact.com
-      </Text>
     </SafeAreaView>
   );
 }
@@ -140,6 +166,7 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     textAlign: 'center',
     paddingVertical: 20,
+    paddingHorizontal: 10,
   },
   textStyle: {
     padding: 10,
