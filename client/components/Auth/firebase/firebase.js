@@ -1,16 +1,50 @@
 import { initializeApp } from 'firebase/app';
-import { getAuth } from 'firebase/auth';
+import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, updateProfile } from 'firebase/auth';
+import { getStorage, ref } from "firebase/storage";
+// import {REACT_APP_FIREBASE_KEY, REACT_APP_FIREBASE_DOMAIN, REACT_APP_FIREBASE_PROJECT_ID, REACT_APP_FIREBASE_STORAGE_BUCKET, REACT_APP_FIREBASE_SENDER_ID, REACT_APP_FIREBASE_APP_ID} from 'react-native-dotenv';
+
+
+// ApiClient.init(REACT_APP_FIREBASE_KEY, REACT_APP_FIREBASE_DOMAIN, REACT_APP_FIREBASE_PROJECT_ID, REACT_APP_FIREBASE_STORAGE_BUCKET, REACT_APP_FIREBASE_SENDER_ID, REACT_APP_FIREBASE_APP_ID);
+
+// const firebaseConfig = {
+//   apiKey: process.env.REACT_APP_FIREBASE_KEY,
+//   authDomain: process.env.REACT_APP_FIREBASE_DOMAIN,
+//   projectId: process.env.REACT_APP_FIREBASE_PROJECT_ID,
+//   storageBucket: process.env.REACT_APP_FIREBASE_STORAGE_BUCKET,
+//   messagingSenderId: process.env.REACT_APP_FIREBASE_SENDER_ID,
+//   appId: process.env.REACT_APP_FIREBASE_APP_ID,
+//   // databaseURL: process.env.REACT_APP_FIREBASE_DATABASE_URL,
+// };
 
 const firebaseConfig = {
-  apiKey: process.env.REACT_APP_FIREBASE_KEY,
-  authDomain: process.env.REACT_APP_FIREBASE_DOMAIN,
-  projectId: process.env.REACT_APP_FIREBASE_PROJECT_ID,
-  storageBucket: process.env.REACT_APP_FIREBASE_STORAGE_BUCKET,
-  messagingSenderId: process.env.REACT_APP_FIREBASE_SENDER_ID,
-  appId: process.env.REACT_APP_FIREBASE_APP_ID,
+  apiKey: "",
+  authDomain: "",
+  projectId: "",
+  storageBucket: "",
+  messagingSenderId: "",
+  appId: "",
   // databaseURL: process.env.REACT_APP_FIREBASE_DATABASE_URL,
 };
 
 const app = initializeApp(firebaseConfig);
 
 export const auth = getAuth(app);
+export const storage = getStorage(app);
+
+export const createUser = (email, password, displayName) => {
+  return createUserWithEmailAndPassword(auth, email, password);
+};
+
+
+export const loginUser = (email, password) => {
+  return signInWithEmailAndPassword(auth, email, password);
+};
+
+export const signOutUser = async () => {
+  return await signOut(auth);
+};
+
+
+
+
+
