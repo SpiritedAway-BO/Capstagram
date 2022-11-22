@@ -2,43 +2,29 @@ const express = require('express');
 const router = express.Router();
 // const controllers = require('./Controllers');
 
-// Get all users: GET /users
-// Get user info: GET /user/:userId
-// Add user: POST /user
-// Edit user profile picture: PUT /user/:userId/profilePic
-// Get user's friends: GET /user/:userId/friends
-// Add user to user's friends: PUT /user/:userId/friend
-//   - Query param: friendId
-// Get user's photos: GET /photos
-//   - Query param: userId
-// Add photo for user: POST /photos
-//   - Query param: userId
-
 //User Routes
-router.get('/users', controllers.getUsers);
-router.get('/users/:userId', controllers.getUserInfo);
-router.post('/users', controllers.addUser);
-router.post('/users', controllers.addUser);
-
-
+router.post('/users', controllers.createUser); //create new user
+// router.put('/users/:userId/profile', controllers.updateUserInfo); //update user info
+router.put('/users/:userId/profilePic', controllers.putProfilePic); //update user profile pic
+router.get('/users', controllers.getAllUsers); //get all users
+router.get('/users/:userId', controllers.getUserInfo); //get a user's info
 
 //Captions Routes
-router.get('/captions', controllers.getCaptions);
-router.post('/captions', controllers.postCaption);
-router.put('/captions', controllers.likeCaption);
+router.get('/captions/:photoId', controllers.getAllCaptions); // get captions for a photo
+router.post('/captions/:photoId', controllers.postCaption); // post a caption for a photo
+// router.delete('/captions/:captionId', controllers.deleteCaption); // lets a user delete their own caption - might need to think this route out better
+
+router.put('/captions/:captionId', controllers.likeCaption); // changes a caption upvote
 
 //Photos Routes
-router.get('/photos', controllers.getPhotos);
-router.get('/qa/questions/:question_id/answers', controllers.qnas.getAs);
-router.post('/qa/questions', controllers.qnas.addQ);
-router.post('/qa/questions/:question_id/answers', controllers.qnas.addA);
-router.put('/qa/questions/:question_id/helpful', controllers.qnas.markQHelpful);
-router.put('/qa/questions/:question_id/report', controllers.qnas.reportQ);
-router.put('/qa/answers/:answer_id/helpful', controllers.qnas.markAHelpful);
-router.put('/qa/answers/:answer_id/report', controllers.qnas.reportA);
+router.post('/photos', controllers.postPhoto); //posts user photo
+router.get('/photos', controllers.getPhotos); //gets all photos (esp. for trending)
+router.get('/photos/:userId', controllers.getPhotos); //gets one user's photos (for main page and friends page)
+
 
 //Friends Route
-router.get('/friends', controllers.getFriends);
-router.put('/friends', controllers.addFriend); //not sure if this should be put or post
+router.get('/users/:userId/friends', controllers.getFriends); //gets a user's friends
+router.post('/users/:userId/friends', controllers.addFriend); // add a friend
+router.delete('/users/:userId/friends', controllers.removeFriend); // removes a friend
 
 module.exports = router;
