@@ -4,8 +4,8 @@ import { StyleSheet, Text, TextInput, View, KeyboardAvoidingView, TouchableOpaci
 import { updateProfile } from 'firebase/auth';
 import { createUser, auth } from './firebase/firebase.js';
 
-const SignUp = () => {
-  const navigation = useNavigation();
+const SignUp = ({ navigation }) => {
+  // const navigation = useNavigation();
   const [username, setUsername] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -36,7 +36,7 @@ const SignUp = () => {
           displayName: username,
         });
         setTimeout(() => {
-          navigation.navigate('Main Feed');
+          navigation.navigate('Capstagram');
           setIsLoading(false);
         }, 200);
 
