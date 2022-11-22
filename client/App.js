@@ -14,6 +14,7 @@ import AddPhoto from './components/AddPhoto/AddPhoto.js';
 import CaptionsGalore from './components/CaptionsGalore/CaptionsGalore.js';
 import Friends from './components/Friends/Friends.js';
 import Search from './components/Search/Search.js';
+import SignUp from './components/Auth/SignUp';
 
 
 const queryClient = new QueryClient();
@@ -36,6 +37,8 @@ HomeScreen = ({ navigation }) => {
       <View style={styles.container}>
         <Stack divider={true} spacing={2}>
           <Button title="Account Page" onPress={() => navigation.navigate('Account Page')} />
+          {/* <Button title="Login Page" onPress={() => navigation.navigate('Account Page')} /> */}
+          <Button title="Sign Up Page" onPress={() => navigation.navigate('Sign Up')} />
           <Button title="Add Photo" onPress={() => navigation.navigate('Add Photo')} />
           <Button title="Authentication" onPress={() => navigation.navigate('Auth')} />
           <Button title="Captions Galore" onPress={() => navigation.navigate('Captions Galore')} />
