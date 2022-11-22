@@ -36,7 +36,7 @@ const SignUp = () => {
           displayName: username,
         });
         setTimeout(() => {
-          navigation.navigate('Home');
+          navigation.navigate('Main Feed');
           setIsLoading(false);
         }, 200);
 
