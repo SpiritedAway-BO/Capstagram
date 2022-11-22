@@ -92,7 +92,7 @@ const Friends = () => {
         renderItem={renderFriend}
         keyExtractor={item => item.id}
       />
-      <View style={styles.bottomBarView}>
+      {/* <View style={styles.bottomBarView}>
         <AppBar
           variant="bottom"
           color="black"
@@ -110,7 +110,7 @@ const Friends = () => {
           )}
           style={styles.bottomAppBar}
         />
-      </View>
+      </View> */}
     </SafeAreaView>
   );
 };
