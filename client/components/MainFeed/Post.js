@@ -21,7 +21,7 @@ const dummyData = [
   }
 ];
 
-const Post = () => {
+const Post = ({ navigation }) => {
   return (
     <View style={styles.postContainer}>
       <View style={styles.creatorInfo}>
@@ -40,7 +40,11 @@ const Post = () => {
         {dummyData.map(caption => <Caption caption={caption}/>)}
       </View>
       <View style={styles.viewAllContainer}>
-        <Text style={styles.vewAllText}>View all # captions</Text>
+        <Text
+          style={styles.vewAllText}
+          onPress={() => navigation.navigate('Captions')}>
+            View all # captions
+        </Text>
       </View>
     </View>
   );

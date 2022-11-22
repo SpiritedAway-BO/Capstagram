@@ -127,7 +127,7 @@ const CaptionsGalore = () => {
         renderItem={renderCaption}
         keyExtractor={item => item.id}
       />
-      <View style={styles.bottomBarView}>
+      {/* <View style={styles.bottomBarView}>
         <AppBar
           variant="bottom"
           color="black"
@@ -145,7 +145,7 @@ const CaptionsGalore = () => {
           )}
           style={styles.bottomAppBar}
         />
-      </View>
+      </View> */}
     </SafeAreaView>
   );
 };
