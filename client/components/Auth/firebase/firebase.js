@@ -17,12 +17,12 @@ import { getStorage, ref } from "firebase/storage";
 // };
 
 const firebaseConfig = {
-  apiKey: "",
-  authDomain: "",
-  projectId: "",
-  storageBucket: "",
-  messagingSenderId: "",
-  appId: "",
+  apiKey: "AIzaSyCYCEjorfAqvvP-wkf9cEayym6bKVndd7g",
+  authDomain: "capstagram-c0e24.firebaseapp.com",
+  projectId: "capstagram-c0e24",
+  storageBucket: "capstagram-c0e24.appspot.com",
+  messagingSenderId: "694363628131",
+  appId: "1:694363628131:web:3625bae0a0c75275ad8e56",
   // databaseURL: process.env.REACT_APP_FIREBASE_DATABASE_URL,
 };
 

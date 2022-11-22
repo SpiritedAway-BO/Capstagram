@@ -9,34 +9,39 @@ export default function AddPhoto() {
   const [filePath, setFilePath] = useState({});
   const [uploadSuccessMessage, setUploadSuccessMessage] = useState('');
 
-  useEffect(() => {
-    const getPermissions = async () => {
-      const permission = await Permissions.getAsync(Permissions.CAMERA);
-      if (permission.status !== 'granted') {
-        const newPermission = await Permissions.askAsync(Permissions.CAMERA);
-        if (newPermission.status === 'granted') {
-          //its granted.
-        }
-      }
-    };
-    getPermissions();
-  }, []);
+  // useEffect(() => {
+  //   const getPermissions = async () => {
+  //     const permission = await Permissions.getAsync(Permissions.CAMERA);
+  //     if (permission.status !== 'granted') {
+  //       const newPermission = await Permissions.askAsync(Permissions.CAMERA);
+  //       if (newPermission.status === 'granted') {
+  //         //its granted.
+  //       }
+  //     }
+  //   };
+  //   getPermissions();
+  // }, []);
 
-  const addPhoto = async () => {
-    let _photo = await ImagePicker.launchImageLibraryAsync({
+  // const addPhoto = async () => {
+  //   let _photo = await ImagePicker.launchImageLibraryAsync({
+  //     mediaTypes: ImagePicker.MediaTypeOptions.Images,
+  //     allowsEditing: true,
+  //     base64: true,
+  //     quality: 1,
+  //   });
+  //   if (!_photo.canceled) {
+  //     console.log('chosen photo', _photo.base64);
+  //     setFilePath(_photo);
+  //   }
+  // };
+
+  const takePhoto = async () => {
+    let _photo = await ImagePicker.launchCameraAsync({
       mediaTypes: ImagePicker.MediaTypeOptions.Images,
       allowsEditing: true,
       base64: true,
       quality: 1,
     });
-    if (!_photo.canceled) {
-      console.log('chosen photo', _photo.base64);
-      setFilePath(_photo);
-    }
-  };
-
-  const takePhoto = async () => {
-    let _photo = await ImagePicker.launchCameraAsync({});
     if (!_photo.canceled) {
       console.log('chosen photo', _photo);
       setFilePath(_photo);

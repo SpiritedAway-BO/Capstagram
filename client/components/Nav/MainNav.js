@@ -7,6 +7,7 @@ import UserPage from '../UserPage/UserPage.js';
 import AccountPage from '../AccountPage/AccountPage.js';
 import Friends from '../Friends/Friends.js';
 import SignUp from '../Auth/SignUp.js';
+import AddPhotoCloudinary from '../AddPhoto/AddPhotoCloudinary.js';
 
 const Tab = createBottomTabNavigator();
 
@@ -43,7 +44,7 @@ const MainNav = () => {
       >
         <Tab.Screen name="Home" component={MainFeed} />
         <Tab.Screen name="Search" component={Search} />
-        <Tab.Screen name="Add" component={AddPhoto} />
+        <Tab.Screen name="Add" component={AddPhotoCloudinary} />
         <Tab.Screen name="Profile" component={UserPage} />
         <Tab.Screen name="Settings" component={AccountPage} />
         <Tab.Screen name="Friends" component={Friends} />
