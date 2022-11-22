@@ -31,7 +31,7 @@ const SignUp = () => {
 
     setIsLoading(true);
     createUser(email, password, username)
-      .then(userCredentials => {
+      .then(userInfo => {
         updateProfile(auth.currentUser, {
           displayName: username,
         });
