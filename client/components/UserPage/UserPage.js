@@ -25,22 +25,19 @@ const UserPage = () => {
     }
   ];
 
+  const renderPost = ({ item }) => (
+    <Post photo={item.photo} keyExtractor={item => item.key} />
+  );
+
   return (
     <View style={styles.mainContainer}>
       <View style={styles.feedContainer}>
         <FlatList
           style={{width: "50", height: "50"}}
           data={dummyData}
-          renderItem={(aPost) => (
-            <Post
-              keyExtractor={(aPost)=>{aPost.key}}
-              // avatar={aPost.avatar}
-              photo={aPost.photo}
-              // username={aPost.username}
-            />
-          )}
-          numColumns={3}>
-        </FlatList>
+          numColumns={3}
+          renderItem={renderPost}
+        />
       </View>
     </View>
   );
@@ -60,7 +57,15 @@ const styles = StyleSheet.create({
 
 export default UserPage;
 
-
+// {(aPost) => (
+          //   <Post
+          //     keyExtractor={(aPost)=>{aPost.key}}
+          //     // avatar={aPost.avatar}
+          //     photo={aPost.photo}
+          //     // username={aPost.username}
+          //   />
+          // )}
+          // numColumns={3}>
 
 
 
