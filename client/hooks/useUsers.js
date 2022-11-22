@@ -8,6 +8,8 @@ export default function useUsers() {
   const queryClient = useQueryClient();
 
   const getUsers = () => {
-
+    return new Promise((resolve, reject) => {
+      resolve([1, 2])
+    })
   }
 }
