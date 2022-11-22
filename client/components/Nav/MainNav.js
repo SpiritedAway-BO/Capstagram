@@ -6,6 +6,7 @@ import AddPhoto from '../AddPhoto/AddPhoto.js';
 import UserPage from '../UserPage/UserPage.js';
 import AccountPage from '../AccountPage/AccountPage.js';
 import Friends from '../Friends/Friends.js';
+import SignUp from '../Auth/SignUp.js';
 
 const Tab = createBottomTabNavigator();
 
@@ -46,7 +47,7 @@ const MainNav = () => {
         <Tab.Screen name="Profile" component={UserPage} />
         <Tab.Screen name="Settings" component={AccountPage} />
         <Tab.Screen name="Friends" component={Friends} />
-        {/* <Tab.Screen name="Auth" component={} /> */}
+        <Tab.Screen name="Auth" component={SignUp} />
       </Tab.Navigator>
     </>
   );

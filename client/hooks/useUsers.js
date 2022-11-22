@@ -4,8 +4,10 @@ import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query'
 
 // Get currentUserId from context API (firebase)
 
-const queryClient = useQueryClient()
-
 export default function useUsers() {
-  const getUsers = () => {}
+  const queryClient = useQueryClient();
+
+  const getUsers = () => {
+
+  }
 }
