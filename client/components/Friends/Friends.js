@@ -1,7 +1,8 @@
 import React, {useState, useEffect} from 'react';
 import { Image, View, Platform, TouchableOpacity, Text, StyleSheet, FlatList, StatusBar, SafeAreaView} from 'react-native';
-import { AntDesign, Ionicons } from '@expo/vector-icons';
-import { Stack, Avatar } from '@react-native-material/core';
+import { AntDesign, Ionicons, Octicons, Entypo} from '@expo/vector-icons';
+import { Stack, Avatar, AppBar, IconButton, HStack, Button } from '@react-native-material/core';
+
 
 
 var DATA = [{
@@ -35,7 +36,38 @@ var DATA = [{
   id: 1234572,
   username: 'thisGuy6',
   usericon: '../../assets/favicon.png',
-}];
+},
+{
+  id: 1234573,
+  username: 'thisGuy7',
+  usericon: '../../assets/favicon.png',
+
+},
+{
+  id: 1234574,
+  username: 'thisGuy8',
+  usericon: '../../assets/favicon.png',
+
+},
+{
+  id: 1234575,
+  username: 'thisGuy9',
+  usericon: '../../assets/favicon.png',
+
+},
+{
+  id: 1234576,
+  username: 'thisGuy10',
+  usericon: '../../assets/favicon.png',
+
+},
+{
+  id: 1234577,
+  username: 'thisGuy11',
+  usericon: '../../assets/favicon.png',
+
+},
+];
 
 const FriendItem = ({ caption }) => {
   /*this would be where we could keep track of state for the onPress handler
@@ -61,11 +93,28 @@ const Friends = () => {
 
   return (
     <SafeAreaView style={styles.container}>
-      <View style={styles.captionBox}>
-        <FlatList //this is like map
-          data={DATA}
-          renderItem={renderFriend}
-          keyExtractor={item => item.id}
+      <FlatList //this is like map
+        data={DATA}
+        renderItem={renderFriend}
+        keyExtractor={item => item.id}
+      />
+      <View style={styles.bottomBarView}>
+        <AppBar
+          variant="bottom"
+          color="black"
+          leading={props => (
+            <HStack spacing={80}>
+              <IconButton icon={props => <Entypo name="home" size={28} color="white" />}{...props} />
+              <IconButton icon={props => <AntDesign name="search1" size={28} color="white" />}{...props} />
+            </HStack>
+          )}
+          trailing={props => (
+            <HStack spacing={80}>
+              <IconButton icon={props => <AntDesign name="user" size={28} color="white" />}{...props} />
+              <IconButton icon={props => <Entypo name="dots-three-vertical" size={28} color="white" />}{...props} />
+            </HStack>
+          )}
+          style={styles.bottomAppBar}
         />
       </View>
     </SafeAreaView>
@@ -76,11 +125,12 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     marginTop: StatusBar.currentHeight || 0,
-    backgroundColor: '#f9c2ff',
+    backgroundColor: '#fff',
+    height: '100%',
+    width: '100%',
+
+
   },
-  // captionBox: {
-  //   backgroundColor: '#f9c2ff',
-  // },
   userInfo: {
     flexDirection: 'row',
     justifyContent: 'flex-start',
@@ -88,13 +138,18 @@ const styles = StyleSheet.create({
   item: {
     backgroundColor: '#fff',
     padding: 20,
+
   },
   title: {
     fontSize: 24,
     paddingHorizontal: 5,
+    height: '100%',
   },
   avatar: {
     borderRadius: '50%',
+  },
+  bottomBarView: {
+    width: '100%',
   },
 });
 

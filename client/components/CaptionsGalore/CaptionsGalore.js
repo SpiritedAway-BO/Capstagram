@@ -1,7 +1,7 @@
 import React, {useState, useEffect} from 'react';
 import { Image, View, Platform, TouchableOpacity, Text, StyleSheet, FlatList, StatusBar, SafeAreaView} from 'react-native';
-import { AntDesign, Ionicons } from '@expo/vector-icons';
-import { Stack, Avatar } from '@react-native-material/core';
+import { AntDesign, Ionicons, Octicons, Entypo} from '@expo/vector-icons';
+import { Stack, Avatar, AppBar, IconButton, HStack, Button } from '@react-native-material/core';
 
 
 var DATA = [{
@@ -11,7 +11,7 @@ var DATA = [{
   upvotes: 5,
   usericon: '../../assets/favicon.png',
   voted: true,
-  timestamp: Date()
+  timestamp: Date(),
 },
 {
   id: 1234568,
@@ -19,7 +19,9 @@ var DATA = [{
   caption: 'Let me show you my Pokemon!',
   upvotes: 15,
   usericon: '../../assets/favicon.png',
-  voted: false
+  voted: false,
+  timestamp: Date(),
+
 },
 {
   id: 1234569,
@@ -27,7 +29,9 @@ var DATA = [{
   caption: 'Are we there yet?',
   upvotes: 0,
   usericon: '../../assets/favicon.png',
-  voted: false
+  voted: false,
+  timestamp: Date(),
+
 },
 {
   id: 1234570,
@@ -35,7 +39,9 @@ var DATA = [{
   caption: 'Let me show you the world!',
   upvotes: 33,
   usericon: '../../assets/favicon.png',
-  voted: true
+  voted: true,
+  timestamp: Date(),
+
 },
 {
   id: 1234571,
@@ -43,26 +49,39 @@ var DATA = [{
   caption: 'All your base are belongs to us!',
   upvotes: 2,
   usericon: '../../assets/favicon.png',
-  voted: false
+  voted: false,
+  timestamp: Date(),
 },
 {
   id: 1234572,
   username: 'thisGuy6',
-  caption: 'I can haz cheezeburger?',
+  caption: 'I can haz cheezburger?',
   upvotes: 4,
   usericon: '../../assets/favicon.png',
-  voted: false
-}];
+  voted: false,
+  timestamp: Date(),
+},
+{
+  id: 1234573,
+  username: 'thisGuy7',
+  caption: 'Momma said there\'d be days like this...',
+  upvotes: 12,
+  usericon: '../../assets/favicon.png',
+  voted: false,
+  timestamp: Date(),
+},
+];
 
 const CaptionItem = ({ caption }) => {
   const [voted, setVoted] = useState(caption.voted);
   const [votes, setVotes] = useState(caption.upvotes);
 
   useEffect(() => {
-    setVotes(caption.upvotes);
+    setVotes(caption.upvotes); //takes care of asynchronous state setting
   }, []);
 
-  //will need to send put/patch state to database? or somehow keep track
+  /* will need to send put/patch state to database, or somehow keep track of uservotes and also specifically THIS user's vote */
+
   return (
     <View style={styles.item}>
       <View style={styles.userInfo} >
@@ -103,11 +122,28 @@ const CaptionsGalore = () => {
 
   return (
     <SafeAreaView style={styles.container}>
-      <View style={styles.captionBox}>
-        <FlatList //this is like map
-          data={DATA}
-          renderItem={renderCaption}
-          keyExtractor={item => item.id}
+      <FlatList //this is like map
+        data={DATA}
+        renderItem={renderCaption}
+        keyExtractor={item => item.id}
+      />
+      <View style={styles.bottomBarView}>
+        <AppBar
+          variant="bottom"
+          color="black"
+          leading={props => (
+            <HStack spacing={80}>
+              <IconButton icon={props => <Entypo name="home" size={28} color="white" />}{...props} />
+              <IconButton icon={props => <AntDesign name="search1" size={28} color="white" />}{...props} />
+            </HStack>
+          )}
+          trailing={props => (
+            <HStack spacing={80}>
+              <IconButton icon={props => <AntDesign name="user" size={28} color="white" />}{...props} />
+              <IconButton icon={props => <Entypo name="dots-three-vertical" size={28} color="white" />}{...props} />
+            </HStack>
+          )}
+          style={styles.bottomAppBar}
         />
       </View>
     </SafeAreaView>
@@ -118,12 +154,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     marginTop: StatusBar.currentHeight || 0,
-    backgroundColor: '#f9c2ff',
-  },
-  captionBox: {
-    backgroundColor: '#f9c2ff',
-    // padding: 20,
-    // margin: 20,
+    backgroundColor: '#fff',
   },
   userInfo: {
     flexDirection: 'row',
@@ -136,7 +167,6 @@ const styles = StyleSheet.create({
   item: {
     backgroundColor: '#fff',
     padding: 20,
-    // marginHorizontal: 16,
   },
   title: {
     fontSize: 24,
@@ -145,7 +175,6 @@ const styles = StyleSheet.create({
   avatar: {
     borderRadius: '50%',
   },
-
 });
 
 export default CaptionsGalore;
