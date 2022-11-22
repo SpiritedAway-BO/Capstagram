@@ -26,10 +26,11 @@ export default function AddPhoto() {
     let _photo = await ImagePicker.launchImageLibraryAsync({
       mediaTypes: ImagePicker.MediaTypeOptions.Images,
       allowsEditing: true,
+      base64: true,
       quality: 1,
     });
     if (!_photo.canceled) {
-      console.log('chosen photo', _photo);
+      console.log('chosen photo', _photo.base64);
       setFilePath(_photo);
     }
   };
