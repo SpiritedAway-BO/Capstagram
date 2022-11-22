@@ -1,0 +1,11 @@
+Get all users: GET /users
+Get user info: GET /user/:userId
+Add user: POST /user
+Edit user profile picture: PUT /user/:userId/profilePic
+Get user's friends: GET /user/:userId/friends
+Add user to user's friends: PUT /user/:userId/friend
+  - Query param: friendId
+Get user's photos: GET /photos
+  - Query param: userId
+Add photo for user: POST /photos
+  - Query param: userId
