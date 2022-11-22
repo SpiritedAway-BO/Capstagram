@@ -2,10 +2,25 @@ const express = require('express');
 const router = express.Router();
 // const controllers = require('./Controllers');
 
+// Get all users: GET /users
+// Get user info: GET /user/:userId
+// Add user: POST /user
+// Edit user profile picture: PUT /user/:userId/profilePic
+// Get user's friends: GET /user/:userId/friends
+// Add user to user's friends: PUT /user/:userId/friend
+//   - Query param: friendId
+// Get user's photos: GET /photos
+//   - Query param: userId
+// Add photo for user: POST /photos
+//   - Query param: userId
+
 //User Routes
 router.get('/users', controllers.getUsers);
-router.get('/products/:id/related', controllers.relatedItems.getRelated);
-router.post('/cart', controllers.products.addCart);
+router.get('/users/:userId', controllers.getUserInfo);
+router.post('/users', controllers.addUser);
+router.post('/users', controllers.addUser);
+
+
 
 //Captions Routes
 router.get('/captions', controllers.getCaptions);

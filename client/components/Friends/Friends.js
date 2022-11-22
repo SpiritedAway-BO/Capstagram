@@ -69,7 +69,7 @@ const FriendItem = ({ caption }) => {
   return (
     <View style={styles.item}>
       <View style={styles.userInfo} >
-        <Avatar image={{ uri: caption.usericon }} //local or cloudinary
+        <Avatar image={{ uri: caption.usericon }} //local OR cloudinary
           size={35}
           style={styles.avatar}
         />
