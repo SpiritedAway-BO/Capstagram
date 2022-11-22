@@ -7,7 +7,8 @@ router.get('/users/', controllers.getAllUsers); //get all users for search
 router.post('/user', controllers.createUser); //create new user
 router.get('/user/:userId', controllers.getUserInfo); //get a user's info
 router.put('/user/:userId/profilePic', controllers.putProfilePic); //update user profile pic
-// router.put('/users/:userId/profile', controllers.updateUserInfo); //update user info
+// router.put('/users/:userId/profile', controllers.updateUserInfo); //update user
+//info
 
 //Captions Routes
 router.get('/captions/:photoId', controllers.getAllCaptions); // get captions for a photo
