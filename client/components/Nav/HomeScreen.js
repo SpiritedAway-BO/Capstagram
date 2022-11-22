@@ -2,6 +2,7 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import MainNav from './MainNav.js';
 import CaptionsGalore from '../CaptionsGalore/CaptionsGalore.js';
+import SignUp from '../Auth/SignUp.js';
 
 const Stack = createNativeStackNavigator();
 
@@ -9,6 +10,12 @@ const HomeScreen = () => {
   return (
     <NavigationContainer>
       <Stack.Navigator>
+        <Stack.Screen
+          name="SignIn"
+          component={SignUp}
+          options={{
+            headerShown: false,
+          }}/>
         <Stack.Screen
           name="Capstagram"
           component={MainNav}
@@ -20,6 +27,7 @@ const HomeScreen = () => {
               fontWeight: 'bold',
             },
             headerTintColor: '#301934',
+            headerBackVisible: false,
           }}/>
         <Stack.Screen
           name="Captions"
