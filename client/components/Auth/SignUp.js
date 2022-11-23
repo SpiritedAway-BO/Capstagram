@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigation } from '@react-navigation/core';
-import { StyleSheet, Text, TextInput, View, KeyboardAvoidingView, TouchableOpacity, Keyboard, TouchableWithoutFeedback, Image, ImageBackground } from 'react-native';
+import { StyleSheet, Text, TextInput, View, KeyboardAvoidingView, TouchableOpacity, Keyboard, TouchableWithoutFeedback, Image} from 'react-native';
 import { updateProfile } from 'firebase/auth';
 import { createUser, auth } from './firebase/firebase.js';
 
@@ -91,7 +91,6 @@ const styles = StyleSheet.create({
     backgroundColor: '#F5F5F5',
     position: "relative",
     marginTop: 160,
-    marginLeft: 10
   },
   inputField: {
     backgroundColor: '#fff',
@@ -117,7 +116,7 @@ const styles = StyleSheet.create({
     color: 'whitesmoke',
     position: "absolute",
     top: -60,
-    left: -20
+    left: 95
   },
   signUpBtnContainer: {
     width: "100%",
