@@ -17,7 +17,7 @@ var DATA = [
   {
     id: 1234569,
     username: 'thisGuy3',
-    usericon: 'https://mui.com/static/images/avatar/1.jpg',
+    usericon: '/Users/tthornberryclass/HackReactorSEI/Capstagram/client/assets/orange.png',
 
   },
   {
@@ -28,7 +28,7 @@ var DATA = [
   {
     id: 1234571,
     username: 'thisGuy5',
-    usericon: 'https://mui.com/static/images/avatar/1.jpg',
+    usericon: '/Users/tthornberryclass/HackReactorSEI/Capstagram/client/assets/orange.png',
 
   },
   {
@@ -39,17 +39,17 @@ var DATA = [
   {
     id: 1234573,
     username: 'thisGuy7',
-    usericon: '/Users/tthornberryclass/HackReactorSEI/Capstagram/client/assets/favicon.png',
+    usericon: '/Users/tthornberryclass/HackReactorSEI/Capstagram/client/assets/orange.png',
   },
   {
     id: 1234574,
     username: 'thisGuy8',
-    usericon: '/Users/tthornberryclass/HackReactorSEI/Capstagram/client/assets/favicon.png',
+    usericon: '/Users/tthornberryclass/HackReactorSEI/Capstagram/client/assets/orange.png',
   },
   {
     id: 1234575,
     username: 'thisGuy9',
-    usericon: '/Users/tthornberryclass/HackReactorSEI/Capstagram/client/assets/favicon.png',
+    usericon: '/Users/tthornberryclass/HackReactorSEI/Capstagram/client/assets/orange.png',
   },
   {
     id: 1234576,
@@ -92,25 +92,6 @@ const Friends = () => {
         renderItem={renderFriend}
         keyExtractor={item => item.id}
       />
-      {/* <View style={styles.bottomBarView}>
-        <AppBar
-          variant="bottom"
-          color="black"
-          leading={props => (
-            <HStack spacing={80}>
-              <IconButton icon={props => <Entypo name="home" size={28} color="white" />}{...props} />
-              <IconButton icon={props => <AntDesign name="search1" size={28} color="white" />}{...props} />
-            </HStack>
-          )}
-          trailing={props => (
-            <HStack spacing={80}>
-              <IconButton icon={props => <AntDesign name="user" size={28} color="white" />}{...props} />
-              <IconButton icon={props => <Entypo name="dots-three-vertical" size={28} color="white" />}{...props} />
-            </HStack>
-          )}
-          style={styles.bottomAppBar}
-        />
-      </View> */}
     </SafeAreaView>
   );
 };

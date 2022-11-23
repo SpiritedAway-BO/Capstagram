@@ -85,7 +85,7 @@ const CaptionItem = ({ caption }) => {
   return (
     <View style={styles.item}>
       <View style={styles.userInfo} >
-        <Avatar image={{ uri: 'https://mui.com/static/images/avatar/1.jpg' }}
+        <Avatar image={{ uri: '/Users/tthornberryclass/HackReactorSEI/Capstagram/client/assets/orange.png' }}
           size={35}
           style={styles.avatar}
         />
