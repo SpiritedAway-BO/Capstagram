@@ -8,8 +8,19 @@ export default function Search() {
   //const queryClient = useQueryClient()
   //const {get, add} = useFriends();
   //const {isLoading: useFriendsGetIsLoading, data: friends} = get;
-  const { isLoading: useFriendsGetIsLoading, data: friends } = useFriends().get;
-  const { isLoading: useFriendsAddIsLoading, isSuccess, isFailure, mutate: useFriendsAddMutate } = useFriends().add;
+  const { users, setUsers } = useState();
+  const { filteredUsers, setFilteredUsers} = useState();
+  const { searchInput, setSearchInput} = useState();
+
+  useEffect(() => {
+    axios.get('localhost:3000/users')
+      .then(results => setUsers(results));
+  });
+
+
+  const handleSearch = (input) => {
+
+  };
 
   if (useFriendsGetIsLoading) {
     return (
