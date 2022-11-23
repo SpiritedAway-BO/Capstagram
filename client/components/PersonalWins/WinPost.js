@@ -1,50 +1,33 @@
-import React from 'react';
+import React, {useState, useEffect} from 'react';
 import { View, Text, Image, StyleSheet } from 'react-native';
 import { Avatar } from '@react-native-material/core';
-import Caption from './Caption.js';
+import TopCaption from './TopCaption.js';
 
-const dummyData = [
-  {
-    username: 'username1',
-    caption: 'caption1',
-    liked: true
-  },
-  {
-    username: 'username2',
-    caption: 'caption2',
-    liked: false
-  },
-  {
-    username: 'username3',
-    caption: 'caption3',
-    liked: false
-  }
-];
+const WinPost = ({photo}) => {
+  const [post, setPost] = useState(photo);
 
-const Post = ({ navigation }) => {
+  useEffect(() => {
+    setPost(photo)
+  }, [])
+
   return (
     <View style={styles.postContainer}>
       <View style={styles.creatorInfo}>
         <Avatar
-          image={{ uri: 'https://mui.com/static/images/avatar/1.jpg' }}
+          image={{ uri: 'https://res.cloudinary.com/cwhrcloud/image/upload/v1669161707/orange_hhc8pc.png' }}
           size={35}
           style={styles.avatar}/>
-        <Text style={styles.username}>username</Text>
+        <Text style={styles.username}>{photo.photoUser}</Text>
       </View>
       <View>
         <Image
-          source={{uri: 'https://img.freepik.com/free-vector/cute-rabbit-with-duck-working-laptop-cartoon-illustration_56104-471.jpg?w=2000'}}
+          source={{uri: photo.photoURL}}
           style={styles.image}/>
       </View>
       <View style={styles.captionsContainer}>
-        {dummyData.map(caption => <Caption caption={caption}/>)}
+        <TopCaption caption={photo.caption} topCaptioner={photo.topCaptioner } upvotes={photo.upvotes} voted={photo.voted}/>
       </View>
       <View style={styles.viewAllContainer}>
-        <Text
-          style={styles.vewAllText}
-          onPress={() => navigation.navigate('Captions')}>
-            View all # captions
-        </Text>
       </View>
     </View>
   );
@@ -84,4 +67,4 @@ const styles = StyleSheet.create({
   }
 });
 
-export default Post;
+export default WinPost;
