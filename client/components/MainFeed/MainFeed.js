@@ -2,15 +2,15 @@ import React from 'react';
 import { View, ScrollView, StyleSheet } from 'react-native';
 import Post from './Post.js';
 
-const MainFeed = () => {
+const MainFeed = ({ navigation }) => {
   return (
     <View style={styles.mainContainer}>
       <ScrollView style={styles.feedContainer}>
-        <Post/>
-        <Post/>
-        <Post/>
-        <Post/>
-        <Post/>
+        <Post navigation={navigation}/>
+        <Post navigation={navigation}/>
+        <Post navigation={navigation}/>
+        <Post navigation={navigation}/>
+        <Post navigation={navigation}/>
       </ScrollView>
     </View>
   );
