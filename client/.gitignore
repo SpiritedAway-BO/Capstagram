@@ -11,7 +11,7 @@ npm-debug.*
 web-build/
 .env
 example.env
-.config.js
+config.js
 
 
 # macOS
