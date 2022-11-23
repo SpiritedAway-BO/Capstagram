@@ -60,7 +60,7 @@ const photoUploaderStyles = StyleSheet.create({
     width: '95%',
     borderRadius: 12,
     background: '#F5F5F5',
-    position: "relative",
+    position: 'relative',
   },
   uploadBtnContainer: {
     opacity: 0.7,
