@@ -85,7 +85,7 @@ const CaptionItem = ({ caption }) => {
   return (
     <View style={styles.item}>
       <View style={styles.userInfo} >
-        <Avatar image={{ uri: 'https://mui.com/static/images/avatar/1.jpg' }}
+        <Avatar image={{ uri: '/Users/tthornberryclass/HackReactorSEI/Capstagram/client/assets/orange.png' }}
           size={35}
           style={styles.avatar}
         />
@@ -127,25 +127,7 @@ const CaptionsGalore = () => {
         renderItem={renderCaption}
         keyExtractor={item => item.id}
       />
-      {/* <View style={styles.bottomBarView}>
-        <AppBar
-          variant="bottom"
-          color="black"
-          leading={props => (
-            <HStack spacing={80}>
-              <IconButton icon={props => <Entypo name="home" size={28} color="white" />}{...props} />
-              <IconButton icon={props => <AntDesign name="search1" size={28} color="white" />}{...props} />
-            </HStack>
-          )}
-          trailing={props => (
-            <HStack spacing={80}>
-              <IconButton icon={props => <AntDesign name="user" size={28} color="white" />}{...props} />
-              <IconButton icon={props => <Entypo name="dots-three-vertical" size={28} color="white" />}{...props} />
-            </HStack>
-          )}
-          style={styles.bottomAppBar}
-        />
-      </View> */}
+
     </SafeAreaView>
   );
 };
