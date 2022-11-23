@@ -6,9 +6,10 @@ const express = require('express');
 var morgan = require('morgan');
 // var cors = require('cors');
 
+var router = require('./routes.js');
 
-//Router
-// var router = require('./routes.js');
+
+
 
 const app = express();
 // module.exports.app = app;
@@ -18,10 +19,10 @@ app.set('port', 3000);
 //Logging and parsing
 app.use(morgan('dev'));
 // app.use(cors());
-// app.use(express.json());
+app.use(express.json());
 
-//Set up routes
-// app.use('/api', router);
+//Router
+app.use('/', router);
 
 // app.use(express.static('client/dist'));
 

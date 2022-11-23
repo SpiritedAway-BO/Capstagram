@@ -8,7 +8,7 @@ export default function Search() {
   //const queryClient = useQueryClient()
   //const {get, add} = useFriends();
   //const {isLoading: useFriendsGetIsLoading, data: friends} = get;
-  const { isLoading: useFriendsGetIsLoading, data: friends } = useFriends().get;
+  const { isLoading: useFriendsGetIsLoading, data: friends } = useFriends().getAll;
   const { isLoading: useFriendsAddIsLoading, isSuccess, isFailure, mutate: useFriendsAddMutate } = useFriends().add;
 
   if (useFriendsGetIsLoading) {

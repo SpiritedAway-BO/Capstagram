@@ -15,7 +15,7 @@ export default function useFriends() {
     });
   };
 
-  const get = useQuery(['friends'], getFriends, {
+  const getAll = useQuery(['friends'], getFriends, {
     select: (fetchResponse) => fetchResponse.data
   });
 
@@ -36,7 +36,7 @@ export default function useFriends() {
   });
 
   return {
-    get,
+    getAll,
     add
   };
 }
