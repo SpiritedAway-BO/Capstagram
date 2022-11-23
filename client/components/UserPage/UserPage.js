@@ -1,221 +1,174 @@
 import React from 'react';
-import { FlatList, View, ScrollView, StyleSheet } from 'react-native';
-import Post from './Post.js';
+import {FlatList, View, ScrollView, StyleSheet, Text, Image, Dimensions} from 'react-native';
+import { Avatar } from '@react-native-material/core';
 
 const UserPage = () => {
 
-  const dummyData = [
-    {
-      key: 1,
-      photo: "https://img.freepik.com/free-vector/cute-rabbit-with-duck-working-laptop-cartoon-illustration_56104-471.jpg?w=2000",
-      avatar: "https://mui.com/static/images/avatar/1.jpg",
-      username: "Bob Billy",
-    },
-    {
-      key: 2,
-      photo: "https://img.freepik.com/free-vector/cute-rabbit-with-duck-working-laptop-cartoon-illustration_56104-471.jpg?w=2000",
-      avatar: "https://mui.com/static/images/avatar/1.jpg",
-      username: "Billy Bob",
-    },
-    {
-      key: 3,
-      photo: "https://img.freepik.com/free-vector/cute-rabbit-with-duck-working-laptop-cartoon-illustration_56104-471.jpg?w=2000",
-      avatar: "https://mui.com/static/images/avatar/1.jpg",
-      username: "Billy Bob",
-    }
-  ];
-
-  const renderPost = ({ item }) => (
-    <Post photo={item.photo} keyExtractor={item => item.key} />
-  );
-
   return (
-    <View style={styles.mainContainer}>
-      <View style={styles.feedContainer}>
-        <FlatList
-          style={{width: "50", height: "50"}}
-          data={dummyData}
-          numColumns={3}
-          renderItem={renderPost}
-        />
+    <>
+    <View contentContainerStyle={styles.userPageContainer} style={styles.userPCon}>
+      <View style={styles.userInfoContainer}>
+        <View style={styles.uiStatsBox}>
+          <Avatar
+              image={{ uri: 'https://mui.com/static/images/avatar/1.jpg' }}
+              size={100}
+              style={styles.avatar}/>
+          <View style={styles.postStats}>
+            <Text>Posts: 352095</Text>
+          </View>
+          <View style={styles.friendStats}>
+            <Text>Friends: 1</Text>
+          </View>
+        </View>
+        <View style={styles.aboutMeBox}>
+          <Text>About me .........................................</Text>
+        </View>
+        <View style={styles.userPageNavBar}>
+          <View style={styles.uPNVB} ></View>
+        </View>
+      </View>
+       {/* <Divider style={styles.divider} leadingInset={16} /> */}
+       <View style={styles.postsGridContainer}>
+        <ScrollView contentContainerStyle={styles.scrollContainer} >
+          <View style={styles.imageScroll}>
+            <Image
+              source={{uri: 'https://img.freepik.com/free-vector/cute-rabbit-with-duck-working-laptop-cartoon-illustration_56104-471.jpg?w=2000'}}
+              style={styles.image}/>
+              <Image
+              source={{uri: 'https://img.freepik.com/free-vector/cute-rabbit-with-duck-working-laptop-cartoon-illustration_56104-471.jpg?w=2000'}}
+              style={styles.image}/>
+              <Image
+              source={{uri: 'https://img.freepik.com/free-vector/cute-rabbit-with-duck-working-laptop-cartoon-illustration_56104-471.jpg?w=2000'}}
+              style={styles.image}/>
+              <Image
+              source={{uri: 'https://img.freepik.com/free-vector/cute-rabbit-with-duck-working-laptop-cartoon-illustration_56104-471.jpg?w=2000'}}
+              style={styles.image}/>
+              <Image
+              source={{uri: 'https://img.freepik.com/free-vector/cute-rabbit-with-duck-working-laptop-cartoon-illustration_56104-471.jpg?w=2000'}}
+              style={styles.image}/>
+              <Image
+              source={{uri: 'https://img.freepik.com/free-vector/cute-rabbit-with-duck-working-laptop-cartoon-illustration_56104-471.jpg?w=2000'}}
+              style={styles.image}/>
+              <Image
+              source={{uri: 'https://img.freepik.com/free-vector/cute-rabbit-with-duck-working-laptop-cartoon-illustration_56104-471.jpg?w=2000'}}
+              style={styles.image}/>
+              <Image
+              source={{uri: 'https://img.freepik.com/free-vector/cute-rabbit-with-duck-working-laptop-cartoon-illustration_56104-471.jpg?w=2000'}}
+              style={styles.image}/>
+              <Image
+              source={{uri: 'https://img.freepik.com/free-vector/cute-rabbit-with-duck-working-laptop-cartoon-illustration_56104-471.jpg?w=2000'}}
+              style={styles.image}/>
+              <Image
+              source={{uri: 'https://img.freepik.com/free-vector/cute-rabbit-with-duck-working-laptop-cartoon-illustration_56104-471.jpg?w=2000'}}
+              style={styles.image}/>
+              <Image
+              source={{uri: 'https://img.freepik.com/free-vector/cute-rabbit-with-duck-working-laptop-cartoon-illustration_56104-471.jpg?w=2000'}}
+              style={styles.image}/>
+              <Image
+              source={{uri: 'https://img.freepik.com/free-vector/cute-rabbit-with-duck-working-laptop-cartoon-illustration_56104-471.jpg?w=2000'}}
+              style={styles.image}/>
+              <Image
+              source={{uri: 'https://img.freepik.com/free-vector/cute-rabbit-with-duck-working-laptop-cartoon-illustration_56104-471.jpg?w=2000'}}
+              style={styles.image}/>
+              <Image
+              source={{uri: 'https://img.freepik.com/free-vector/cute-rabbit-with-duck-working-laptop-cartoon-illustration_56104-471.jpg?w=2000'}}
+              style={styles.image}/>
+              <Image
+              source={{uri: 'https://img.freepik.com/free-vector/cute-rabbit-with-duck-working-laptop-cartoon-illustration_56104-471.jpg?w=2000'}}
+              style={styles.image}/>
+            </View>
+        </ScrollView>
       </View>
     </View>
-  );
-};
+    </>
+  )
+}
 
 const styles = StyleSheet.create({
-  mainContainer: {
-    justifyContent: 'center',
-    alignItems: 'center',
-    width: '400',
-    backgroundColor: 'white',
+  userPageContainer: {
+    width: "100%",
+    height: "100%",
   },
-  feedContainer: {
-    width: '100%',
+  userPCon: {
+    width: "100%",
+    height: "100%",
+
+    borderWidth: "2px",
+    borderStyle: "solid",
+    borderRadius: "5px",
+  },
+  userInfoContainer: {
+    height: Dimensions.get('window').height/2.5,
+
+    borderWidth: "1px",
+    borderStyle: "solid",
+    borderRadius: "10px",
+  },
+  divider : {
+    marginTop: "1%",
+  },
+  postsGridContainer: {
+    height: Dimensions.get('window').height/2.01,
+    width: "100%",
+
+    borderWidth: "1px",
+    borderStyle: "solid",
+    borderRadius: "10px",
+  },
+  scrollContainer: {
+    // flexDirection: "row",
+    // flexWrap: "wrap",
+  },
+  imageScroll: {
+    padding: ".1%",
+    flexDirection: "row",
+    flexWrap: "wrap",
+  },
+  image: {
+    width: Dimensions.get('window').width/4.08,
+    height: Dimensions.get('window').height/4.5,
+
+    borderWidth: ".5px",
+    borderRadius: "10px",
+  },
+  uiStatsBox: {
+    flex: 1,
+    flexDirection: "row",
+    justifyContent: "space-between",
+    padding: "5%",
+  },
+  postStats: {
+    alignSelf: "center",
+
+    // borderWidth: ".5px",
+    // borderRadius: "10px",
+  },
+  friendStats: {
+    alignSelf: "center",
+
+    // borderWidth: ".5px",
+    // borderRadius: "10px",
+  },
+  avatar: {
+
+
+    // borderWidth: ".5px",
+    // borderRadius: "10px",
+  },
+  aboutMeBox: {
+    alignSelf: "center",
+    justifyContent: "center",
+    flex: 1,
+
+    borderWidth: ".5px",
+    borderRadius: "10px",
+  },
+  userPageNavBar: {
+    flex: .5,
+
+    borderWidth: ".5px",
+    borderRadius: "10px",
   }
 });
 
 export default UserPage;
-
-// {(aPost) => (
-          //   <Post
-          //     keyExtractor={(aPost)=>{aPost.key}}
-          //     // avatar={aPost.avatar}
-          //     photo={aPost.photo}
-          //     // username={aPost.username}
-          //   />
-          // )}
-          // numColumns={3}>
-
-
-
-// import React, { useState, useEffect } from 'react';
-// import { Image, Button, View, ScrollView, Platform, TouchableOpacity, Text, StyleSheet } from 'react-native';
-// import { Divider } from "@react-native-material/core";
-
-// export default function UserPage() {
-//   const [p, setP] = useState(null);
-
-//   useEffect(() => {
-
-//   }, []);
-
-//   const t = async () => {
-//   };
-
-//   return (
-//     <ScrollView>
-//       <View style={myPostsStyles.container}>
-
-//       {/* Map over user's posts and print out like below */}
-//         <View style={myPostsStyles.card}>
-//           <View style={myPostsStyles.pictureContainer}>
-//             <Image
-//               style={myPostsStyles.picture}
-//               source={{
-//               uri: 'https://reactnative.dev/img/tiny_logo.png',
-//             }}/>
-//           </View>
-//           <Divider style={{ marginTop: 10, marginBottom: 10 }} leadingInset={16} />
-//           <View style={myPostsStyles.captions}>
-//             <View style={myPostsStyles.captionUser}>
-//               <Text style={{color: "white"}}>User 1</Text>
-//             </View>
-//             <View style={myPostsStyles.caption}>
-//               <Text style={{color: "white"}}>Caption 1</Text>
-//             </View>
-//             <View style={myPostsStyles.likes}>
-//               <Text style={{color: "white"}}>2 *</Text>
-//             </View>
-//           </View>
-//         </View>
-
-//         <View style={myPostsStyles.card}>
-//           <View style={myPostsStyles.pictureContainer}>
-//             <Image
-//               style={myPostsStyles.picture}
-//               source={{
-//               uri: 'https://reactnative.dev/img/tiny_logo.png',
-//             }}/>
-//           </View>
-//           <Divider style={{ marginTop: 10, marginBottom: 10 }} leadingInset={16} />
-//           <View style={myPostsStyles.captions}>
-//             <View style={myPostsStyles.captionUser}>
-//               <Text style={{color: "white"}}>User 2</Text>
-//             </View>
-//             <View style={myPostsStyles.caption}>
-//               <Text style={{color: "white"}}>Caption 2</Text>
-//             </View>
-//             <View style={myPostsStyles.likes}>
-//               <Text style={{color: "white"}}>4 *</Text>
-//             </View>
-//           </View>
-//         </View>
-
-//         <View style={myPostsStyles.card}>
-//           <View style={myPostsStyles.pictureContainer}>
-//             <Image
-//               style={myPostsStyles.picture}
-//               source={{
-//               uri: 'https://reactnative.dev/img/tiny_logo.png',
-//             }}/>
-//           </View>
-//           <Divider style={{ marginTop: 10, marginBottom: 10 }} leadingInset={16} />
-//           <View style={myPostsStyles.captions}>
-//             <View style={myPostsStyles.captionUser}>
-//               <Text style={{color: "white"}}>User 1</Text>
-//             </View>
-//             <View style={myPostsStyles.caption}>
-//               <Text style={{color: "white"}}>Caption 1</Text>
-//             </View>
-//             <View style={myPostsStyles.likes}>
-//               <Text style={{color: "white"}}>1 *</Text>
-//             </View>
-//             <View style={myPostsStyles.captionUser}>
-//               <Text style={{color: "white"}}>User 2</Text>
-//             </View>
-//             <View style={myPostsStyles.caption}>
-//               <Text style={{color: "white"}}>Caption 2</Text>
-//             </View>
-//             <View style={myPostsStyles.likes}>
-//               <Text style={{color: "white"}}>1 *</Text>
-//             </View>
-//             <View style={myPostsStyles.captionUser}>
-//               <Text style={{color: "white"}}>User 3</Text>
-//             </View>
-//             <View style={myPostsStyles.caption}>
-//               <Text style={{color: "white"}}>Caption 3</Text>
-//             </View>
-//             <View style={myPostsStyles.likes}>
-//               <Text style={{color: "white"}}>1 *</Text>
-//             </View>
-//           </View>
-//         </View>
-
-
-//       </View>
-//     </ScrollView>
-//   );
-// }
-
-// const myPostsStyles = StyleSheet.create({
-//   container: {
-//     flexdirection: "column",
-//     height: "100%",
-//     width: "100%",
-//     backgroundColor: 'black',
-//     alignItems: "center"
-//   },
-//   topBarContainer: {
-//     justifyContent: 'center',
-//   },
-//   card: {
-//     alignItems: "center",
-
-//   },
-//   picture: {
-//     width: 200,
-//     height: 200
-//   },
-//   captions: {
-//     flexDirection: "column",
-//     width: 200,
-//     height: 150,
-//     alignItems: "center"
-//   },
-//   captionUser: {
-//     width: 50,
-//     height: 50,
-//     flex: .75,
-//   },
-//   caption: {
-//     width: 150,
-//     height: 50,
-//     flex: 2,
-//   },
-//   likes: {
-//     flex: .5,
-//     width: 25,
-//     height: 50
-//   }
-// });
