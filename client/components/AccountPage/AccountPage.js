@@ -17,7 +17,9 @@ const AccountPageStyles = StyleSheet.create({
   },
   AccountPageContainer: {
     width: '100%',
+    height: '100%',
     alignItems: 'center',
     paddingTop: 30,
+    backgroundColor: '#B19CD9',
   },
 });

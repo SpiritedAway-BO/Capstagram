@@ -4,7 +4,7 @@ import { Entypo } from '@expo/vector-icons';
 import * as ImagePicker from 'expo-image-picker';
 
 export default function UploadPhoto() {
-  const [photo, setPhoto] = useState(null);
+  const [photo, setPhoto] = useState('https://res.cloudinary.com/cwhrcloud/image/upload/v1669161707/orange_hhc8pc.png');
 
   useEffect(() => {
     // checkForCameraPermission();
@@ -33,12 +33,14 @@ export default function UploadPhoto() {
 
   return (
     <View style={photoUploaderStyles.container}>
-      {photo && <Image source={{ uri: photo }} style={{ width: 200, height: 200 }} />}
-      <View style={photoUploaderStyles.uploadBtnContainer}>
-        <TouchableOpacity onPress={addPhoto} style={photoUploaderStyles.uploadBtn}>
-          <Text style={{ paddingTop: 5 }}>{photo ? 'Edit' : 'Upload'}</Text>
-          <Entypo name='camera' size={20} color='black' />
-        </TouchableOpacity>
+      <View style={photoUploaderStyles.cardContainer}>
+        <Image source={{ uri: photo }} style={{ width: 150, height: 150, marginLeft: 40, marginTop: 20 }} />
+        <View style={photoUploaderStyles.uploadBtnContainer}>
+          <TouchableOpacity onPress={addPhoto} style={photoUploaderStyles.uploadBtn}>
+            <Text>{photo ? 'Edit' : 'Upload'}</Text>
+            <Entypo name='camera' size={20} color='black' />
+          </TouchableOpacity>
+        </View>
       </View>
     </View>
   );
@@ -54,11 +56,17 @@ const photoUploaderStyles = StyleSheet.create({
     borderRadius: 999,
     overflow: 'hidden',
   },
+  cardContainer: {
+    width: '95%',
+    borderRadius: 12,
+    background: '#F5F5F5',
+    position: "relative",
+  },
   uploadBtnContainer: {
     opacity: 0.7,
-    position: 'absolute',
+    position: 'relative',
     right: 0,
-    bottom: 0,
+    bottom: 20,
     backgroundColor: 'lightgrey',
     width: '100%',
     height: '25%',
@@ -66,6 +74,6 @@ const photoUploaderStyles = StyleSheet.create({
   uploadBtn: {
     display: 'flex',
     alignItems: 'center',
-    justifyContent: 'center',
+    justifyContent: 'flex-end',
   },
 });
