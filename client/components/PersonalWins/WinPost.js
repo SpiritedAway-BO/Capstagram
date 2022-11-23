@@ -3,21 +3,13 @@ import { View, Text, Image, StyleSheet } from 'react-native';
 import { Avatar } from '@react-native-material/core';
 import TopCaption from './TopCaption.js';
 
-const dummyData = [
-  {
-    username: 'username1',
-    caption: 'caption1',
-    liked: true,
-
-  },
-];
-
 const WinPost = ({photo}) => {
   const [post, setPost] = useState(photo);
-  // console.log('photo', photo);
+
   useEffect(() => {
     setPost(photo)
   }, [])
+
   return (
     <View style={styles.postContainer}>
       <View style={styles.creatorInfo}>
@@ -33,7 +25,7 @@ const WinPost = ({photo}) => {
           style={styles.image}/>
       </View>
       <View style={styles.captionsContainer}>
-        <TopCaption caption={photo.caption} username={photo.topCaptioner} voted={photo.voted} votes={photo.votes} />
+        <TopCaption caption={photo.caption} topCaptioner={photo.topCaptioner } upvotes={photo.upvotes} voted={photo.voted}/>
       </View>
       <View style={styles.viewAllContainer}>
       </View>

@@ -3,7 +3,6 @@ import { Text, View, ScrollView, StyleSheet } from 'react-native';
 import WinPost from './WinPost.js';
 
 const WinsFeed = ({photo}) => {
-  console.log('photo in winsfeed', photo);
 
   return (
     <View style={styles.mainContainer}>

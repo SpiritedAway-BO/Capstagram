@@ -28,6 +28,7 @@ var DATA = [{
   id: 1234569,
   photoUser: 'ThisGuy3',
   caption: 'Are we there yet?',
+  photoURL: 'https://img.freepik.com/free-vector/cute-rabbit-with-duck-working-laptop-cartoon-illustration_56104-471.jpg?w=2000',
   upvotes: 180,
   topCaptioner: 'MeMyselfAndI',
   voted: false,
