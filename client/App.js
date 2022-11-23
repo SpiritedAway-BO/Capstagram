@@ -6,7 +6,7 @@ const queryClient = new QueryClient();
 App = () => {
   return (
     <QueryClientProvider client={queryClient}>
-      <HomeScreen/>
+      <HomeScreen />
     </QueryClientProvider>
   );
 };
