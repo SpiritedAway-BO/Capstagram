@@ -77,7 +77,7 @@ const AddPhotoCloudinary = () => {
       </View>
       <View style={styles.uploadContainer}>
         <Text style={styles.uploadContainerTitle}>
-          Post A Photo
+          Post a Photo
         </Text>
         <TouchableOpacity onPress={addPhoto} style={styles.uploadButton}>
           <Text style={styles.uploadButtonText}>
