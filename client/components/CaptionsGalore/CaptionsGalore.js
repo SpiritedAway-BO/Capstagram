@@ -127,25 +127,7 @@ const CaptionsGalore = () => {
         renderItem={renderCaption}
         keyExtractor={item => item.id}
       />
-      {/* <View style={styles.bottomBarView}>
-        <AppBar
-          variant="bottom"
-          color="black"
-          leading={props => (
-            <HStack spacing={80}>
-              <IconButton icon={props => <Entypo name="home" size={28} color="white" />}{...props} />
-              <IconButton icon={props => <AntDesign name="search1" size={28} color="white" />}{...props} />
-            </HStack>
-          )}
-          trailing={props => (
-            <HStack spacing={80}>
-              <IconButton icon={props => <AntDesign name="user" size={28} color="white" />}{...props} />
-              <IconButton icon={props => <Entypo name="dots-three-vertical" size={28} color="white" />}{...props} />
-            </HStack>
-          )}
-          style={styles.bottomAppBar}
-        />
-      </View> */}
+
     </SafeAreaView>
   );
 };
