@@ -84,7 +84,6 @@ export default function PersonalWins() {
 
   return (
     <SafeAreaView style={styles.container}>
-              <Text>Personal Wins Page</Text>
       <FlatList //this is like map
         data={DATA}
         renderItem={renderTopPost}
