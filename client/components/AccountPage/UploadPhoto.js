@@ -34,7 +34,7 @@ export default function UploadPhoto() {
   return (
     <View style={photoUploaderStyles.container}>
       <View style={photoUploaderStyles.cardContainer}>
-        <Image source={{ uri: photo }} style={{ width: 150, height: 150, marginLeft: 40, marginTop: 20 }} />
+        <Image source={{ uri: photo }} style={{ width: 185, height: 175, marginLeft: 47, marginTop: 30 }} />
         <View style={photoUploaderStyles.uploadBtnContainer}>
           <TouchableOpacity onPress={addPhoto} style={photoUploaderStyles.uploadBtn}>
             <Text>{photo ? 'Edit' : 'Upload'}</Text>
@@ -49,8 +49,8 @@ export default function UploadPhoto() {
 const photoUploaderStyles = StyleSheet.create({
   container: {
     elevation: 2,
-    height: 200,
-    width: 200,
+    height: 250,
+    width: 250,
     backgroundColor: '#efefef',
     position: 'relative',
     borderRadius: 999,
@@ -65,8 +65,7 @@ const photoUploaderStyles = StyleSheet.create({
   uploadBtnContainer: {
     opacity: 0.7,
     position: 'relative',
-    right: 0,
-    bottom: 20,
+    bottom: -3,
     backgroundColor: 'lightgrey',
     width: '100%',
     height: '25%',

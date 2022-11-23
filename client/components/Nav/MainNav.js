@@ -2,12 +2,11 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { Ionicons } from '@expo/vector-icons';
 import MainFeed from '../MainFeed/MainFeed.js';
 import Search from '../Search/Search.js';
-import AddPhoto from '../AddPhoto/AddPhoto.js';
+import AddPhotoCloudinary from '../AddPhoto/AddPhotoCloudinary.js';
 import UserPage from '../UserPage/UserPage.js';
 import AccountPage from '../AccountPage/AccountPage.js';
 import Friends from '../Friends/Friends.js';
 import SignUp from '../Auth/SignUp.js';
-import AddPhotoCloudinary from '../AddPhoto/AddPhotoCloudinary.js';
 
 const Tab = createBottomTabNavigator();
 
