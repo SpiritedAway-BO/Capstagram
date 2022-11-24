@@ -2,7 +2,7 @@ import React from 'react';
 import UploadPhoto from './UploadPhoto.js';
 import { Image, View, Platform, TouchableOpacity, Text, StyleSheet } from 'react-native';
 import { auth, signOutUser } from '../Auth/firebase/firebase.js';
-import { VStack, Box, TextInput } from '@react-native-material/core';
+import { VStack } from '@react-native-material/core';
 import { MaterialIcons } from '@expo/vector-icons';
 
 export default function AccountPage({ navigation }) {
