@@ -28,10 +28,6 @@ const MainNav = () => {
               iconName = focused ? 'ios-person-circle' : 'ios-person-circle-outline';
             } else if (route.name === 'Settings') {
               iconName = focused ? 'ios-settings' : 'ios-settings-outline';
-            } else if (route.name === 'Friends') {
-              iconName = focused ? 'ios-people' : 'ios-people-outline';
-            } else if (route.name === 'Auth') {
-              iconName = 'ios-ellipsis-horizontal';
             }
 
             return <Ionicons name={iconName} size={size} color={color} />;
@@ -46,8 +42,6 @@ const MainNav = () => {
         <Tab.Screen name="Add" component={AddPhotoCloudinary} />
         <Tab.Screen name="Profile" component={UserPage} />
         <Tab.Screen name="Settings" component={AccountPage} />
-        <Tab.Screen name="Friends" component={Friends} />
-        <Tab.Screen name="Auth" component={SignUp} />
       </Tab.Navigator>
     </>
   );
