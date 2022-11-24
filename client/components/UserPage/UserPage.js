@@ -1,11 +1,22 @@
 import React from 'react';
-import {FlatList, View, ScrollView, StyleSheet, Text, Image, Dimensions} from 'react-native';
+import { SafeAreaView, FlatList, View, ScrollView, StyleSheet, Text, Image, Dimensions} from 'react-native';
 import { Avatar } from '@react-native-material/core';
+
+const x = {uri: 'https://img.freepik.com/free-vector/cute-rabbit-with-duck-working-laptop-cartoon-illustration_56104-471.jpg?w=2000'};
+const DATA = [x, x, x, x, x, x, x, x, x, x, x, x, x, x, x, x, x, x, x, x, x];
 
 const UserPage = () => {
 
+  const renderImage = (imageURI) => (
+    <View>
+      <Image
+        source={{uri: imageURI}}
+        style={styles.image}
+      />
+    </View>
+  );
+
   return (
-    <>
     <View contentContainerStyle={styles.userPageContainer} style={styles.userPCon}>
       <View style={styles.userInfoContainer}>
         <View style={styles.uiStatsBox}>
@@ -21,66 +32,31 @@ const UserPage = () => {
           </View>
         </View>
         <View style={styles.aboutMeBox}>
-          <Text>About me .........................................</Text>
+          <View style={styles.aboutMeLabel}>
+            <Text>About me:</Text>
+          </View>
+          <View style={styles.aboutMeLabel}>
+            <Text>text here ..................................................................................</Text>
+          </View>
         </View>
         <View style={styles.userPageNavBar}>
-          <View style={styles.uPNVB} ></View>
+          <View style={styles.uPNVB}></View>
         </View>
       </View>
        {/* <Divider style={styles.divider} leadingInset={16} /> */}
        <View style={styles.postsGridContainer}>
-        <ScrollView contentContainerStyle={styles.scrollContainer} >
-          <View style={styles.imageScroll}>
-            <Image
-              source={{uri: 'https://img.freepik.com/free-vector/cute-rabbit-with-duck-working-laptop-cartoon-illustration_56104-471.jpg?w=2000'}}
-              style={styles.image}/>
-              <Image
-              source={{uri: 'https://img.freepik.com/free-vector/cute-rabbit-with-duck-working-laptop-cartoon-illustration_56104-471.jpg?w=2000'}}
-              style={styles.image}/>
-              <Image
-              source={{uri: 'https://img.freepik.com/free-vector/cute-rabbit-with-duck-working-laptop-cartoon-illustration_56104-471.jpg?w=2000'}}
-              style={styles.image}/>
-              <Image
-              source={{uri: 'https://img.freepik.com/free-vector/cute-rabbit-with-duck-working-laptop-cartoon-illustration_56104-471.jpg?w=2000'}}
-              style={styles.image}/>
-              <Image
-              source={{uri: 'https://img.freepik.com/free-vector/cute-rabbit-with-duck-working-laptop-cartoon-illustration_56104-471.jpg?w=2000'}}
-              style={styles.image}/>
-              <Image
-              source={{uri: 'https://img.freepik.com/free-vector/cute-rabbit-with-duck-working-laptop-cartoon-illustration_56104-471.jpg?w=2000'}}
-              style={styles.image}/>
-              <Image
-              source={{uri: 'https://img.freepik.com/free-vector/cute-rabbit-with-duck-working-laptop-cartoon-illustration_56104-471.jpg?w=2000'}}
-              style={styles.image}/>
-              <Image
-              source={{uri: 'https://img.freepik.com/free-vector/cute-rabbit-with-duck-working-laptop-cartoon-illustration_56104-471.jpg?w=2000'}}
-              style={styles.image}/>
-              <Image
-              source={{uri: 'https://img.freepik.com/free-vector/cute-rabbit-with-duck-working-laptop-cartoon-illustration_56104-471.jpg?w=2000'}}
-              style={styles.image}/>
-              <Image
-              source={{uri: 'https://img.freepik.com/free-vector/cute-rabbit-with-duck-working-laptop-cartoon-illustration_56104-471.jpg?w=2000'}}
-              style={styles.image}/>
-              <Image
-              source={{uri: 'https://img.freepik.com/free-vector/cute-rabbit-with-duck-working-laptop-cartoon-illustration_56104-471.jpg?w=2000'}}
-              style={styles.image}/>
-              <Image
-              source={{uri: 'https://img.freepik.com/free-vector/cute-rabbit-with-duck-working-laptop-cartoon-illustration_56104-471.jpg?w=2000'}}
-              style={styles.image}/>
-              <Image
-              source={{uri: 'https://img.freepik.com/free-vector/cute-rabbit-with-duck-working-laptop-cartoon-illustration_56104-471.jpg?w=2000'}}
-              style={styles.image}/>
-              <Image
-              source={{uri: 'https://img.freepik.com/free-vector/cute-rabbit-with-duck-working-laptop-cartoon-illustration_56104-471.jpg?w=2000'}}
-              style={styles.image}/>
-              <Image
-              source={{uri: 'https://img.freepik.com/free-vector/cute-rabbit-with-duck-working-laptop-cartoon-illustration_56104-471.jpg?w=2000'}}
-              style={styles.image}/>
-            </View>
-        </ScrollView>
+        <View style={styles.imageScroll}>
+            <FlatList
+              numColumns={3}
+              contentContainerStyle={styles.ccFlatList}
+              style={styles.imageList}
+              data={DATA}
+              renderItem={item => renderImage(item.uri)}
+              keyExtractor={(item, index) => index.toString()}
+            />
+        </View>
       </View>
     </View>
-    </>
   )
 }
 
@@ -98,7 +74,7 @@ const styles = StyleSheet.create({
     borderRadius: "5px",
   },
   userInfoContainer: {
-    height: Dimensions.get('window').height/2.5,
+    height: Dimensions.get('window').height/3,
 
     borderWidth: "1px",
     borderStyle: "solid",
@@ -108,7 +84,7 @@ const styles = StyleSheet.create({
     marginTop: "1%",
   },
   postsGridContainer: {
-    height: Dimensions.get('window').height/2.01,
+    height: Dimensions.get('window').height/1.7,
     width: "100%",
 
     borderWidth: "1px",
@@ -116,17 +92,28 @@ const styles = StyleSheet.create({
     borderRadius: "10px",
   },
   scrollContainer: {
-    // flexDirection: "row",
-    // flexWrap: "wrap",
+    flexDirection: "row",
+    flexWrap: "wrap",
+  },
+  ccFlatList: {
+    // justifyContent:"space-around",
+    // alignItems:"center",
   },
   imageScroll: {
     padding: ".1%",
     flexDirection: "row",
     flexWrap: "wrap",
   },
+  imageList: {
+    width: "100%",
+    flexDirection: "row",
+    flexWrap: "wrap",
+    overflow: "hidden",
+  },
   image: {
     width: Dimensions.get('window').width/4.08,
     height: Dimensions.get('window').height/4.5,
+    alignItems:"center",
 
     borderWidth: ".5px",
     borderRadius: "10px",
@@ -135,31 +122,42 @@ const styles = StyleSheet.create({
     flex: 1,
     flexDirection: "row",
     justifyContent: "space-between",
-    padding: "5%",
+    padding: "6%",
+    alignItems: "center",
   },
   postStats: {
     alignSelf: "center",
 
-    // borderWidth: ".5px",
-    // borderRadius: "10px",
+    borderWidth: ".5px",
+    borderRadius: "10px",
   },
   friendStats: {
     alignSelf: "center",
 
-    // borderWidth: ".5px",
-    // borderRadius: "10px",
+    borderWidth: ".5px",
+    borderRadius: "10px",
   },
   avatar: {
 
 
-    // borderWidth: ".5px",
-    // borderRadius: "10px",
+    borderWidth: ".5px",
+    borderRadius: "10px",
   },
   aboutMeBox: {
-    alignSelf: "center",
-    justifyContent: "center",
+    // alignSelf: "center",
+    // justifyContent: "center",
+    flexDirection: "row",
     flex: 1,
+    width: "100%",
 
+    borderWidth: ".5px",
+    borderRadius: "10px",
+  },
+  aboutMeLabel: {
+    borderWidth: ".5px",
+    borderRadius: "10px",
+  },
+  aboutMeText: {
     borderWidth: ".5px",
     borderRadius: "10px",
   },
