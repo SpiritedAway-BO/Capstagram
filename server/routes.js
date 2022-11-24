@@ -5,16 +5,15 @@ const controllers = require('./controllers.js');
 //User Routes
 router.get('/users', controllers.getAllUsers); //get all users for search
 router.post('/user', controllers.createUser); //create new user
-// router.get('/user/:userId', controllers.getUserInfo); //get a user's info
-// router.put('/user/:userId/profilePic', controllers.putProfilePic); //update user profile pic
-// // router.put('/users/:userId/profile', controllers.updateUserInfo); //update user
+router.get('/user/:userId', controllers.getUserInfo); //get a user's info
+router.put('/user/:userId/profilePic', controllers.putProfilePic); //update user profile pic
 // //info
 
 // //Captions Routes
-// router.get('/captions/:photoId', controllers.getAllCaptions); // get captions for a photo
-// router.post('/captions/:photoId', controllers.postCaption); // post a caption for a photo
+router.get('/captions/:photoId', controllers.getPhotoCaptions); // get captions for a photo
+router.post('/captions/:photoId', controllers.postCaption); // post a caption for a photo
 // // router.delete('/captions/:captionId', controllers.deleteCaption); // lets a user delete their own caption - might need to think this route out better
-// router.put('/captions/:captionId', controllers.likeCaption); // CHANGES a caption upvote (up or down)
+router.patch('/captions/:captionId', controllers.patchCaption); // CHANGES a caption upvote (up or down)
 
 // //Photos Routes
 // router.post('/photos', controllers.postPhoto); //posts user photo  - Query param: userId
