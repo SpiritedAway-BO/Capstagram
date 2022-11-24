@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Image, View, Platform, TouchableOpacity, Text, StyleSheet } from 'react-native';
+import { Image, View, Platform, TouchableOpacity, Text, StyleSheet, ImageBackground } from 'react-native';
 import { Entypo } from '@expo/vector-icons';
 import * as ImagePicker from 'expo-image-picker';
 
@@ -33,46 +33,38 @@ export default function UploadPhoto() {
 
   return (
     <View style={photoUploaderStyles.container}>
-      <View style={photoUploaderStyles.cardContainer}>
-        <Image source={{ uri: photo }} style={{ width: 185, height: 175, marginLeft: 47, marginTop: 30 }} />
+      <ImageBackground source={{ uri: photo }} style={photoUploaderStyles.image}>
         <View style={photoUploaderStyles.uploadBtnContainer}>
           <TouchableOpacity onPress={addPhoto} style={photoUploaderStyles.uploadBtn}>
             <Text>{photo ? 'Edit' : 'Upload'}</Text>
             <Entypo name='camera' size={20} color='black' />
           </TouchableOpacity>
         </View>
-      </View>
+      </ImageBackground>
     </View>
   );
 }
 
 const photoUploaderStyles = StyleSheet.create({
   container: {
-    elevation: 2,
-    height: 250,
-    width: 250,
-    backgroundColor: '#efefef',
-    position: 'relative',
+    height: 200,
+    width: 200,
+    backgroundColor: '#EFEFEF',
     borderRadius: 999,
     overflow: 'hidden',
   },
-  cardContainer: {
-    width: '95%',
-    borderRadius: 12,
-    background: '#F5F5F5',
-    position: 'relative',
-  },
   uploadBtnContainer: {
-    opacity: 0.7,
-    position: 'relative',
-    bottom: -3,
-    backgroundColor: 'lightgrey',
     width: '100%',
-    height: '25%',
+    height: '22.5%',
+    opacity: 0.7,
+    backgroundColor: 'lightgrey',
   },
   uploadBtn: {
-    display: 'flex',
     alignItems: 'center',
-    justifyContent: 'flex-end',
   },
+  image: {
+    width: '100%',
+    height: '100%',
+    justifyContent: 'flex-end'
+  }
 });
