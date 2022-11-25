@@ -63,8 +63,8 @@ const SignUp = ({ navigation }) => {
             <Text style={isLoading ? styles.loadingButton : styles.signUpButton}>{isLoading ? 'Loading..' : 'Sign Up'}</Text>
           </TouchableOpacity>
         </View>
-        <View styles={styles.haveaccount}>
-          <Text style={styles.haveaccounttext}>Already have an account?</Text>
+        <View>
+          <Text style={styles.registeredText}>Already have an account?</Text>
           <TouchableOpacity style={styles.buttonGrp} onPress={() => navigation.goBack()}>
             <Text style={styles.link}>Log In.</Text>
           </TouchableOpacity>
@@ -140,7 +140,7 @@ const styles = StyleSheet.create({
     textDecorationLine: 'underline',
     textAlign: 'center'
   },
-  haveaccounttext: {
+  registeredText: {
     marginTop: 21,
     color: "whitesmoke",
     alignSelf: 'center',
