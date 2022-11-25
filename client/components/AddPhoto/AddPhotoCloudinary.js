@@ -20,12 +20,11 @@ const AddPhotoCloudinary = () => {
     let _photo = await ImagePicker.launchImageLibraryAsync({
       mediaTypes: ImagePicker.MediaTypeOptions.Images,
       allowsEditing: true,
-      quality: 1,
     });
     if (!_photo.canceled) {
-      const uri = _photo.uri;
-      const type = _photo.type;
-      const name = _photo.fileName;
+      const uri = _photo.assets[0].uri;
+      const type = _photo.assets[0].type;
+      const name = _photo.assets[0].fileName;
       const source = {
         uri,
         type,
@@ -40,7 +39,6 @@ const AddPhotoCloudinary = () => {
     let _photo = await ImagePicker.launchCameraAsync({
       mediaTypes: ImagePicker.MediaTypeOptions.Images,
       allowsEditing: true,
-      quality: 1,
     });
     if (!_photo.canceled) {
       console.log('chosen photo', _photo);
@@ -77,7 +75,7 @@ const AddPhotoCloudinary = () => {
       </View>
       <View style={styles.uploadContainer}>
         <Text style={styles.uploadContainerTitle}>
-          Post a Photo
+          Add a Photo
         </Text>
         <TouchableOpacity onPress={addPhoto} style={styles.uploadButton}>
           <Text style={styles.uploadButtonText}>
