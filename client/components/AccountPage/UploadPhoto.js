@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from 'react';
-import { Image, View, Platform, TouchableOpacity, Text, StyleSheet } from 'react-native';
+import { Image, View, Platform, TouchableOpacity, Text, StyleSheet, ImageBackground } from 'react-native';
 import { Entypo } from '@expo/vector-icons';
 import * as ImagePicker from 'expo-image-picker';
 
 export default function UploadPhoto() {
-  const [photo, setPhoto] = useState(null);
+  const [photo, setPhoto] = useState('https://res.cloudinary.com/cwhrcloud/image/upload/v1669161707/orange_hhc8pc.png');
 
   useEffect(() => {
     // checkForCameraPermission();
@@ -33,39 +33,38 @@ export default function UploadPhoto() {
 
   return (
     <View style={photoUploaderStyles.container}>
-      {photo && <Image source={{ uri: photo }} style={{ width: 200, height: 200 }} />}
-      <View style={photoUploaderStyles.uploadBtnContainer}>
-        <TouchableOpacity onPress={addPhoto} style={photoUploaderStyles.uploadBtn}>
-          <Text style={{ paddingTop: 5 }}>{photo ? 'Edit' : 'Upload'}</Text>
-          <Entypo name='camera' size={20} color='black' />
-        </TouchableOpacity>
-      </View>
+      <ImageBackground source={{ uri: photo }} style={photoUploaderStyles.image}>
+        <View style={photoUploaderStyles.uploadBtnContainer}>
+          <TouchableOpacity onPress={addPhoto} style={photoUploaderStyles.uploadBtn}>
+            <Text>{photo ? 'Edit' : 'Upload'}</Text>
+            <Entypo name='camera' size={20} color='black' />
+          </TouchableOpacity>
+        </View>
+      </ImageBackground>
     </View>
   );
 }
 
 const photoUploaderStyles = StyleSheet.create({
   container: {
-    elevation: 2,
     height: 200,
     width: 200,
-    backgroundColor: '#efefef',
-    position: 'relative',
+    backgroundColor: '#EFEFEF',
     borderRadius: 999,
     overflow: 'hidden',
   },
   uploadBtnContainer: {
-    opacity: 0.7,
-    position: 'absolute',
-    right: 0,
-    bottom: 0,
-    backgroundColor: 'lightgrey',
     width: '100%',
-    height: '25%',
+    height: '22.5%',
+    opacity: 0.7,
+    backgroundColor: 'lightgrey',
   },
   uploadBtn: {
-    display: 'flex',
     alignItems: 'center',
-    justifyContent: 'center',
   },
+  image: {
+    width: '100%',
+    height: '100%',
+    justifyContent: 'flex-end'
+  }
 });

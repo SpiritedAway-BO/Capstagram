@@ -2,7 +2,7 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { Ionicons } from '@expo/vector-icons';
 import MainFeed from '../MainFeed/MainFeed.js';
 import Search from '../Search/Search.js';
-import AddPhoto from '../AddPhoto/AddPhoto.js';
+import AddPhotoCloudinary from '../AddPhoto/AddPhotoCloudinary.js';
 import UserPage from '../UserPage/UserPage.js';
 import AccountPage from '../AccountPage/AccountPage.js';
 import Friends from '../Friends/Friends.js';
@@ -28,10 +28,6 @@ const MainNav = () => {
               iconName = focused ? 'ios-person-circle' : 'ios-person-circle-outline';
             } else if (route.name === 'Settings') {
               iconName = focused ? 'ios-settings' : 'ios-settings-outline';
-            } else if (route.name === 'Friends') {
-              iconName = focused ? 'ios-people' : 'ios-people-outline';
-            } else if (route.name === 'Auth') {
-              iconName = 'ios-ellipsis-horizontal';
             }
 
             return <Ionicons name={iconName} size={size} color={color} />;
@@ -43,11 +39,9 @@ const MainNav = () => {
       >
         <Tab.Screen name="Home" component={MainFeed} />
         <Tab.Screen name="Search" component={Search} />
-        <Tab.Screen name="Add" component={AddPhoto} />
+        <Tab.Screen name="Add" component={AddPhotoCloudinary} />
         <Tab.Screen name="Profile" component={UserPage} />
         <Tab.Screen name="Settings" component={AccountPage} />
-        <Tab.Screen name="Friends" component={Friends} />
-        <Tab.Screen name="Auth" component={SignUp} />
       </Tab.Navigator>
     </>
   );
