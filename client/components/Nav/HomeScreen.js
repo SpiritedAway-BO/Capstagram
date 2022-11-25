@@ -4,6 +4,7 @@ import MainNav from './MainNav.js';
 import CaptionsGalore from '../CaptionsGalore/CaptionsGalore.js';
 import SignUp from '../Auth/SignUp.js';
 import Login from '../Auth/LoginPage.js';
+import Friends from '../Friends/Friends.js';
 
 const Stack = createNativeStackNavigator();
 
@@ -39,6 +40,19 @@ const HomeScreen = () => {
         <Stack.Screen
           name="Captions"
           component={CaptionsGalore}
+          options={{
+            headerStyle: {
+              backgroundColor: '#B19CD9',
+            },
+            headerTitleStyle: {
+              fontWeight: 'bold',
+            },
+            headerBackTitleVisible: false,
+            headerTintColor: '#301934',
+          }}/>
+        <Stack.Screen
+          name="Friends"
+          component={Friends}
           options={{
             headerStyle: {
               backgroundColor: '#B19CD9',
