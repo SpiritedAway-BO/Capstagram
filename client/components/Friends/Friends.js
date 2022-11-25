@@ -3,6 +3,7 @@ import { Image, View, Platform, TouchableOpacity, Text, StyleSheet, FlatList, St
 import { AntDesign, Ionicons, Octicons, Entypo} from '@expo/vector-icons';
 import { Stack, Avatar, AppBar, IconButton, HStack, Button } from '@react-native-material/core';
 import { auth } from '../Auth/firebase/firebase.js';
+import FriendItem from './FriendItem.js';
 
 var DATA = [
   {
@@ -64,21 +65,21 @@ var DATA = [
   },
 ];
 
-const FriendItem = ({ caption }) => {
-  /*this would be where we could keep track of state for the onPress handler
-  that would potentially take us to the feed with only that friend's photos or captions, depending on what we decide to prioritize theoretically, given a large budget and more time, we could make the friends page have two tabs, one for their photos and one for their captions*/
-  return (
-    <View style={styles.item}>
-      <View style={styles.userInfo} >
-        <Avatar image={{ uri: caption.usericon }} //local OR cloudinary
-          size={35}
-          style={styles.avatar}
-        />
-        <Text style={styles.title}>{caption.username}</Text>
-      </View>
-    </View>
-  );
-};
+// const FriendItem = ({ caption }) => {
+//   /*this would be where we could keep track of state for the onPress handler
+//   that would potentially take us to the feed with only that friend's photos or captions, depending on what we decide to prioritize theoretically, given a large budget and more time, we could make the friends page have two tabs, one for their photos and one for their captions*/
+//   return (
+//     <View style={styles.item}>
+//       <View style={styles.userInfo} >
+//         <Avatar image={{ uri: caption.usericon }} //local OR cloudinary
+//           size={35}
+//           style={styles.avatar}
+//         />
+//         <Text style={styles.title}>{caption.username}</Text>
+//       </View>
+//     </View>
+//   );
+// };
 
 const Friends = () => {
 
@@ -104,8 +105,6 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff',
     height: '100%',
     width: '100%',
-
-
   },
   userInfo: {
     flexDirection: 'row',
@@ -114,9 +113,9 @@ const styles = StyleSheet.create({
   },
   item: {
     backgroundColor: '#fff',
-    padding: 20,
+    // padding: 20,
     backgroundColor: '#fff',
-    padding: 20,
+    // padding: 20,
     paddingTop: 12,
     borderBottomWidth: 1,
     borderColor: '#d6d6d6',

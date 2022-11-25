@@ -1,8 +1,9 @@
 import React, {useState, useEffect, useRef} from 'react';
 import { Image, View, Platform, TouchableOpacity, Text, StyleSheet, FlatList, StatusBar, SafeAreaView, TextInput, TouchableWithoutFeedback, KeyboardAvoidingView, Keyboard} from 'react-native';
 import { AntDesign, Ionicons, Octicons, Entypo} from '@expo/vector-icons';
-import { Stack, Avatar, AppBar, IconButton, HStack, Button } from '@react-native-material/core';
+import { Stack, AppBar, IconButton, HStack, Button } from '@react-native-material/core';
 import { auth } from '../Auth/firebase/firebase.js';
+import CaptionItem from './CaptionItem.js';
 
 
 var DATA = [{
@@ -71,58 +72,16 @@ var DATA = [{
   voted: false,
   timestamp: Date(),
 },
+{
+  id: 1234574,
+  username: 'thisGuy7',
+  caption: 'Whodunnit',
+  upvotes: 12,
+  usericon: '../../assets/favicon.png',
+  voted: false,
+  timestamp: Date(),
+},
 ];
-
-const CaptionItem = ({ caption }) => {
-  const [voted, setVoted] = useState(caption.voted);
-  const [votes, setVotes] = useState(caption.upvotes);
-  const newCaption = useRef('');
-  // const [newCaption, setNewCaption] = useState('');
-
-  useEffect(() => {
-    setVotes(caption.upvotes); //takes care of asynchronous state setting
-  }, []);
-
-  const handleCaptionSubmit = (event) => {
-    event.preventDefault();
-    console.log('newCaption', newCaption.current.value);
-  }
-
-  /* will need to send put/patch state to database, or somehow keep track of uservotes and also specifically THIS user's vote */
-
-  return (
-    <View style={styles.item}>
-      <View style={styles.captionIntro}>
-      <View style={styles.userInfo} >
-        <Avatar image={{ uri: 'https://res.cloudinary.com/cwhrcloud/image/upload/v1669246271/orange_auy0ff.png' }}
-          size={35}
-          style={styles.avatar}
-        />
-        <Text style={styles.username}>{caption.username}</Text>
-        </View>
-      { voted ?
-        <View style={styles.heartIcon} >
-          <Text style={styles.votes}>{votes}</Text>
-          <Ionicons name="ios-heart" size={15} color="#FF842B"
-            onPress={() => {
-              setVotes(votes - 1);
-              setVoted(!voted);
-            }}/>
-        </View> :
-        <View style={styles.heartIcon} >
-          <Text style={styles.votes}>{votes}</Text>
-          <Ionicons style={styles.heartIcon} name="ios-heart-outline" size={15} color="#FF842B"
-            onPress={() => {
-              setVotes(votes + 1);
-              setVoted(!voted);
-            }}
-          />
-        </View>}
-      </View>
-      <Text style={styles.title}>{caption.caption}</Text>
-    </View>
-  );
-};
 
 const CaptionsGalore = () => {
 
@@ -130,12 +89,7 @@ const CaptionsGalore = () => {
     <CaptionItem caption={item} />
   );
 
-  // const newCaption = useRef();
   const [newCaption, setNewCaption] = useState('');
-
-  // useEffect(() => {
-  //   setVotes(caption.upvotes); //takes care of asynchronous state setting
-  // }, []);
 
   const handleCaptionSubmit = () => {
     console.log('newCaption', newCaption);
@@ -150,7 +104,6 @@ const CaptionsGalore = () => {
         renderItem={renderCaption}
         keyExtractor={item => item.id}
       />
-      {/* <View style={styles.newComment}> */}
         <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
           <KeyboardAvoidingView behavior="padding">
             <View style={styles.newCommentView}>
@@ -159,7 +112,6 @@ const CaptionsGalore = () => {
             </View>
           </KeyboardAvoidingView>
         </TouchableWithoutFeedback>
-      {/* </View> */}
     </SafeAreaView>
   );
 };
@@ -173,39 +125,17 @@ const styles = StyleSheet.create({
   captionIntro: {
     flexDirection: 'row',
     justifyContent: 'space-between',
-    // alignItems: 'center',
     paddingBottom: 20,
-    // backgroundColor: 'blue',
   },
   userInfo: {
-    flexDirection: 'row',
+    // flexDirection: 'row',
     justifyContent: 'flex-start',
     justifyContent: 'space-between',
-    // alignItems: 'center',
   },
   heartIcon: {
     flexDirection: 'row',
     justifyContent: 'flex-end',
     paddingleft: 2,
-  },
-  item: {
-    backgroundColor: '#fff',
-    padding: 20,
-    paddingTop: 12,
-    borderBottomWidth: 1,
-    borderColor: '#d6d6d6',
-  },
-  title: {
-    fontSize: 20,
-    paddingHorizontal: 5,
-  },
-  votes: {
-    paddingRight: 3,
-  },
-  username: {
-   justifyContent: 'center',
-    paddingHorizontal: 10,
-    fontWeight: 'bold',
   },
   newComment: {
     position: 'sticky',
@@ -223,15 +153,15 @@ const styles = StyleSheet.create({
     justifyContent: 'space-around',
     alignItems: 'space-around',
     flexDirection: 'row',
+    borderTopWidth: 2,
+    borderColor: '#d6d6d6',
+
   },
   newCommentButton: {
     height: 46,
     width: 'auto',
     backgroundColor: `#9D4EDD`,
     justifyContent: 'space-around',
-  },
-  avatar: {
-    borderRadius: '50%',
   },
 });
 
