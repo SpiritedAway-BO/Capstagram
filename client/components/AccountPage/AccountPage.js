@@ -15,6 +15,8 @@ export default function AccountPage({ navigation }) {
     });
   };
 
+  console.log('auth info', auth.currentUser.displayName, auth.currentUser.uid, auth.currentUser);
+
   return (
     <View style={AccountPageStyles.AccountPageContainer}>
       <UploadPhoto />

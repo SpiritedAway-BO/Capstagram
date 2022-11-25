@@ -20,7 +20,6 @@ const AddPhotoCloudinary = () => {
     let _photo = await ImagePicker.launchImageLibraryAsync({
       mediaTypes: ImagePicker.MediaTypeOptions.Images,
       allowsEditing: true,
-      quality: 1,
     });
     if (!_photo.canceled) {
       const uri = _photo.assets[0].uri;
@@ -40,7 +39,6 @@ const AddPhotoCloudinary = () => {
     let _photo = await ImagePicker.launchCameraAsync({
       mediaTypes: ImagePicker.MediaTypeOptions.Images,
       allowsEditing: true,
-      quality: 1,
     });
     if (!_photo.canceled) {
       console.log('chosen photo', _photo);

@@ -10,7 +10,6 @@ export default function UploadPhoto() {
     let _photo = await ImagePicker.launchImageLibraryAsync({
       mediaTypes: ImagePicker.MediaTypeOptions.Images,
       allowsEditing: true,
-      quality: 1,
     });
     console.log(JSON.stringify(_photo));
     if (!_photo.canceled) {
