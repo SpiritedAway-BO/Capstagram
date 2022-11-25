@@ -130,15 +130,17 @@ const CaptionsGalore = () => {
     <CaptionItem caption={item} />
   );
 
-  const newCaption = useRef('');
-  // const [newCaption, setNewCaption] = useState('');
+  // const newCaption = useRef();
+  const [newCaption, setNewCaption] = useState('');
 
   // useEffect(() => {
   //   setVotes(caption.upvotes); //takes care of asynchronous state setting
   // }, []);
 
   const handleCaptionSubmit = () => {
-    console.log('newCaption', newCaption.current.value);
+    console.log('newCaption', newCaption);
+    //put caption
+    setNewCaption(''); //reset
   }
 
   return (
@@ -152,8 +154,8 @@ const CaptionsGalore = () => {
         <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
           <KeyboardAvoidingView behavior="padding">
             <View style={styles.newCommentView}>
-            <TextInput style={styles.newComment} ref={newCaption} placeholder="Add a new caption..." />
-            <Button style={styles.newCommentButton} title="Post" color="9D4EDD" onPress={() => console.log(newCaption.current)}/>
+            <TextInput style={styles.newComment} value={newCaption} onChangeText={newCaption => setNewCaption(newCaption)} placeholder="Add a new caption..." />
+            <Button style={styles.newCommentButton} accessibilityLabel="Post a New caption button" title="Post" color="9D4EDD" onPress={handleCaptionSubmit}/>
             </View>
           </KeyboardAvoidingView>
         </TouchableWithoutFeedback>
