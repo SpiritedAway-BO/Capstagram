@@ -1,18 +1,19 @@
 const mongoose = require("mongoose");
+const Schema = mongoose.Schema;
 
 // 1. Use mongoose to establish a connection to MongoDB
 
-mongoose.connect('mongodb://localhost/blueocean');
+mongoose.connect('mongodb://localhost:27017/blueocean');
 
 // 2. Set up any schema and models needed by the app
 
-let friendsSchema = mongoose.Schema({
-  friendFirebaseID: Number
+let friendsSchema = new Schema({
+  friendFirebaseID: { type: String, default: 'BJUtNzadq8hgWKQ7l5vxg1ys1vt2', required: true }
 });
 
 let Friends = mongoose.model('Friends', friendsSchema);
 
-let captionSchema = mongoose.Schema({
+let captionSchema = new Schema({
   photoID: Number,
   body: String,
   captioner: String,
@@ -21,55 +22,53 @@ let captionSchema = mongoose.Schema({
 
 let Captions = mongoose.model('Captions', captionSchema);
 
-let photoSchema = mongoose.Schema({
+let photoSchema = new Schema({
   creator: String,
   uri: String,
   timePosted: String,
-  captions: [Captions]
+  captions: [captionSchema]
 });
 
 let Photos = mongoose.model('Photos', photoSchema);
 
-let userSchema = mongoose.Schema({
-  firebaseID: { type: Number, required: true },
+let userSchema = new Schema({
+  firebaseID: { type: String, required: true },
   username: { type: String, required: true },
   profilePicURI: { type: String, default: 'https://res.cloudinary.com/cwhrcloud/image/upload/v1669246271/orange_auy0ff.png' },
-  friends: [Friends],
-  photos: [Photos],
-  captions: [Captions]
+  friends: { type: Array, default: [friendsSchema] },
+  photos: [photoSchema],
+  captions: [captionSchema]
 });
 
 let Users = mongoose.model('Users', userSchema);
 
-// User req handling
-let addUser = (userInfo) => {
-  return Users.create(userInfo);
+module.exports = {
+  // user req handling
+  addUser: (userInfo) => {
+    return Users.create(userInfo);
+  },
+  getUsers: () => {
+    return Users.find({});
+  },
+  getUser: (userID) => {
+    return Users.findOne({ firebaseID: userID });
+  },
+  updateUserProfilePic: (currUserName, picURI) => {
+    return Users.findOneAndUpdate({ username: currUserName }, { profilePicURI: picURI }, { new: true });
+  },
+  // captions req handling
+  getCaptions: (photoID) => {
+    return Photos.find({ _id: photoID });
+  },
+  postCaption: (username, photoID, captionBody) => {
+    return Photos.findOneAndUpdate({ _id: photoID }, {
+      $push: {
+        captions: captionBody
+      }
+    }, { new: true });
+  },
 };
 
-let getUsers = () => {
-  return Users.find({});
-};
-
-let getUser = (userID) => {
-  return Users.findOne({ firebaseID: userID });
-};
-
-let updateUserProfilePic = (currUserName, picURI) => {
-  return Users.findOneAndUpdate({ username: currUserName }, { profilePicURI: picURI }, { new: true });
-};
-
-// Captions req handling
-let getCaptions = (photoID) => {
-  return Photos.find({ _id: photoID });
-};
-
-let postCaption = (username, photoID, captionBody) => {
-  return Photos.findOneAndUpdate({ _id: photoID }, {
-    $push: {
-      captions: captionBody
-    }
-  }, { new: true });
-};
 
 
 
