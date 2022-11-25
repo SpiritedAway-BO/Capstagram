@@ -12,7 +12,10 @@ web-build/
 .env
 example.env
 config.js
+<<<<<<< HEAD
+=======
 
+>>>>>>> main
 
 
 # macOS
