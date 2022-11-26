@@ -117,5 +117,19 @@ module.exports = {
         });
       }
     });
+  },
+  getFriends: (userID) => {
+    return Users.findOne({firebaseID: userID}).select('friends');
+  },
+  addFriend: (userID, body) => {
+    const newFriend = new Users({
+      firebaseID: userID,
+      username: body.username,
+      profilePicURI: 'https://res.cloudinary.com/cwhrcloud/image/upload/v1669246271/orange_auy0ff.png',
+      friends: [],
+      photos: [],
+      captions: []
+    })
+    return newFriend.save();
   }
 };

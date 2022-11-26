@@ -57,4 +57,27 @@ module.exports = {
       }
     });
   },
+  getFriends: (req, res) => {
+    models.getFriends(req.body.firebaseID)
+      .then((result) => {
+        res.status(200);
+        res.end(JSON.stringify(result));
+      })
+      .catch((err) => {
+        res.status(500);
+        res.end(JSON.stringify(err));
+      })
+  },
+  addFriend: (req, res) => {
+    models.addFriend()
+      .then(() => {
+        res.status(201);
+        res.end();
+      })
+      .catch((err) => {
+        console.log(err);
+        res.status(500);
+        res.end();
+      })
+  }
 };
