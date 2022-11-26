@@ -1,8 +1,20 @@
 import React from 'react';
-import { View, Text, StyleSheet } from 'react-native';
+import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 
 const Username = (props) => {
+
+  const [ isAdded, setIsAdded ] = React.useState(false);
+
+  const addDeleteFriend = () => {
+    if (isAdded) {
+      // put request for deleting this friend
+      setIsAdded(false);
+    } else {
+      // put request for adding this friend
+      setIsAdded(true);
+    }
+  }
 
   return (
     <View style={styles.nameAddContainer}>
@@ -11,9 +23,13 @@ const Username = (props) => {
           Firstname Lastname
         </Text>
       </View>
-      <View style={styles.add}>
-        <Ionicons name='ios-add-circle-outline' size={32} color='gray' />
-      </View>
+      <TouchableOpacity style={styles.add} onPress={e => {addDeleteFriend()}} >
+        { isAdded ?
+          <Ionicons name='ios-add-circle' size={32} color='green'  />
+          :
+          <Ionicons name='ios-add-circle-outline' size={32} color='gray' />
+        }
+      </TouchableOpacity>
     </View>
   );
 };
@@ -25,19 +41,17 @@ const styles = StyleSheet.create({
   username: {
     alignSelf: 'left',
     width: '83%',
-//    justifyContent: 'center',
     marginLeft: '0%',
     marginTop: '3%',
     marginBottom: '1%',
   },
   textStyle: {
-//    textDecorationLine: 'underline',
     fontWeight: 'bold',
   },
   add: {
     alignContents:'right',
     marginTop: '-6%',
-    marginLeft: '-66%'
+    marginLeft: '-66%',
   },
 });
 
