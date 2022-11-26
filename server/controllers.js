@@ -12,4 +12,17 @@ module.exports = {
       .then(response => res.status(201).end())
       .catch(err => res.status(404).send(err));
   },
+  addPhoto: (req, res) => {
+    console.log('addPhoto req', req.body);
+    var userInfo = req.body.currentUser;
+    var uri = req.body.uri;
+    models.postPhoto(userInfo, uri)
+      .then(response => res.status(201).end())
+      .catch(err => res.status(404).send(err));
+  },
+  getMainFeedPhotos: (req, res) => {
+    models.getPhotos(req.body.firebaseID)
+      .then(response => res.status(200).send(response))
+      .catch(err => res.status(404).send(err));
+  }
 };

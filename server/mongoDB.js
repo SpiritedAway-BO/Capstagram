@@ -7,11 +7,11 @@ mongoose.connect('mongodb://localhost:27017/blueocean');
 
 // 2. Set up any schema and models needed by the app
 
-let friendsSchema = new Schema({
-  friendFirebaseID: { type: String, default: 'BJUtNzadq8hgWKQ7l5vxg1ys1vt2', required: true }
-});
+// let friendsSchema = new Schema({
+//   friendFirebaseID: { type: String, default: 'BJUtNzadq8hgWKQ7l5vxg1ys1vt2', required: true }
+// });
 
-let Friends = mongoose.model('Friends', friendsSchema);
+// let Friends = mongoose.model('Friends', friendsSchema);
 
 let captionSchema = new Schema({
   photoID: Number,
@@ -35,7 +35,7 @@ let userSchema = new Schema({
   firebaseID: { type: String, required: true },
   username: { type: String, required: true },
   profilePicURI: { type: String, default: 'https://res.cloudinary.com/cwhrcloud/image/upload/v1669246271/orange_auy0ff.png' },
-  friends: { type: Array, default: [friendsSchema] },
+  friends: { type: Array },
   photos: [photoSchema],
   captions: [captionSchema]
 });
@@ -67,32 +67,46 @@ module.exports = {
       }
     }, { new: true });
   },
+  // photos req handling
+  postPhoto: (userInfo, uri) => {
+    let photoToAdd = new Photos({creator: userInfo.displayName, uri: uri, timePosted: Date.now(), captions: []});
+    photoToAdd.save();
+    return Users.findOneAndUpdate({firebaseID: userInfo.uid}, {$push: {photos: photoToAdd}} );
+  },
+  getPhotos: (userID) => {
+    var friendsPhotos = [];
+    const friendsQuery = Users.findOne({firebaseID: userID}, {friends: 1, _id: 0});
+      // .then(results => console.log(results))
+      // .catch(err => console.log(err));
+    console.log('query from friends', friendsQuery);
+    return friendsQuery;
+  }
 };
 
 
 
 
-let saveEntry = (data) => {
-  return Glossary.create(data);
-}
+// let saveEntry = (data) => {
+//   return Glossary.create(data);
+// }
 
-let getEntries = () => {
-  return Glossary.find({});
-}
+// let getEntries = () => {
+//   return Glossary.find({});
+// }
 
-let deleteEntry = (word) => {
-  return Glossary.deleteOne(word);
-}
+// let deleteEntry = (word) => {
+//   return Glossary.deleteOne(word);
+// }
 
-let updateEntry = (entryObj) => {
-  return Glossary.findOneAndUpdate({ word: entryObj.word }, {
-    definition: entryObj.definition
-  }, { new: true });
-}
+// let updateEntry = (entryObj) => {
+//   return Glossary.findOneAndUpdate({ word: entryObj.word }, {
+//     definition: entryObj.definition
+//   }, { new: true });
+// }
 
-// 3. Export the models
-module.exports.saveEntry = saveEntry;
-module.exports.getEntries = getEntries;
-module.exports.deleteEntry = deleteEntry;
-module.exports.updateEntry = updateEntry;
+// // 3. Export the models
+// module.exports.saveEntry = saveEntry;
+// module.exports.getEntries = getEntries;
+// module.exports.deleteEntry = deleteEntry;
+// module.exports.updateEntry = updateEntry;
 // 4. Import the models into any modules that need them
