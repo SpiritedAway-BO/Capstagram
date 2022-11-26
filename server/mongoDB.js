@@ -87,7 +87,7 @@ module.exports = {
         cb(err, null);
       } else {
         let friendsArr = docs.friends;
-        Users.find({ firebaseID: { $in: friendsArr } }).select('photos').exec((err, docs) => {
+        Users.find({ user_id: { $in: friendsArr } }).select('photos').exec((err, docs) => {
           if (err) {
             cb(err, null);
           } else {
