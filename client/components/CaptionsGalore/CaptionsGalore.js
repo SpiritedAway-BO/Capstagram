@@ -1,7 +1,9 @@
-import React, {useState, useEffect} from 'react';
-import { Image, View, Platform, TouchableOpacity, Text, StyleSheet, FlatList, StatusBar, SafeAreaView} from 'react-native';
+import React, {useState, useEffect, useRef} from 'react';
+import { Image, View, Platform, TouchableOpacity, Text, StyleSheet, FlatList, StatusBar, SafeAreaView, TextInput, TouchableWithoutFeedback, KeyboardAvoidingView, Keyboard} from 'react-native';
 import { AntDesign, Ionicons, Octicons, Entypo} from '@expo/vector-icons';
-import { Stack, Avatar, AppBar, IconButton, HStack, Button } from '@react-native-material/core';
+import { Stack, AppBar, IconButton, HStack, Button } from '@react-native-material/core';
+import { auth } from '../Auth/firebase/firebase.js';
+import CaptionItem from './CaptionItem.js';
 
 
 var DATA = [{
@@ -36,7 +38,7 @@ var DATA = [{
 {
   id: 1234570,
   username: 'thisGuy4',
-  caption: 'Let me show you the world!',
+  caption: 'I can show you the world!',
   upvotes: 33,
   usericon: '../../assets/favicon.png',
   voted: true,
@@ -70,55 +72,30 @@ var DATA = [{
   voted: false,
   timestamp: Date(),
 },
+{
+  id: 1234574,
+  username: 'thisGuy7',
+  caption: 'Whodunnit',
+  upvotes: 12,
+  usericon: '../../assets/favicon.png',
+  voted: false,
+  timestamp: Date(),
+},
 ];
-
-const CaptionItem = ({ caption }) => {
-  const [voted, setVoted] = useState(caption.voted);
-  const [votes, setVotes] = useState(caption.upvotes);
-
-  useEffect(() => {
-    setVotes(caption.upvotes); //takes care of asynchronous state setting
-  }, []);
-
-  /* will need to send put/patch state to database, or somehow keep track of uservotes and also specifically THIS user's vote */
-
-  return (
-    <View style={styles.item}>
-      <View style={styles.userInfo} >
-        <Avatar image={{ uri: '/Users/tthornberryclass/HackReactorSEI/Capstagram/client/assets/orange.png' }}
-          size={35}
-          style={styles.avatar}
-        />
-        <Text style={styles.title}>{caption.username}</Text>
-      </View>
-      <Text style={styles.title}>{caption.caption}</Text>
-      { voted ?
-        <View style={styles.heartIcon} >
-          <Text style={styles.title}>{votes}</Text>
-          <Ionicons name="ios-heart" size={30} color="#FF842B"
-            onPress={() => {
-              setVotes(votes - 1);
-              setVoted(!voted);
-            }}/>
-        </View> :
-        <View style={styles.heartIcon} >
-          <Text style={styles.title} >{votes}</Text>
-          <Ionicons style={styles.heartIcon} name="ios-heart-outline" size={30} color="#FF842B"
-            onPress={() => {
-              setVotes(votes + 1);
-              setVoted(!voted);
-            }}
-          />
-        </View>}
-    </View>
-  );
-};
 
 const CaptionsGalore = () => {
 
   const renderCaption = ({ item }) => (
     <CaptionItem caption={item} />
   );
+
+  const [newCaption, setNewCaption] = useState('');
+
+  const handleCaptionSubmit = () => {
+    console.log('newCaption', newCaption);
+    //put caption
+    setNewCaption(''); //reset
+  }
 
   return (
     <SafeAreaView style={styles.container}>
@@ -127,7 +104,14 @@ const CaptionsGalore = () => {
         renderItem={renderCaption}
         keyExtractor={item => item.id}
       />
-
+        <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
+          <KeyboardAvoidingView behavior="padding">
+            <View style={styles.newCommentView}>
+            <TextInput style={styles.newComment} value={newCaption} onChangeText={newCaption => setNewCaption(newCaption)} placeholder="Add a new caption..." />
+            <Button style={styles.newCommentButton} accessibilityLabel="Post a New caption button" title="Post" color="9D4EDD" onPress={handleCaptionSubmit}/>
+            </View>
+          </KeyboardAvoidingView>
+        </TouchableWithoutFeedback>
     </SafeAreaView>
   );
 };
@@ -138,24 +122,46 @@ const styles = StyleSheet.create({
     marginTop: StatusBar.currentHeight || 0,
     backgroundColor: '#fff',
   },
-  userInfo: {
+  captionIntro: {
     flexDirection: 'row',
+    justifyContent: 'space-between',
+    paddingBottom: 20,
+  },
+  userInfo: {
+    // flexDirection: 'row',
     justifyContent: 'flex-start',
+    justifyContent: 'space-between',
   },
   heartIcon: {
     flexDirection: 'row',
     justifyContent: 'flex-end',
+    paddingleft: 2,
   },
-  item: {
-    backgroundColor: '#fff',
-    padding: 20,
+  newComment: {
+    position: 'sticky',
+    bottom: 0,
+    fontSize: 20,
+    width: `100%`,
+    height: 46,
+    borderWidth: 2,
+    borderColor: '#d6d6d6',
+    width: `60%`,
+    marginLeft: 30,
   },
-  title: {
-    fontSize: 24,
-    paddingHorizontal: 5,
+  newCommentView: {
+    height: 56,
+    justifyContent: 'space-around',
+    alignItems: 'space-around',
+    flexDirection: 'row',
+    borderTopWidth: 2,
+    borderColor: '#d6d6d6',
+
   },
-  avatar: {
-    borderRadius: '50%',
+  newCommentButton: {
+    height: 46,
+    width: 'auto',
+    backgroundColor: `#9D4EDD`,
+    justifyContent: 'space-around',
   },
 });
 
