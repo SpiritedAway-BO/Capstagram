@@ -8,6 +8,7 @@ var DATA = [
     id: 1234567,
     username: 'thisGuy',
     usericon: 'https://mui.com/static/images/avatar/2.jpg',
+    friends: ['thisGuy2', 'thisGuy3']
   },
   {
     id: 1234568,

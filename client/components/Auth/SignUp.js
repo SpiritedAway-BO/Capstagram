@@ -3,6 +3,7 @@ import { useNavigation } from '@react-navigation/core';
 import { StyleSheet, Text, TextInput, View, KeyboardAvoidingView, TouchableOpacity, Keyboard, TouchableWithoutFeedback, Image} from 'react-native';
 import { updateProfile } from 'firebase/auth';
 import { createUser, auth } from './firebase/firebase.js';
+import axios from 'axios';
 
 const SignUp = ({ navigation }) => {
   // const navigation = useNavigation();
@@ -36,10 +37,16 @@ const SignUp = ({ navigation }) => {
           displayName: username,
         });
         setTimeout(() => {
+          axios.post('https://salty-tigers-flash-75-80-43-25.loca.lt/users',
+            {firebaseID: auth.currentUser.uid,
+              username: username,
+              friends: ['BJUtNzadq8hgWKQ7l5vxg1ys1vt2']
+            })
+            .then(res => console.log('User Posted'))
+            .catch(err => { console.log(err); });
           navigation.navigate('Capstagram');
           setIsLoading(false);
         }, 200);
-
       })
       .catch(err => {
         console.log(err);
