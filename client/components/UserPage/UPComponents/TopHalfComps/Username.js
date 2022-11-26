@@ -23,13 +23,13 @@ const Username = (props) => {
           Firstname Lastname
         </Text>
       </View>
-      <TouchableOpacity style={styles.add} onPress={e => {addDeleteFriend()}} >
+      {/* <TouchableOpacity style={styles.add} onPress={e => {addDeleteFriend()}} >
         { isAdded ?
           <Ionicons name='ios-add-circle' size={32} color='green'  />
           :
           <Ionicons name='ios-add-circle-outline' size={32} color='gray' />
         }
-      </TouchableOpacity>
+      </TouchableOpacity> */}
     </View>
   );
 };
