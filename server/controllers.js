@@ -22,6 +22,7 @@ module.exports = {
       .catch(err => res.status(404).send(err));
   },
   getMainFeedPhotos: (req, res) => {
+    console.log('getMainFeed req', req.body);
     models.getPhotos(req.body.firebaseID, (err, docs) => {
       if (err) {
         console.log(err);
@@ -33,6 +34,7 @@ module.exports = {
     });
   },
   postCaption: (req, res) => {
+    console.log('postCaption req', req.body);
     models.postCaption(req.body.username, req.body.photoID, req.body.captionBody, (err, docs) => {
       if (err) {
         console.log(err);
@@ -40,6 +42,18 @@ module.exports = {
       } else {
         console.log('docs inside controllers: ', docs);
         res.status(200).send(docs);
+      }
+    });
+  },
+  getCaptions: (req, res) => {
+    console.log('getCaptions req', req.body);
+    models.getPhotoCaptions(req.body.photoID, (err, docs) => {
+      if (err) {
+        console.log(err);
+        res.status(404).send(err);
+      } else {
+        console.log('docs inside controllers: ', docs);
+        res.status(201).send(docs);
       }
     });
   },

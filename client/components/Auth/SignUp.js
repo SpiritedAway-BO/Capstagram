@@ -37,7 +37,7 @@ const SignUp = ({ navigation }) => {
           displayName: username,
         });
         setTimeout(() => {
-          axios.post('https://public-mails-judge-47-145-217-232.loca.lt/users',
+          axios.post('https://pretty-months-call-47-145-217-232.loca.lt/users',
             {
               firebaseID: auth.currentUser.uid,
               username: username,

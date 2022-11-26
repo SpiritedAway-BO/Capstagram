@@ -61,9 +61,17 @@ module.exports = {
     return ppUpdate;
   },
   // captions req handling
-  getCaptions: async (photoID) => {
-    const photoCaptions = await Photos.find({ _id: photoID });
-    return photoCaptions;
+  getPhotoCaptions: (photoID, cb) => {
+    // let objIDPhoto = mongoose.Types.ObjectId(photoID);
+    console.log('model photoID', photoID);
+    Photos.find({ _id: photoID })
+      .exec((err, docs) => {
+        if (err) {
+          cb(err, null);
+        } else {
+          cb(null, docs);
+        }
+      });
   },
   postCaption: (capUsername, photoID, captionBody, cb) => {
     console.log("trying to post caption!");
@@ -98,7 +106,7 @@ module.exports = {
         cb(err, null);
       } else {
         let friendsArr = docs.friends;
-        Users.find({ firebaseID: { $in: friendsArr } }).select('photos').exec((err, docs) => {
+        Users.find({ user_id: { $in: friendsArr } }).select('photos').exec((err, docs) => {
           if (err) {
             cb(err, null);
           } else {
