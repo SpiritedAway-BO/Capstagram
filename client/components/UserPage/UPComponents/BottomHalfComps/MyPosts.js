@@ -16,7 +16,7 @@ var DATA = [x, x, x, x, x, x, x, x ];
 const MyPosts = (props) => {
 
   const renderImage = ({item}) => (
-    <View style={{}}>
+    <View>
       <Image
         source={item}
         style={styles.image}

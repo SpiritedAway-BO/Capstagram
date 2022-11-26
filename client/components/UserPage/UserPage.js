@@ -40,7 +40,7 @@ const UserPage = ({ navigation }) => {
   );
 
   return (
-    <>
+    <View style={{backgroundColor: 'white', width: '100%', height: '100%'}}>
       <View style={styles.userInfoContainer}>
         <View style={styles.uiStatsBox}>
           <UserPic />
@@ -53,18 +53,19 @@ const UserPage = ({ navigation }) => {
       <NavBar tab={tab} setTab={setTab} onWins={onWins} onPosts={onPosts}/>
 
       <Divider style={{ marginTop: 0, marginBottom: 5 }} color="#B19CD9" leadingInset={20} trailingInset={20}/>
-
-      {tab === 'posts' ?
-        <FlatList
-        numColumns={3}
-        contentContainerStyle={styles.flatListContainer}
-        style={styles.imageList}
-        data={DATA}
-        renderItem={renderImage}
-        keyExtractor={(item, index) => index.toString()} />
-        : <PersonalWins/>
-      }
-    </>
+      <View style={{flex:1}} >
+        {tab === 'posts' ?
+          <FlatList
+          numColumns={3}
+          contentContainerStyle={styles.flatListContainer}
+          style={styles.imageList}
+          data={DATA}
+          renderItem={renderImage}
+          keyExtractor={(item, index) => index.toString()} />
+          : <PersonalWins/>
+        }
+      </View>
+    </View>
   );
 };
 
@@ -96,12 +97,12 @@ const styles = StyleSheet.create({
     width: '100%',
   },
   imageList: {
-    flex: 2,
+    //flex: 2,
     width: '100%',
     flexDirection: 'row',
     flexWrap: 'wrap',
     overflow: 'hidden',
-    padding: '1%',
+    padding: '1%'
   },
 });
 

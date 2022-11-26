@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
+import { View, Text, Dimensions, TouchableOpacity, StyleSheet } from 'react-native';
 
 const NavBar = ({tab, setTab, onWins, onPosts}) => {
 
@@ -63,7 +63,7 @@ const styles = StyleSheet.create({
     height: "100%",
     width: "100%",
     justifyContent: 'stretch',
-    flexDirection: 'row'
+    flexDirection: 'row',
   },
 });
 

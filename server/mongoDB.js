@@ -80,35 +80,23 @@ module.exports = {
     const postPhoto = await Users.findOneAndUpdate({ firebaseID: userInfo.uid }, { $push: { photos: photoToAdd } });
     return postPhoto;
   },
-  getPhotos: async (userID) => {
-    var friendsIDs = [];
-    const userFriends = await Users.findOne({ firebaseID: userID }, { friends: 1, _id: 0 });
-    console.log(userFriends.friends);
-    // return Promise.all(userFriends.friends.map());
-
-
-    const friendsPhotosPromise = userFriends.friends.map((friend) => {
-      return Users.findOne({ firebaseID: friend });
+  getPhotos: (userID, cb) => {
+    const friendsQuery = Users.findOne({ firebaseID: userID }, { friends: 1, _id: 0 });
+    Users.findOne({ firebaseID: userID }, { friends: 1, _id: 0 }).exec((err, docs) => {
+      if (err) {
+        cb(err, null);
+      } else {
+        let friendsArr = docs.friends;
+        Users.find({ firebaseID: { $in: friendsArr } }).select('photos').exec((err, docs) => {
+          if (err) {
+            cb(err, null);
+          } else {
+            console.log('docs inside mongoDB.js: ', docs);
+            cb(null, docs);
+          }
+        });
+      }
     });
-    // let friendsPhotoData = await Promise.all(friendsPhotosPromise);
-    // console.log(friendsPhotoData);
-    // console.log(friendsPhotosPromise);
-
-    friendsPhotosPromise
-      .then(results => console.log(results))
-      .catch(err => console.log(err));
-
-    // const friendsPhotos = Promise.all(friendsPromise)
-    //   .then(success => console.log(success))
-    //   .catch(err => console.log('no haha u suck'));
-    // .exec((err, doc) => {
-    //   console.log(doc);
-    //   return doc;
-    // });
-    // .then(results => console.log(results))
-    // .catch(err => console.log(err));
-    // console.log('query from friends', friendsQuery);
-    // return friendsQuery;
   }
 };
 
