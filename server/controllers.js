@@ -2,8 +2,9 @@ const models = require('./mongoDB.js');
 
 module.exports = {
   getAllUsers: (req, res) => {
+    console.log('getting');
     models.getUsers()
-      .then(users => res.status(200).send(users.data))
+      .then(users => res.status(200).send(users))
       .catch(err => res.status(404).send(err));
   },
   createUser: (req, res) => {
@@ -21,6 +22,7 @@ module.exports = {
       .catch(err => res.status(404).send(err));
   },
   getMainFeedPhotos: (req, res) => {
+    console.log('getMainFeed req', req.body);
     models.getPhotos(req.body.firebaseID, (err, docs) => {
       if (err) {
         console.log(err);
@@ -32,6 +34,7 @@ module.exports = {
     });
   },
   postCaption: (req, res) => {
+    console.log('postCaption req', req.body);
     models.postCaption(req.body.username, req.body.photoID, req.body.captionBody, (err, docs) => {
       if (err) {
         console.log(err);
@@ -53,4 +56,19 @@ module.exports = {
       }
     });
   },
+  putProfilePic: (req, res) => {
+    console.log('updateProfilePic req', req.body);
+    models.updateUserProfilePic(req.body.firebaseID, req.body.uri)
+      .then(response => res.send(200).send(response))
+      .catch(err => res.send(404).send(err));
+  },
+  getFriends: (req, res) => {
+    models.getUserFriends(req.body.firebaseID, (err, docs) => {
+      if (err) {
+        console.log(err);
+      } else {
+        res.status(200).send(docs);
+      }
+    });
+  }
 };
