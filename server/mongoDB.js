@@ -57,20 +57,29 @@ module.exports = {
     return Users.findOneAndUpdate({ username: currUserName }, { profilePicURI: picURI }, { new: true });
   },
   // captions req handling
-  getCaptions: (photoID) => {
-    return Photos.find({ _id: photoID });
+  getCaptions: (photoID, cb) => {
+    // let objIDPhoto = mongoose.Types.ObjectId(photoID);
+    Captions.find({photoID: photoID}).exec((err, docs) => {
+      if (err) {
+        console.log(err);
+        cb(err, null);
+      } else {
+        console.log(docs);
+        cb(null, docs);
+      }
+    });
   },
   postCaption: (capUsername, photoID, captionBody, cb) => {
     console.log("trying to post caption!");
-    let objIDPhoto = mongoose.Types.ObjectId(photoID);
+    // let objIDPhoto = mongoose.Types.ObjectId(photoID);
     let captionToAdd = new Captions({
-      photoID: objIDPhoto,
+      photoID: photoID,
       body: captionBody,
       captioner: capUsername,
       likes: 0
     });
     captionToAdd.save();
-    Photos.findOneAndUpdate({_id: objIDPhoto}, {$push: { captions: captionToAdd }}, {new: true}).exec((err, docs) => {
+    Photos.findById(photoID, {$push: { captions: captionToAdd }}, {new: true}).exec((err, docs) => {
       if (err) {
         console.log(err);
         cb(err, null);

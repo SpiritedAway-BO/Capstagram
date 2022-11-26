@@ -42,4 +42,15 @@ module.exports = {
       }
     });
   },
+  getCaptions: (req, res) => {
+    models.getCaptions(req.body.photoID, (err, docs) => {
+      if (err) {
+        console.log(err);
+        res.status(400).send(err);
+      } else {
+        console.log(docs);
+        res.status(200).send(docs);
+      }
+    });
+  },
 };
