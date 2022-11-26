@@ -15,7 +15,7 @@ module.exports = {
       .catch(err => res.status(404).send(err));
   },
   addPhoto: (req, res) => {
-    console.log('addPhoto req', req.body);
+    // console.log('addPhoto req', req.body);
     var userInfo = req.body.currentUser;
     var uri = req.body.uri;
     models.postPhoto(userInfo, uri)
@@ -23,14 +23,17 @@ module.exports = {
       .catch(err => res.status(404).send(err));
   },
   getMainFeedPhotos: (req, res) => {
-    models.getPhotos(req.body.firebaseID, (err, docs) => {
-      if (err) {
-        console.log(err);
-        res.status(400).send(err);
-      } else {
-        console.log('docs inside controllers: ', docs);
-        res.status(200).send(docs);
-      }
-    });
-  }
+    // models.getPhotos(req.body.firebaseID)
+    //   .then(response => res.status(200).send(response))
+    //   .catch(err => res.status(404).send(err));
+      models.getPhotos(req.body.firebaseID, (err, docs) => {
+        if (err) {
+          console.log(err);
+          res.status(400).send(err);
+        } else {
+          console.log('docs inside controllers: ', docs);
+          res.status(200).send(docs);
+        }
+      });
+  },
 };
