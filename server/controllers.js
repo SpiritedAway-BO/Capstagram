@@ -30,5 +30,16 @@ module.exports = {
         res.status(200).send(docs);
       }
     });
-  }
+  },
+  postCaption: (req, res) => {
+    models.postCaption(req.body.username, req.body.photoID, req.body.captionBody, (err, docs) => {
+      if (err) {
+        console.log(err);
+        res.status(400).send(err);
+      } else {
+        console.log('docs inside controllers: ', docs);
+        res.status(200).send(docs);
+      }
+    });
+  },
 };
