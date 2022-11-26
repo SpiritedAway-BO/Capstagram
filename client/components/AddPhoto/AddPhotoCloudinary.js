@@ -61,11 +61,7 @@ const AddPhotoCloudinary = () => {
       .then(data => {
         console.log('response data', data);
         // setPhoto(data.secure_url);
-<<<<<<< HEAD
-        axios.post('https://angry-pets-cheer-173-228-53-12.loca.lt/photos', {
-=======
-        axios.post('https://pretty-months-call-47-145-217-232.loca.lt/photos', {
->>>>>>> main
+        axios.post('https://full-carrots-add-173-228-53-12.loca.lt', {
           currentUser: auth.currentUser,
           uri: data.secure_url
         })

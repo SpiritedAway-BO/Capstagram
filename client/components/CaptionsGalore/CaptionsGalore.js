@@ -1,9 +1,12 @@
-import React, {useState, useEffect, useRef} from 'react';
+import React, {useState, useEffect, useRef, useContext} from 'react';
 import { Image, View, Platform, TouchableOpacity, Text, StyleSheet, FlatList, StatusBar, SafeAreaView, TextInput, TouchableWithoutFeedback, KeyboardAvoidingView, Keyboard} from 'react-native';
 import { AntDesign, Ionicons, Octicons, Entypo} from '@expo/vector-icons';
 import { Stack, AppBar, IconButton, HStack, Button } from '@react-native-material/core';
 import { auth } from '../Auth/firebase/firebase.js';
 import CaptionItem from './CaptionItem.js';
+import { AppContext}  from '../../contexts/AppContext.js';
+import axios from 'axios';
+
 
 
 var DATA = [{
@@ -84,16 +87,24 @@ var DATA = [{
 ];
 
 const CaptionsGalore = () => {
+  const [allCaptions, setAllCaptions] = useState([]);
+  const {username, setUserName} = useContext(AppContext);
+  const {currentUser, setCurrentUser} = useContext(AppContext);
+  const [newCaption, setNewCaption] = useState('');
+
+  // get all captions for this photo
+  // useEffect(() => (
+  // axios.get('https://angry-pets-cheer-173-228-53-12.loca.lt/captions', {body: {photoID: }})
+
+  // ), [])
 
   const renderCaption = ({ item }) => (
     <CaptionItem caption={item} />
   );
 
-  const [newCaption, setNewCaption] = useState('');
-
   const handleCaptionSubmit = () => {
 
-    // console.log('newCaption', newCaption);
+
     // console.log('auth', auth.currentUser.uid);
     //put caption to database
     setNewCaption(''); //reset
@@ -105,7 +116,7 @@ const CaptionsGalore = () => {
         data={DATA}
         renderItem={renderCaption}
         keyExtractor={item => item.id}
-      />
+        />
       <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
         <KeyboardAvoidingView behavior="padding">
           <View style={styles.newCommentView}>
@@ -114,7 +125,9 @@ const CaptionsGalore = () => {
           </View>
         </KeyboardAvoidingView>
       </TouchableWithoutFeedback>
+      {/* {console.log('currentUser context', currentUser.uid)} */}
     </SafeAreaView>
+
   );
 };
 
