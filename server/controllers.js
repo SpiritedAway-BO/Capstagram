@@ -53,7 +53,7 @@ module.exports = {
         res.status(404).send(err);
       } else {
         console.log('docs inside controllers: ', docs);
-        res.status(201).send(docs);
+        res.status(200).send(docs);
       }
     });
   },

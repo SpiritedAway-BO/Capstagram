@@ -65,7 +65,7 @@ module.exports = {
   getPhotoCaptions: (photoID, cb) => {
     // let objIDPhoto = mongoose.Types.ObjectId(photoID);
     console.log('model photoID', photoID);
-    Photos.find({ _id: photoID })
+    Captions.find({ photoID: photoID })
       .exec((err, docs) => {
         if (err) {
           cb(err, null);
