@@ -17,7 +17,8 @@ let captionSchema = new Schema({
   photoID: String,
   body: String,
   captioner: String,
-  likes: Number
+  likes: Number,
+  likeUsers: { type: Array }
 });
 
 let Captions = mongoose.model('Captions', captionSchema);
@@ -44,21 +45,34 @@ let Users = mongoose.model('Users', userSchema);
 
 module.exports = {
   // user req handling
-  addUser: (userInfo) => {
-    return Users.create(userInfo);
+  addUser: async (userInfo) => {
+    const userToAdd = await Users.create(userInfo);
+    return userToAdd;
   },
-  getUsers: () => {
-    return Users.find({});
+  getUsers: async () => {
+    const dbUsers = await Users.find({});
+    return dbUsers;
   },
-  getUser: (userID) => {
-    return Users.findOne({ firebaseID: userID });
+  getUser: async (userID) => {
+    const oneUser = await Users.findOne({ firebaseID: userID });
+    return oneUser;
   },
-  updateUserProfilePic: (currUserName, picURI) => {
-    return Users.findOneAndUpdate({ username: currUserName }, { profilePicURI: picURI }, { new: true });
+  updateUserProfilePic: async (currUserName, picURI) => {
+    const ppUpdate = await Users.findOneAndUpdate({ username: currUserName }, { profilePicURI: picURI }, { new: true });
+    return ppUpdate;
   },
   // captions req handling
-  getCaptions: (photoID) => {
-    return Photos.find({ _id: photoID });
+  getPhotoCaptions: (photoID, cb) => {
+    // let objIDPhoto = mongoose.Types.ObjectId(photoID);
+    console.log('model photoID', photoID);
+    Captions.find({ photoID: photoID })
+      .exec((err, docs) => {
+        if (err) {
+          cb(err, null);
+        } else {
+          cb(null, docs);
+        }
+      });
   },
   postCaption: (capUsername, photoID, captionBody, cb) => {
     console.log("trying to post caption!");
@@ -70,7 +84,7 @@ module.exports = {
       likes: 0
     });
     captionToAdd.save();
-    Photos.findOneAndUpdate({_id: objIDPhoto}, {$push: { captions: captionToAdd }}, {new: true}).exec((err, docs) => {
+    Photos.findOneAndUpdate({ _id: objIDPhoto }, { $push: { captions: captionToAdd } }, { new: true }).exec((err, docs) => {
       if (err) {
         console.log(err);
         cb(err, null);
@@ -81,18 +95,19 @@ module.exports = {
     });
   },
   // photos req handling
-  postPhoto: (userInfo, uri) => {
-    let photoToAdd = new Photos({creator: userInfo.displayName, uri: uri, timePosted: Date.now(), captions: []});
+  postPhoto: async (userInfo, uri) => {
+    let photoToAdd = new Photos({ creator: userInfo.displayName, uri: uri, timePosted: Date.now(), captions: [] });
     photoToAdd.save();
-    return Users.findOneAndUpdate({firebaseID: userInfo.uid}, {$push: {photos: photoToAdd}} );
+    const postPhoto = await Users.findOneAndUpdate({ firebaseID: userInfo.uid }, { $push: { photos: photoToAdd } });
+    return postPhoto;
   },
   getPhotos: (userID, cb) => {
-    Users.findOne({firebaseID: userID}, {friends: 1, _id: 0}).exec((err, docs) => {
+    Users.findOne({ firebaseID: userID }, { friends: 1, _id: 0 }).exec((err, docs) => {
       if (err) {
         cb(err, null);
       } else {
         let friendsArr = docs.friends;
-        Users.find({firebaseID: {$in: friendsArr}}).select('photos').exec((err, docs) => {
+        Users.find({ user_id: { $in: friendsArr } }).select('photos').exec((err, docs) => {
           if (err) {
             cb(err, null);
           } else {
@@ -102,39 +117,5 @@ module.exports = {
         });
       }
     });
-
-
-      // .then(results => console.log(results))
-      // .catch(err => console.log(err));
-    // console.log('query from friends', friendsQuery);
-    // return friendsQuery;
   }
 };
-
-
-
-
-// let saveEntry = (data) => {
-//   return Glossary.create(data);
-// }
-
-// let getEntries = () => {
-//   return Glossary.find({});
-// }
-
-// let deleteEntry = (word) => {
-//   return Glossary.deleteOne(word);
-// }
-
-// let updateEntry = (entryObj) => {
-//   return Glossary.findOneAndUpdate({ word: entryObj.word }, {
-//     definition: entryObj.definition
-//   }, { new: true });
-// }
-
-// // 3. Export the models
-// module.exports.saveEntry = saveEntry;
-// module.exports.getEntries = getEntries;
-// module.exports.deleteEntry = deleteEntry;
-// module.exports.updateEntry = updateEntry;
-// 4. Import the models into any modules that need them
