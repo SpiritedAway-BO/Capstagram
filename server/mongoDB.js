@@ -14,7 +14,7 @@ mongoose.connect('mongodb://localhost:27017/blueocean');
 // let Friends = mongoose.model('Friends', friendsSchema);
 
 let captionSchema = new Schema({
-  photoID: Number,
+  photoID: String,
   body: String,
   captioner: String,
   likes: Number
@@ -42,15 +42,13 @@ let userSchema = new Schema({
 
 let Users = mongoose.model('Users', userSchema);
 
-
 module.exports = {
   // user req handling
   addUser: (userInfo) => {
     return Users.create(userInfo);
   },
-  getUsers: async () => {
-    var results = await Users.find();
-    return results;
+  getUsers: () => {
+    return Users.find({});
   },
   getUser: (userID) => {
     return Users.findOne({ firebaseID: userID });
@@ -62,33 +60,39 @@ module.exports = {
   getCaptions: (photoID) => {
     return Photos.find({ _id: photoID });
   },
-  postCaption: (username, photoID, captionBody) => {
-    return Photos.findOneAndUpdate({ _id: photoID }, {
-      $push: {
-        captions: captionBody
+  postCaption: (capUsername, photoID, captionBody, cb) => {
+    console.log("trying to post caption!");
+    let objIDPhoto = mongoose.Types.ObjectId(photoID);
+    let captionToAdd = new Captions({
+      photoID: objIDPhoto,
+      body: captionBody,
+      captioner: capUsername,
+      likes: 0
+    });
+    captionToAdd.save();
+    Photos.findOneAndUpdate({_id: objIDPhoto}, {$push: { captions: captionToAdd }}, {new: true}).exec((err, docs) => {
+      if (err) {
+        console.log(err);
+        cb(err, null);
+      } else {
+        console.log(docs);
+        cb(null, docs);
       }
-    }, { new: true });
+    });
   },
   // photos req handling
-  postPhoto: async (userInfo, uri) => {
-    let photoToAdd = new Photos({creator: userInfo.displayName, uri: uri, timePosted: Date.now(), captions: []});
+  postPhoto: (userInfo, uri) => {
+    let photoToAdd = new Photos({creator: userInfo.username, uri: uri, timePosted: Date.now(), captions: []});
     photoToAdd.save();
-   var addingPhoto = await Users.findOneAndUpdate({firebaseID: userInfo.uid}, {$push: {photos: photoToAdd}} );
+    return Users.findOneAndUpdate({firebaseID: userInfo.uid}, {$push: {photos: photoToAdd}} );
   },
   getPhotos: (userID, cb) => {
-
-    // getPhotos: async (userID) => {
-    //   var friendsPhotos = [];
-    //   const userFriends = await Users.findOne({fireBaseID: userID}, {friends: 1, _id: 0});
-    //   console.log('userFriends', userFriends);
-    var friendsPhotos = [];
-    const friendsQuery = Users.findOne({firebaseID: userID}, {friends: 1, _id: 0});
     Users.findOne({firebaseID: userID}, {friends: 1, _id: 0}).exec((err, docs) => {
       if (err) {
         cb(err, null);
       } else {
         let friendsArr = docs.friends;
-        Users.find({user_id: {$in: friendsArr}}).select('photos').exec((err, docs) => {
+        Users.find({firebaseID: {$in: friendsArr}}).select('photos').exec((err, docs) => {
           if (err) {
             cb(err, null);
           } else {
@@ -106,6 +110,9 @@ module.exports = {
     // return friendsQuery;
   }
 };
+
+
+
 
 // let saveEntry = (data) => {
 //   return Glossary.create(data);
