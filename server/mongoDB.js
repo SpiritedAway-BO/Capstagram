@@ -73,13 +73,30 @@ module.exports = {
     photoToAdd.save();
     return Users.findOneAndUpdate({firebaseID: userInfo.uid}, {$push: {photos: photoToAdd}} );
   },
-  getPhotos: (userID) => {
+  getPhotos: (userID, cb) => {
     var friendsPhotos = [];
     const friendsQuery = Users.findOne({firebaseID: userID}, {friends: 1, _id: 0});
+    Users.findOne({firebaseID: userID}, {friends: 1, _id: 0}).exec((err, docs) => {
+      if (err) {
+        cb(err, null);
+      } else {
+        let friendsArr = docs.friends;
+        Users.find({user_id: {$in: friendsArr}}).select('photos').exec((err, docs) => {
+          if (err) {
+            cb(err, null);
+          } else {
+            console.log('docs inside mongoDB.js: ', docs);
+            cb(null, docs);
+          }
+        });
+      }
+    });
+
+
       // .then(results => console.log(results))
       // .catch(err => console.log(err));
-    console.log('query from friends', friendsQuery);
-    return friendsQuery;
+    // console.log('query from friends', friendsQuery);
+    // return friendsQuery;
   }
 };
 
