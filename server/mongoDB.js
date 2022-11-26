@@ -17,7 +17,8 @@ let captionSchema = new Schema({
   photoID: String,
   body: String,
   captioner: String,
-  likes: Number
+  likes: Number,
+  likeUsers: { type: Array }
 });
 
 let Captions = mongoose.model('Captions', captionSchema);
