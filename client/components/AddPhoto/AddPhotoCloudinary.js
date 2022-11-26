@@ -9,6 +9,8 @@ import {
   Alert
 } from 'react-native';
 import * as ImagePicker from 'expo-image-picker';
+import { auth } from '../Auth/firebase/firebase.js';
+import axios from 'axios';
 
 
 
@@ -20,12 +22,11 @@ const AddPhotoCloudinary = () => {
     let _photo = await ImagePicker.launchImageLibraryAsync({
       mediaTypes: ImagePicker.MediaTypeOptions.Images,
       allowsEditing: true,
-      quality: 1,
     });
     if (!_photo.canceled) {
-      const uri = _photo.uri;
-      const type = _photo.type;
-      const name = _photo.fileName;
+      const uri = _photo.assets[0].uri;
+      const type = _photo.assets[0].type;
+      const name = _photo.assets[0].fileName || 'blank';
       const source = {
         uri,
         type,
@@ -40,7 +41,6 @@ const AddPhotoCloudinary = () => {
     let _photo = await ImagePicker.launchCameraAsync({
       mediaTypes: ImagePicker.MediaTypeOptions.Images,
       allowsEditing: true,
-      quality: 1,
     });
     if (!_photo.canceled) {
       console.log('chosen photo', _photo);
@@ -61,6 +61,12 @@ const AddPhotoCloudinary = () => {
       .then(data => {
         console.log('response data', data);
         // setPhoto(data.secure_url);
+        axios.post('https://salty-tigers-flash-75-80-43-25.loca.lt/photos', {
+          currentUser: auth.currentUser,
+          uri: data.secure_url
+        })
+          .then(results => console.log('posted'))
+          .catch(err => console.log('error posting photo', err));
       })
       .catch(err => {
         Alert.alert('An Error Occured While Uploading');
@@ -77,7 +83,7 @@ const AddPhotoCloudinary = () => {
       </View>
       <View style={styles.uploadContainer}>
         <Text style={styles.uploadContainerTitle}>
-          Post a Photo
+          Add a Photo
         </Text>
         <TouchableOpacity onPress={addPhoto} style={styles.uploadButton}>
           <Text style={styles.uploadButtonText}>

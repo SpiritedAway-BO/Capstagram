@@ -4,31 +4,45 @@ import { Entypo } from '@expo/vector-icons';
 import * as ImagePicker from 'expo-image-picker';
 
 export default function UploadPhoto() {
-  const [photo, setPhoto] = useState('https://res.cloudinary.com/cwhrcloud/image/upload/v1669161707/orange_hhc8pc.png');
-
-  useEffect(() => {
-    // checkForCameraPermission();
-  }, []);
-
-  // const checkForCameraPermission = async () => {
-  //   const { status } = await ImagePicker.getMediaLibraryPermissionsAsync();
-  //   if (status !== 'granted') {
-  //     alert('Please grant camera roll permissions inside your system\'s settings');
-  //   } else {
-  //     console.log('Media Permissions are granted');
-  //   }
-  // };
+  const [photo, setPhoto] = useState('https://res.cloudinary.com/cwhrcloud/image/upload/v1669246271/orange_auy0ff.png');
 
   const addPhoto = async () => {
     let _photo = await ImagePicker.launchImageLibraryAsync({
       mediaTypes: ImagePicker.MediaTypeOptions.Images,
       allowsEditing: true,
-      quality: 1,
     });
     console.log(JSON.stringify(_photo));
     if (!_photo.canceled) {
-      setPhoto(_photo.assets[0].uri);
+      const uri = _photo.assets[0].uri;
+      const type = _photo.assets[0].type;
+      const name = _photo.assets[0].fileName;
+      const source = {
+        uri,
+        type,
+        name,
+      };
+      console.log('Photo', source);
+      cloudinaryUpload(source);
     }
+  };
+
+  const cloudinaryUpload = (photo) => {
+    const data = new FormData();
+    data.append('file', photo);
+    data.append('upload_preset', 'uw_blueocean');
+    data.append('cloud_name', 'cwhrcloud');
+    fetch('https://api.cloudinary.com/v1_1/cwhrcloud/upload', {
+      method: 'post',
+      body: data
+    })
+      .then(res => res.json())
+      .then(data => {
+        console.log('response data', data);
+        setPhoto(data.secure_url);
+      })
+      .catch(err => {
+        Alert.alert('An Error Occured While Uploading');
+      });
   };
 
   return (

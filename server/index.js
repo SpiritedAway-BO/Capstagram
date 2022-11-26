@@ -1,27 +1,29 @@
 const express = require('express');
 
-// const db = require('./db');
+const db = require('./mongoDB.js');
 
 //Middleware
-var morgan = require('morgan');
-// var cors = require('cors');
+const morgan = require('morgan');
+// const cors = require('cors');
 
 
 //Router
-// var router = require('./routes.js');
+const router = require('./routes.js');
 
 const app = express();
 // module.exports.app = app;
 
-app.set('port', 3000);
+app.set('port', 8000);
 
 //Logging and parsing
 app.use(morgan('dev'));
 // app.use(cors());
-// app.use(express.json());
+app.use(express.json());
+
+// app.get('/test', (req, res) => { res.status(200).send('WHY NOT'); });
 
 //Set up routes
-// app.use('/api', router);
+app.use('/', router);
 
 // app.use(express.static('client/dist'));
 
