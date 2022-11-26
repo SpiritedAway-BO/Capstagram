@@ -92,8 +92,9 @@ const CaptionsGalore = () => {
   const [newCaption, setNewCaption] = useState('');
 
   const handleCaptionSubmit = () => {
-    console.log('newCaption', newCaption);
-    console.log('auth', auth.currentUser.uid);
+
+    // console.log('newCaption', newCaption);
+    // console.log('auth', auth.currentUser.uid);
     //put caption to database
     setNewCaption(''); //reset
   }

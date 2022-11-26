@@ -37,7 +37,7 @@ const SignUp = ({ navigation }) => {
           displayName: username,
         });
         setTimeout(() => {
-          axios.post('https://salty-tigers-flash-75-80-43-25.loca.lt/users',
+          axios.post('https://angry-pets-cheer-173-228-53-12.loca.lt/users',
             {firebaseID: auth.currentUser.uid,
               username: username,
               friends: ['BJUtNzadq8hgWKQ7l5vxg1ys1vt2']

@@ -1,6 +1,6 @@
 import React, {useState, useEffect} from 'react';
 import { View, Text, StyleSheet, FlatList} from 'react-native';
-import { Ioniconso} from '@expo/vector-icons';
+import { Ionicons} from '@expo/vector-icons';
 import { Avatar, Button } from '@react-native-material/core';
 import { auth } from '../Auth/firebase/firebase.js';
 import axios from 'axios';

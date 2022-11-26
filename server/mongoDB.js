@@ -42,13 +42,15 @@ let userSchema = new Schema({
 
 let Users = mongoose.model('Users', userSchema);
 
+
 module.exports = {
   // user req handling
   addUser: (userInfo) => {
     return Users.create(userInfo);
   },
-  getUsers: () => {
-    return Users.find({});
+  getUsers: async () => {
+    var results = await Users.find();
+    return results;
   },
   getUser: (userID) => {
     return Users.findOne({ firebaseID: userID });
@@ -68,23 +70,24 @@ module.exports = {
     }, { new: true });
   },
   // photos req handling
-  postPhoto: (userInfo, uri) => {
+  postPhoto: async (userInfo, uri) => {
     let photoToAdd = new Photos({creator: userInfo.displayName, uri: uri, timePosted: Date.now(), captions: []});
     photoToAdd.save();
-    return Users.findOneAndUpdate({firebaseID: userInfo.uid}, {$push: {photos: photoToAdd}} );
+   var addingPhoto = await Users.findOneAndUpdate({firebaseID: userInfo.uid}, {$push: {photos: photoToAdd}} );
   },
-  getPhotos: (userID) => {
+  getPhotos: async (userID) => {
     var friendsPhotos = [];
-    const friendsQuery = Users.findOne({firebaseID: userID}, {friends: 1, _id: 0});
+    const userFriends = await Users.findOne({fireBaseID: userID}, {friends: 1, _id: 0});
+    console.log('userFriends', userFriends);
+    return userFriends;
+
+    // const friendsQuery = Users.findOne({firebaseID: userID}, {friends: 1, _id: 0});
       // .then(results => console.log(results))
       // .catch(err => console.log(err));
-    console.log('query from friends', friendsQuery);
-    return friendsQuery;
+    // console.log('query from friends', friendsQuery);
+    // return friendsQuery;
   }
 };
-
-
-
 
 // let saveEntry = (data) => {
 //   return Glossary.create(data);
