@@ -1,7 +1,17 @@
 import React from 'react';
-import { SafeAreaView, FlatList, View, ScrollView, StyleSheet, Text, Image, Dimensions} from 'react-native';
+import { SafeAreaView, FlatList, View, ScrollView, StyleSheet, Text, Image, Dimensions, TouchableOpacity} from 'react-native';
 import { Avatar, Divider } from '@react-native-material/core';
 import PersonalWins from '../PersonalWins/PersonalWins.js';
+import { LinearGradient } from 'expo-linear-gradient';
+
+import UserPic from './UPComponents/TopHalfComps/UserPic.js';
+import Posts from './UPComponents/TopHalfComps/Posts.js';
+import Friends from './UPComponents/TopHalfComps/Friends.js';
+import Username from './UPComponents/TopHalfComps/Username.js';
+import Bio from './UPComponents/TopHalfComps/Bio.js';
+import NavBar from './UPComponents/BottomHalfComps/NavBar.js';
+import MyPosts from './UPComponents/BottomHalfComps/MyPosts.js';
+
 
 var x = {
   uri: 'https://img.freepik.com/free-vector/cute-rabbit-with-duck-working-laptop-cartoon-illustration_56104-471.jpg?w=2000'
@@ -33,64 +43,27 @@ const UserPage = ({ navigation }) => {
     <>
       <View style={styles.userInfoContainer}>
         <View style={styles.uiStatsBox}>
-          <Avatar
-            image={{ uri: 'https://mui.com/static/images/avatar/1.jpg' }}
-            size={80}
-            style={styles.avatar}/>
-          <View style={styles.postStats}>
-            <Text>#</Text>
-            <Text>Posts</Text>
-          </View>
-          <View style={styles.friendStats}>
-            <Text onPress={() => navigation.navigate('Friends')}>
-              #
-            </Text>
-            <Text>
-            Friends
-            </Text>
-          </View>
+          <UserPic />
+          <Posts />
+          <Friends navigation={navigation}/>
         </View>
-        <View style={styles.aboutMe}>
-          <Text style={{textDecorationLine: 'underline'}}>
-          About me
-          </Text>
-        </View>
-        <View style={styles.aboutMeText}>
-          <Text>
-          This is a long, drawn out sentence that gives superficial, probably not true information about me.
-          </Text>
-        </View>
+        <Username />
+        <Bio />
+      </View>
+      <NavBar tab={tab} setTab={setTab} onWins={onWins} onPosts={onPosts}/>
 
-      </View>
-      <View style={styles.userPageNavBar}>
-        <View style={{flex: 1, alignSelf: 'center'}}>
-          <Text
-            name="posts"
-            style={{alignSelf: 'center', textDecorationLine: 'underline'}}
-            onPress={onPosts}>
-              My Posts
-          </Text>
-        </View>
-        <View style={{flex: 1, alignSelf: 'center'}}>
-          <Text
-            name="wins"
-            style={{alignSelf: 'center', textDecorationLine: 'underline'}}
-            onPress={onWins}>
-              Personal Wins
-          </Text>
-        </View>
-      </View>
-      <Divider style={{ marginTop: 0, marginBottom: 5 }} color="purple" leadingInset={20} trailingInset={20}/>
+      <Divider style={{ marginTop: 0, marginBottom: 5 }} color="#B19CD9" leadingInset={20} trailingInset={20}/>
+
       {tab === 'posts' ?
         <FlatList
-          numColumns={3}
-          contentContainerStyle={styles.ccFlatList}
-          // columnWrapperStyle={{justifyContent: 'space-between'}}
-          style={styles.imageList}
-          data={DATA}
-          renderItem={renderImage}
-          keyExtractor={(item, index) => index.toString()}/>
-        : <PersonalWins/>}
+        numColumns={3}
+        contentContainerStyle={styles.flatListContainer}
+        style={styles.imageList}
+        data={DATA}
+        renderItem={renderImage}
+        keyExtractor={(item, index) => index.toString()} />
+        : <PersonalWins/>
+      }
     </>
   );
 };
@@ -101,15 +74,24 @@ const styles = StyleSheet.create({
     flex: .4,
     padding: '2%',
   },
+  uiStatsBox: {
+    flex: 1,
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    padding: '5%',
+    marginTop: '3%',
+    alignItems: 'center',
+  },
   divider: {
     marginTop: '1%',
   },
-  scrollContainer: {
-    flexDirection: 'row',
-    flexWrap: 'wrap',
+  image: {
+    width: Dimensions.get('window').width / 3.14,
+    height: Dimensions.get('window').height / 4,
+    marginRight: Dimensions.get('window').width * 0.01,
+    marginBottom: Dimensions.get('window').width * 0.01,
   },
-  ccFlatList: {
-    //justifyContent:"space-around",
+  flatListContainer: {
     alignItems: 'flex-start',
     width: '100%',
   },
@@ -121,41 +103,6 @@ const styles = StyleSheet.create({
     overflow: 'hidden',
     padding: '1%',
   },
-  image: {
-    width: Dimensions.get('window').width / 3.14,
-    height: Dimensions.get('window').height / 4,
-    marginRight: Dimensions.get('window').width * 0.01,
-    marginBottom: Dimensions.get('window').width * 0.01,
-  },
-  uiStatsBox: {
-    flex: 1,
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    padding: '6%',
-    alignItems: 'center',
-  },
-  postStats: {
-    alignSelf: 'center',
-
-  },
-  friendStats: {
-    alignSelf: 'center',
-
-  },
-  avatar: {
-  },
-  aboutMe: {
-    alignSelf: 'left',
-    justifyContent: 'center',
-    marginLeft: '8%',
-  },
-  aboutMeText: {
-  },
-  userPageNavBar: {
-    justifyContent: 'space-between',
-    flex: .1,
-    flexDirection: 'row',
-  }
 });
 
 export default UserPage;
