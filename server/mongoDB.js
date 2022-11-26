@@ -72,27 +72,27 @@ module.exports = {
 
 
 
-let saveEntry = (data) => {
-  return Glossary.create(data);
-}
+// let saveEntry = (data) => {
+//   return Glossary.create(data);
+// }
 
-let getEntries = () => {
-  return Glossary.find({});
-}
+// let getEntries = () => {
+//   return Glossary.find({});
+// }
 
-let deleteEntry = (word) => {
-  return Glossary.deleteOne(word);
-}
+// let deleteEntry = (word) => {
+//   return Glossary.deleteOne(word);
+// }
 
-let updateEntry = (entryObj) => {
-  return Glossary.findOneAndUpdate({ word: entryObj.word }, {
-    definition: entryObj.definition
-  }, { new: true });
-}
+// let updateEntry = (entryObj) => {
+//   return Glossary.findOneAndUpdate({ word: entryObj.word }, {
+//     definition: entryObj.definition
+//   }, { new: true });
+// }
 
-// 3. Export the models
-module.exports.saveEntry = saveEntry;
-module.exports.getEntries = getEntries;
-module.exports.deleteEntry = deleteEntry;
-module.exports.updateEntry = updateEntry;
-// 4. Import the models into any modules that need them
+// // 3. Export the models
+// module.exports.saveEntry = saveEntry;
+// module.exports.getEntries = getEntries;
+// module.exports.deleteEntry = deleteEntry;
+// module.exports.updateEntry = updateEntry;
+// // 4. Import the models into any modules that need them
