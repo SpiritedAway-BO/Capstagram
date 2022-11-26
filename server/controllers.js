@@ -57,4 +57,19 @@ module.exports = {
       }
     });
   },
+  putProfilePic: (req, res) => {
+    console.log('updateProfilePic req', req.body);
+    models.updateUserProfilePic(req.body.firebaseID, req.body.uri)
+      .then(response => res.send(200).send(response))
+      .catch(err => res.send(404).send(err));
+  },
+  getFriends: (req, res) => {
+    models.getUserFriends(req.body.firebaseID, (err, docs) => {
+      if (err) {
+        console.log(err);
+      } else {
+        res.status(200).send(docs);
+      }
+    });
+  }
 };
