@@ -14,7 +14,7 @@ mongoose.connect('mongodb://localhost:27017/blueocean');
 // let Friends = mongoose.model('Friends', friendsSchema);
 
 let captionSchema = new Schema({
-  photoID: Number,
+  photoID: String,
   body: String,
   captioner: String,
   likes: Number
@@ -65,13 +65,25 @@ module.exports = {
     const photoCaptions = await Photos.find({ _id: photoID });
     return photoCaptions;
   },
-  postCaption: async (username, photoID, captionBody) => {
-    const postCaption = await Photos.findOneAndUpdate({ _id: photoID }, {
-      $push: {
-        captions: captionBody
+  postCaption: (capUsername, photoID, captionBody, cb) => {
+    console.log("trying to post caption!");
+    let objIDPhoto = mongoose.Types.ObjectId(photoID);
+    let captionToAdd = new Captions({
+      photoID: objIDPhoto,
+      body: captionBody,
+      captioner: capUsername,
+      likes: 0
+    });
+    captionToAdd.save();
+    Photos.findOneAndUpdate({ _id: objIDPhoto }, { $push: { captions: captionToAdd } }, { new: true }).exec((err, docs) => {
+      if (err) {
+        console.log(err);
+        cb(err, null);
+      } else {
+        console.log(docs);
+        cb(null, docs);
       }
-    }, { new: true });
-    return postCaption;
+    });
   },
   // photos req handling
   postPhoto: async (userInfo, uri) => {
@@ -81,13 +93,12 @@ module.exports = {
     return postPhoto;
   },
   getPhotos: (userID, cb) => {
-    const friendsQuery = Users.findOne({ firebaseID: userID }, { friends: 1, _id: 0 });
     Users.findOne({ firebaseID: userID }, { friends: 1, _id: 0 }).exec((err, docs) => {
       if (err) {
         cb(err, null);
       } else {
         let friendsArr = docs.friends;
-        Users.find({ user_id: { $in: friendsArr } }).select('photos').exec((err, docs) => {
+        Users.find({ firebaseID: { $in: friendsArr } }).select('photos').exec((err, docs) => {
           if (err) {
             cb(err, null);
           } else {
@@ -99,31 +110,3 @@ module.exports = {
     });
   }
 };
-
-
-
-
-// let saveEntry = (data) => {
-//   return Glossary.create(data);
-// }
-
-// let getEntries = () => {
-//   return Glossary.find({});
-// }
-
-// let deleteEntry = (word) => {
-//   return Glossary.deleteOne(word);
-// }
-
-// let updateEntry = (entryObj) => {
-//   return Glossary.findOneAndUpdate({ word: entryObj.word }, {
-//     definition: entryObj.definition
-//   }, { new: true });
-// }
-
-// // 3. Export the models
-// module.exports.saveEntry = saveEntry;
-// module.exports.getEntries = getEntries;
-// module.exports.deleteEntry = deleteEntry;
-// module.exports.updateEntry = updateEntry;
-// 4. Import the models into any modules that need them
