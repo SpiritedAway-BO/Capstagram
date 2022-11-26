@@ -17,8 +17,8 @@ router.post('/users', controllers.createUser); //create new user
 // router.put('/captions/:captionId', controllers.likeCaption); // CHANGES a caption upvote (up or down)
 
 // //Photos Routes
-// router.post('/photos', controllers.postPhoto); //posts user photo  - Query param: userId
-// router.get('/photos', controllers.getPhotos); //gets all photos (esp. for trending)   - Query param: userId
+router.post('/photos', controllers.addPhoto); //posts user photo  - Query param: userId
+router.get('/photos', controllers.getMainFeedPhotos); //gets all photos (esp. for trending)   - Query param: userId
 // router.get('/photos/:userId', controllers.getPhotos); //gets one user's photos (for main page and friends page)
 
 // //Friends Route
