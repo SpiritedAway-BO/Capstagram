@@ -11,7 +11,7 @@ var DATA = [{
   username: 'thisGuy',
   caption: 'It\'s the little things in life',
   upvotes: 5,
-  usericon: '../../assets/favicon.png',
+  usericon: 'https://res.cloudinary.com/cwhrcloud/image/upload/v1669246271/orange_auy0ff.png',
   voted: true,
   timestamp: Date(),
 },
@@ -20,7 +20,7 @@ var DATA = [{
   username: 'thisGuy2',
   caption: 'Let me show you my Pokemon!',
   upvotes: 15,
-  usericon: '../../assets/favicon.png',
+  usericon: 'https://res.cloudinary.com/cwhrcloud/image/upload/v1669246271/orange_auy0ff.png',
   voted: false,
   timestamp: Date(),
 
@@ -30,7 +30,7 @@ var DATA = [{
   username: 'thisGuy3',
   caption: 'Are we there yet?',
   upvotes: 0,
-  usericon: '../../assets/favicon.png',
+  usericon: 'https://res.cloudinary.com/cwhrcloud/image/upload/v1669246271/orange_auy0ff.png',
   voted: false,
   timestamp: Date(),
 
@@ -40,7 +40,7 @@ var DATA = [{
   username: 'thisGuy4',
   caption: 'I can show you the world!',
   upvotes: 33,
-  usericon: '../../assets/favicon.png',
+  usericon: 'https://res.cloudinary.com/cwhrcloud/image/upload/v1669246271/orange_auy0ff.png',
   voted: true,
   timestamp: Date(),
 
@@ -50,7 +50,7 @@ var DATA = [{
   username: 'thisGuy5',
   caption: 'All your base are belongs to us!',
   upvotes: 2,
-  usericon: '../../assets/favicon.png',
+  usericon: 'https://res.cloudinary.com/cwhrcloud/image/upload/v1669246271/orange_auy0ff.png',
   voted: false,
   timestamp: Date(),
 },
@@ -59,7 +59,7 @@ var DATA = [{
   username: 'thisGuy6',
   caption: 'I can haz cheezburger?',
   upvotes: 4,
-  usericon: '../../assets/favicon.png',
+  usericon: 'https://res.cloudinary.com/cwhrcloud/image/upload/v1669246271/orange_auy0ff.png',
   voted: false,
   timestamp: Date(),
 },
@@ -68,7 +68,7 @@ var DATA = [{
   username: 'thisGuy7',
   caption: 'Momma said there\'d be days like this...',
   upvotes: 12,
-  usericon: '../../assets/favicon.png',
+  usericon: 'https://res.cloudinary.com/cwhrcloud/image/upload/v1669246271/orange_auy0ff.png',
   voted: false,
   timestamp: Date(),
 },
@@ -77,7 +77,7 @@ var DATA = [{
   username: 'thisGuy7',
   caption: 'Whodunnit',
   upvotes: 12,
-  usericon: '../../assets/favicon.png',
+  usericon: 'https://res.cloudinary.com/cwhrcloud/image/upload/v1669246271/orange_auy0ff.png',
   voted: false,
   timestamp: Date(),
 },
@@ -93,7 +93,8 @@ const CaptionsGalore = () => {
 
   const handleCaptionSubmit = () => {
     console.log('newCaption', newCaption);
-    //put caption
+    console.log('auth', auth.currentUser.uid);
+    //put caption to database
     setNewCaption(''); //reset
   }
 
@@ -104,14 +105,14 @@ const CaptionsGalore = () => {
         renderItem={renderCaption}
         keyExtractor={item => item.id}
       />
-        <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
-          <KeyboardAvoidingView behavior="padding">
-            <View style={styles.newCommentView}>
-            <TextInput style={styles.newComment} value={newCaption} onChangeText={newCaption => setNewCaption(newCaption)} placeholder="Add a new caption..." />
-            <Button style={styles.newCommentButton} accessibilityLabel="Post a New caption button" title="Post" color="9D4EDD" onPress={handleCaptionSubmit}/>
-            </View>
-          </KeyboardAvoidingView>
-        </TouchableWithoutFeedback>
+      <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
+        <KeyboardAvoidingView behavior="padding">
+          <View style={styles.newCommentView}>
+          <TextInput style={styles.newComment} value={newCaption} onChangeText={newCaption => setNewCaption(newCaption)} placeholder="Add a new caption..." />
+          <Button style={styles.newCommentButton} accessibilityLabel="Post a New caption button" title="Post" color="9D4EDD" onPress={handleCaptionSubmit}/>
+          </View>
+        </KeyboardAvoidingView>
+      </TouchableWithoutFeedback>
     </SafeAreaView>
   );
 };
@@ -128,7 +129,7 @@ const styles = StyleSheet.create({
     paddingBottom: 20,
   },
   userInfo: {
-    // flexDirection: 'row',
+    flexDirection: 'row',
     justifyContent: 'flex-start',
     justifyContent: 'space-between',
   },
