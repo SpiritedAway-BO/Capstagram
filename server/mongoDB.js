@@ -57,8 +57,8 @@ module.exports = {
     const oneUser = await Users.findOne({ firebaseID: userID });
     return oneUser;
   },
-  updateUserProfilePic: async (currUserName, picURI) => {
-    const ppUpdate = await Users.findOneAndUpdate({ username: currUserName }, { profilePicURI: picURI }, { new: true });
+  updateUserProfilePic: async (currFireID, picURI) => {
+    const ppUpdate = await Users.findOneAndUpdate({ firebaseID: currFireID }, { profilePicURI: picURI }, { new: true });
     return ppUpdate;
   },
   // captions req handling
@@ -112,6 +112,23 @@ module.exports = {
             cb(err, null);
           } else {
             console.log('docs inside mongoDB.js: ', docs);
+            cb(null, docs);
+          }
+        });
+      }
+    });
+  },
+  //friends req handling
+  getUserFriends: async (userID) => {
+    Users.findOne({ firebaseID: userID }, { friends: 1, _id: 0 }).exec((err, docs) => {
+      if (err) {
+        cb(err, null);
+      } else {
+        let friendsArr = docs.friends;
+        Users.find({ user_id: { $in: friendsArr } }).select(['username', 'profilePicURI',]).exec((err, docs) => {
+          if (err) {
+            cb(err, null);
+          } else {
             cb(null, docs);
           }
         });
