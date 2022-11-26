@@ -2,8 +2,9 @@ const models = require('./mongoDB.js');
 
 module.exports = {
   getAllUsers: (req, res) => {
+    console.log('getting');
     models.getUsers()
-      .then(users => res.status(200).send(users.data))
+      .then(users => res.status(200).send(users))
       .catch(err => res.status(404).send(err));
   },
   createUser: (req, res) => {

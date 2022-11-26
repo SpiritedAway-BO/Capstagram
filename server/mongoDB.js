@@ -44,42 +44,71 @@ let Users = mongoose.model('Users', userSchema);
 
 module.exports = {
   // user req handling
-  addUser: (userInfo) => {
-    return Users.create(userInfo);
+  addUser: async (userInfo) => {
+    const userToAdd = await Users.create(userInfo);
+    return userToAdd;
   },
-  getUsers: () => {
-    return Users.find({});
+  getUsers: async () => {
+    const dbUsers = await Users.find({});
+    return dbUsers;
   },
-  getUser: (userID) => {
-    return Users.findOne({ firebaseID: userID });
+  getUser: async (userID) => {
+    const oneUser = await Users.findOne({ firebaseID: userID });
+    return oneUser;
   },
-  updateUserProfilePic: (currUserName, picURI) => {
-    return Users.findOneAndUpdate({ username: currUserName }, { profilePicURI: picURI }, { new: true });
+  updateUserProfilePic: async (currUserName, picURI) => {
+    const ppUpdate = await Users.findOneAndUpdate({ username: currUserName }, { profilePicURI: picURI }, { new: true });
+    return ppUpdate;
   },
   // captions req handling
-  getCaptions: (photoID) => {
-    return Photos.find({ _id: photoID });
+  getCaptions: async (photoID) => {
+    const photoCaptions = await Photos.find({ _id: photoID });
+    return photoCaptions;
   },
-  postCaption: (username, photoID, captionBody) => {
-    return Photos.findOneAndUpdate({ _id: photoID }, {
+  postCaption: async (username, photoID, captionBody) => {
+    const postCaption = await Photos.findOneAndUpdate({ _id: photoID }, {
       $push: {
         captions: captionBody
       }
     }, { new: true });
+    return postCaption;
   },
   // photos req handling
-  postPhoto: (userInfo, uri) => {
+  postPhoto: async (userInfo, uri) => {
     let photoToAdd = new Photos({ creator: userInfo.displayName, uri: uri, timePosted: Date.now(), captions: [] });
     photoToAdd.save();
-    return Users.findOneAndUpdate({ firebaseID: userInfo.uid }, { $push: { photos: photoToAdd } });
+    const postPhoto = await Users.findOneAndUpdate({ firebaseID: userInfo.uid }, { $push: { photos: photoToAdd } });
+    return postPhoto;
   },
-  getPhotos: (userID) => {
-    var friendsPhotos = [];
-    const friendsQuery = Users.findOne({ firebaseID: userID }, { friends: 1, _id: 0 });
+  getPhotos: async (userID) => {
+    var friendsIDs = [];
+    const userFriends = await Users.findOne({ firebaseID: userID }, { friends: 1, _id: 0 });
+    console.log(userFriends.friends);
+    // return Promise.all(userFriends.friends.map());
+
+
+    const friendsPhotosPromise = userFriends.friends.map((friend) => {
+      return Users.findOne({ firebaseID: friend });
+    });
+    // let friendsPhotoData = await Promise.all(friendsPhotosPromise);
+    // console.log(friendsPhotoData);
+    // console.log(friendsPhotosPromise);
+
+    friendsPhotosPromise
+      .then(results => console.log(results))
+      .catch(err => console.log(err));
+
+    // const friendsPhotos = Promise.all(friendsPromise)
+    //   .then(success => console.log(success))
+    //   .catch(err => console.log('no haha u suck'));
+    // .exec((err, doc) => {
+    //   console.log(doc);
+    //   return doc;
+    // });
     // .then(results => console.log(results))
     // .catch(err => console.log(err));
-    console.log('query from friends', friendsQuery);
-    return friendsQuery;
+    // console.log('query from friends', friendsQuery);
+    // return friendsQuery;
   }
 };
 

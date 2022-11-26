@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigation } from '@react-navigation/core';
-import { StyleSheet, Text, TextInput, View, KeyboardAvoidingView, TouchableOpacity, Keyboard, TouchableWithoutFeedback, Image} from 'react-native';
+import { StyleSheet, Text, TextInput, View, KeyboardAvoidingView, TouchableOpacity, Keyboard, TouchableWithoutFeedback, Image } from 'react-native';
 import { updateProfile } from 'firebase/auth';
 import { createUser, auth } from './firebase/firebase.js';
 import axios from 'axios';
@@ -37,8 +37,9 @@ const SignUp = ({ navigation }) => {
           displayName: username,
         });
         setTimeout(() => {
-          axios.post('https://salty-tigers-flash-75-80-43-25.loca.lt/users',
-            {firebaseID: auth.currentUser.uid,
+          axios.post('https://public-mails-judge-47-145-217-232.loca.lt/users',
+            {
+              firebaseID: auth.currentUser.uid,
               username: username,
               friends: ['BJUtNzadq8hgWKQ7l5vxg1ys1vt2']
             })
