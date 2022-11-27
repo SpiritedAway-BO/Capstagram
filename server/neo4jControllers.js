@@ -52,7 +52,7 @@ module.exports = {
     if (req.body.hasOwnProperty('userId') && req.body.hasOwnProperty('username')) {
       try {
         const session = db.session();
-        const writeResult = await session.executeWrite((tx) => tx.run(`CREATE (u:User {id: '${req.body.userId}', username: '${req.body.username}', profilePicURI: 'https://res.cloudinary.com/cwhrcloud/image/upload/v1669161707/orange_hhc8pc.png'}) return(u)`))
+        const writeResult = await session.executeWrite((tx) => tx.run(`CREATE (u:User {id: '${req.body.userId}', username: '${req.body.username}', profilePicURI: 'https://res.cloudinary.com/cwhrcloud/image/upload/v1669246271/orange_auy0ff.png'}) return(u)`))
           .then(result => result.records[0].get('u').properties);
         console.log('User created: ', writeResult);
         session.close();
@@ -262,8 +262,12 @@ module.exports = {
     if (req.params.userId) {
       try {
         const session = db.session();
-        const readResult = await session.executeRead((tx) => tx.run(`MATCH (p:Photo)<-[:CREATED]-(f:User)-[:IS_FRIEND]-(u:User {id: '${req.params.userId}'}) return(p)`))
-          .then(results => results.records.map(record => record.get('p').properties));
+        const readResult = await session.executeRead((tx) => tx.run(`MATCH (p:Photo)<-[:CREATED]-(f:User)-[:IS_FRIEND]-(u:User {id: '${req.params.userId}'}) MATCH (p)<-[:CREATED]-(c:User) return p, c`))
+          .then(results => results.records.map(record => {
+            const returnObj = record.get('p').properties;
+            returnObj.creator = record.get('c').properties;
+            return returnObj
+          }));
         for (let i = 0; i < readResult.length; i++) {
           readResult[i].captions = await getCaptionsModel(readResult[i].id);
         }
