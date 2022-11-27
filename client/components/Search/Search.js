@@ -16,7 +16,11 @@ export default function Search() {
   const [ searchInput, setSearchInput ] = useState();
 
   useEffect(() => {
+<<<<<<< HEAD
     axios.get('https://shaggy-streets-act-75-80-43-25.loca.lt/users')
+=======
+    axios.get('http://localhost:8000/users')
+>>>>>>> main
       .then((res) => {
         setUsers(res.data);
         setFilteredUsers(res.data);
@@ -35,9 +39,16 @@ export default function Search() {
 
   const handleAdd = (user) => {
     console.log(auth.currentUser.uid);
+<<<<<<< HEAD
     console.log(user.firebaseID);
     axios.post('https://shaggy-streets-act-75-80-43-25.loca.lt/user/friends', {firebaseID: auth.currentUser.uid, friendID: user.firebaseID })
       .then(console.log('added:', user.firebaseID))
+=======
+    console.log(user.id);
+
+    axios.post('http://localhost:8000/user/friends', {firebaseID: auth.currentUser.uid, friendID: user.id })
+      .then(console.log('added:', user.id))
+>>>>>>> main
       .catch(err => console.log(err));
   };
 

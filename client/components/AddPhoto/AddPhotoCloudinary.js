@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
+import { AppContext } from '../../contexts/AppContext.js';
 import {
   StyleSheet,
   View,
@@ -11,12 +12,14 @@ import {
 import * as ImagePicker from 'expo-image-picker';
 import { auth } from '../Auth/firebase/firebase.js';
 import axios from 'axios';
+import { LOCALTUNNEL } from '../Auth/firebase/config.js';
 
 
 
 const AddPhotoCloudinary = ({ navigation }) => {
 
   const [photo, setPhoto] = useState('https://res.cloudinary.com/ogcodes/image/upload/v1581387688/m0e7y6s5zkktpceh2moq.jpg');
+  const { setMainFeedData } = useContext(AppContext);
 
   const addPhoto = async () => {
     let _photo = await ImagePicker.launchImageLibraryAsync({
@@ -35,7 +38,6 @@ const AddPhotoCloudinary = ({ navigation }) => {
       console.log('Photo', source);
       cloudinaryUpload(source);
     }
-    navigation.navigate('Home');
   };
 
   const takePhoto = async () => {
@@ -62,16 +64,28 @@ const AddPhotoCloudinary = ({ navigation }) => {
       .then(data => {
         console.log('response data', data);
         // setPhoto(data.secure_url);
+<<<<<<< HEAD
         axios.post('https://shaggy-streets-act-75-80-43-25.loca.lt/photos', {
+=======
+        axios.post('http://localhost:8000/photos', {
+>>>>>>> main
           currentUser: auth.currentUser,
           uri: data.secure_url
         })
-          .then(results => console.log('posted photo'))
+          .then(results => {
+            console.log('photo posted');
+            axios.get(`${LOCALTUNNEL}/photos/${auth.currentUser.uid}`)
+              .then(res => {
+                setMainFeedData(res.data[0].photos);
+              })
+              .catch(err => console.log('error getting main feed in add photo', err));
+          })
           .catch(err => console.log('error posting photo', err));
       })
       .catch(err => {
         Alert.alert('An Error Occured While Uploading');
       });
+    navigation.navigate('Home');
   };
 
   return (

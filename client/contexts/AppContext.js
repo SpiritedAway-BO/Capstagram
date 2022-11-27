@@ -1,6 +1,7 @@
 import { createContext, useState, useEffect } from 'react';
 import axios from 'axios';
 import { auth } from '../components/Auth/firebase/firebase.js';
+import { LOCALTUNNEL } from '../components/Auth/firebase/config.js';
 
 export const AppContext = createContext(null);
 
@@ -11,9 +12,13 @@ export const AppProvider = ({ children }) => {
   const [currentPost, setCurrentPost] = useState(null);
   const [friends, setFriends] = useState(null);
 
+
   /** asynchronously sets current userid so it is not undefined in other modules **/
   useEffect(() => {
     setCurrentUser(auth.currentUser);
+    // axios.get(`https://localhost:8000/user/${currentUser.uid}`)
+    //   .then(res => console.log(res.data))
+    //   .catch(err => console.log(err));
   }, []);
   // console.log('currentUser in AppContext', currentUser.uid)
   /** INSERT VARIABLE NAMES into value deconstruction to make them available in other modules */
@@ -32,17 +37,19 @@ export const AppProvider = ({ children }) => {
   /** MAKES CONTEXT AVAILABLE **/
   useEffect(() => {
     if (currentUser) {
-      axios.get(`https://shaggy-streets-act-75-80-43-25.loca.lt/photos/${currentUser.uid}`)
+      axios.get(`http://localhost:8000/photos/${currentUser.uid}`)
         .then(res => {
-          setMainFeedData(res.data[0].photos);
+          setMainFeedData(res.data[1].photos);
+
         })
         .catch(err => console.log('error hello', err));
+      // console.log('currentUser', currentUser);
     }
   }, [currentUser]);
 
   useEffect(() => {
     if (currentUser) {
-      axios.get(`https://shaggy-streets-act-75-80-43-25.loca.lt/user/${currentUser.uid}/friends`)
+      axios.get(`http://localhost:8000/user/${currentUser.uid}/friends`)
         .then(res => {
           setFriends(res.data);
         })
