@@ -16,7 +16,11 @@ export default function Search() {
   const [ searchInput, setSearchInput ] = useState();
 
   useEffect(() => {
+<<<<<<< HEAD
+    axios.get('https://shaggy-streets-act-75-80-43-25.loca.lt/users')
+=======
     axios.get('http://localhost:8000/users')
+>>>>>>> main
       .then((res) => {
         setUsers(res.data);
         setFilteredUsers(res.data);
@@ -29,11 +33,22 @@ export default function Search() {
       return user.username.toLowerCase().includes(input.toLowerCase());
     });
     setFilteredUsers(searchResults);
+    setSearchInput('');
+    // console.log(filteredUsers);
   };
 
   const handleAdd = (user) => {
-    axios.post('https://famous-eggs-sell-75-80-43-25.loca.lt/user/friends', {firebaseID: auth.currentUser.uid, friendID: user.firebaseID })
+    console.log(auth.currentUser.uid);
+<<<<<<< HEAD
+    console.log(user.firebaseID);
+    axios.post('https://shaggy-streets-act-75-80-43-25.loca.lt/user/friends', {firebaseID: auth.currentUser.uid, friendID: user.firebaseID })
       .then(console.log('added:', user.firebaseID))
+=======
+    console.log(user.id);
+
+    axios.post('http://localhost:8000/user/friends', {firebaseID: auth.currentUser.uid, friendID: user.id })
+      .then(console.log('added:', user.id))
+>>>>>>> main
       .catch(err => console.log(err));
   };
 
@@ -48,7 +63,7 @@ export default function Search() {
             <Text style={styles.text}>{user.username}</Text>
           </View>
           <View>
-            <Ionicons style={styles.icon} name="ios-person-add-outline" size={15} color="#FF842B" onPress={handleAdd(user)}/>
+            <Ionicons style={styles.icon} name="ios-person-add-outline" size={15} color="#FF842B" onPress={() => handleAdd(user)}/>
           </View>
         </View>
       </View>
@@ -69,7 +84,7 @@ export default function Search() {
         <View style={styles.inputContainer}>
           <TextInput style={styles.input} placeholder='Search' placeholderTextColor='#D3D3D3'
             onChangeText={text => setSearchInput(text)} onSubmitEditing={(e) => handleSearch(e, searchInput)}
-            enablesReturnKeyAutomatically/>
+            /*enablesReturnKeyAutomatically*//>
         </View>
         <View style={styles.listContainer}>
           <VStack spacing={7} divider={true} w={'100%'}>
