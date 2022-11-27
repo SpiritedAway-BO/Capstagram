@@ -14,7 +14,7 @@ export const AppProvider = ({ children }) => {
   useEffect(() => {
     setCurrentUser(auth.currentUser);
   }, []);
-
+  // console.log('currentUser in AppContext', currentUser.uid)
  /** INSERT VARIABLE NAMES into value deconstruction to make them available in other modules */
   const value = {
     username,
@@ -31,7 +31,7 @@ export const AppProvider = ({ children }) => {
     if (currentUser) {
       axios.get(`https://wide-ideas-smash-99-227-192-34.loca.lt/photos/${currentUser.uid}`)
         .then(res => {
-          setMainFeedData(res.data[1].photos);
+          setMainFeedData(res.data[0].photos);
         })
         .catch(err => console.log('error hello', err));
     }

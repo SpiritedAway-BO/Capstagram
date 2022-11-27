@@ -19,11 +19,9 @@ let captionSchema = new Schema({
   captioner: String,
   likes: Number,
   likeUsers: { type: Array }
-  },
-  {
-    timestamps: true
-  }
-);
+}, {
+  timestamps: true
+});
 
 var Captions = mongoose.model('Captions', captionSchema);
 
@@ -32,8 +30,7 @@ let photoSchema = new Schema({
   uri: String,
   timePosted: String,
   captions: [captionSchema]
-},
-{
+}, {
   timestamps: true
 });
 
@@ -46,8 +43,7 @@ let userSchema = new Schema({
   friends: { type: Array },
   photos: [photoSchema],
   captions: [captionSchema]
-},
-{
+}, {
   timestamps: true
 });
 
@@ -63,9 +59,15 @@ module.exports = {
     const dbUsers = await Users.find({});
     return dbUsers;
   },
-  getUser: async (userID) => {
-    const oneUser = await Users.findOne({ firebaseID: userID });
-    return oneUser;
+  getUser: (userID, cb) => {
+    Users.findOne({ firebaseID: userID }, { profilePicURI: 1, _id: 0 })
+      .exec((err, docs) => {
+        if (err) {
+          cb(err, null);
+        } else {
+          cb(null, docs);
+        }
+      });
   },
   updateUserProfilePic: async (currFireID, picURI) => {
     const ppUpdate = await Users.findOneAndUpdate({ firebaseID: currFireID }, { profilePicURI: picURI }, { new: true });
@@ -74,7 +76,7 @@ module.exports = {
   // captions req handling
   getCaptions: (photoID, cb) => {
     let objIDPhoto = mongoose.Types.ObjectId(photoID);
-    Users.find({'photos._id': objIDPhoto}, { 'photos.captions': 1, _id: 1 }).exec((err, docs) => {
+    Users.find({ 'photos._id': objIDPhoto }, { 'photos.captions': 1, _id: 1 }).exec((err, docs) => {
       if (err) {
         console.log(err);
         cb(err, null);
@@ -94,7 +96,7 @@ module.exports = {
       likeUsers: []
     });
     captionToAdd.save();
-    const doc = await Users.findOneAndUpdate({"photos._id": objIDPhoto}, {$push: {"photos.$.captions": captionToAdd}}, {new:true });
+    const doc = await Users.findOneAndUpdate({ "photos._id": objIDPhoto }, { $push: { "photos.$.captions": captionToAdd } }, { new: true });
     cb(null, doc);
   },
 
@@ -112,8 +114,9 @@ module.exports = {
       if (err) {
         cb(err, null);
       } else {
-        let friendsArr = docs.friends || [];
-        Users.find({ user_id: { $in: friendsArr } }).select('photos').exec((err, docs) => {
+        console.log('FRIENDS ARRAY: ', docs.friends);
+        let friendsArr = docs.friends;
+        Users.find({ 'users.firebaseID': { $in: friendsArr } }).select('photos').exec((err, docs) => {
           if (err) {
             cb(err, null);
           } else {
@@ -124,13 +127,31 @@ module.exports = {
     });
   },
   //friends req handling
-  getUserFriends: async (userID) => {
+  getUserFriends: (userID, cb) => {
     Users.findOne({ firebaseID: userID }, { friends: 1, _id: 0 }).exec((err, docs) => {
       if (err) {
         cb(err, null);
       } else {
-        let friendsArr = docs.friends || [];
-        Users.find({ user_id: { $in: friendsArr } }).select(['username', 'profilePicURI',]).exec((err, docs) => {
+        let friendsArr = docs.friends;
+        console.log('friendsArr', friendsArr);
+        Users.find({ '_id': { $in: friendsArr } }).select(['username', 'profilePicURI']).exec((err, docs) => {
+          if (err) {
+            cb(err, null);
+          } else {
+            cb(null, docs);
+          }
+        });
+      }
+    });
+  },
+  addUserFriend: (userID, friendID, cb) => {
+    Users.findOne({ firebaseID: friendID }).select(['username', 'profilePicURI']).exec((err, docs) => {
+      if (err) {
+        cb(err, null);
+      } else {
+        let friendToAdd = docs;
+        console.log('friendToAdd', friendToAdd);
+        Users.findOneAndUpdate({ firebaseID: userID }, { $push: { 'friends': friendToAdd } }).exec((err, docs) => {
           if (err) {
             cb(err, null);
           } else {
