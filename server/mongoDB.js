@@ -19,7 +19,11 @@ let captionSchema = new Schema({
   captioner: String,
   likes: Number,
   likeUsers: { type: Array }
-});
+  },
+  {
+    timestamps: true
+  }
+);
 
 var Captions = mongoose.model('Captions', captionSchema);
 
@@ -28,6 +32,9 @@ let photoSchema = new Schema({
   uri: String,
   timePosted: String,
   captions: [captionSchema]
+},
+{
+  timestamps: true
 });
 
 var Photos = mongoose.model('Photos', photoSchema);
@@ -39,6 +46,9 @@ let userSchema = new Schema({
   friends: { type: Array },
   photos: [photoSchema],
   captions: [captionSchema]
+},
+{
+  timestamps: true
 });
 
 var Users = mongoose.model('Users', userSchema);
@@ -64,7 +74,7 @@ module.exports = {
   // captions req handling
   getCaptions: (photoID, cb) => {
     let objIDPhoto = mongoose.Types.ObjectId(photoID);
-    Users.find({'photos._id': objIDPhoto}, { captions: 1, _id: 1 }).exec((err, docs) => {
+    Users.find({'photos._id': objIDPhoto}, { 'photos.captions': 1, _id: 1 }).exec((err, docs) => {
       if (err) {
         console.log(err);
         cb(err, null);
@@ -73,19 +83,8 @@ module.exports = {
         cb(null, docs);
       }
     });
-    // let objIDPhoto = mongoose.Types.ObjectId(photoID);
-    // Captions.find({photoID: photoID}).exec((err, docs) => {
-    //   if (err) {
-    //     console.log(err);
-    //     cb(err, null);
-    //   } else {
-    //     console.log(docs);
-    //     cb(null, docs);
-    //   }
-    // });
   },
   postCaption: async (capUsername, photoID, captionBody, cb) => {
-    console.log("trying to post caption!");
     let objIDPhoto = mongoose.Types.ObjectId(photoID);
     let captionToAdd = new Captions({
       photoID: photoID,
@@ -95,10 +94,7 @@ module.exports = {
       likeUsers: []
     });
     captionToAdd.save();
-    //{$push: {'users.photos.$.captions': captionToAdd}}
     const doc = await Users.findOneAndUpdate({"photos._id": objIDPhoto}, {$push: {"photos.$.captions": captionToAdd}}, {new:true });
-    // doc.photos.push(captionToAdd);
-    console.log('NEW DOC!!!!: ', doc);
     cb(null, doc);
   },
 
@@ -121,7 +117,6 @@ module.exports = {
           if (err) {
             cb(err, null);
           } else {
-            console.log('docs inside mongoDB.js: ', docs);
             cb(null, docs);
           }
         });
