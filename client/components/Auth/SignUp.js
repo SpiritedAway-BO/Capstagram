@@ -37,14 +37,9 @@ const SignUp = ({ navigation }) => {
           displayName: username,
         });
         setTimeout(() => {
-<<<<<<< HEAD
           axios.post('https://mighty-feet-jam-99-227-192-34.loca.lt/users',
             {
               firebaseID: auth.currentUser.uid,
-=======
-          axios.post('https://full-carrots-add-173-228-53-12.loca.lt/users',
-            {firebaseID: auth.currentUser.uid,
->>>>>>> main
               username: username,
               friends: ['BJUtNzadq8hgWKQ7l5vxg1ys1vt2']
             })
