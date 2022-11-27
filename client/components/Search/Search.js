@@ -2,78 +2,21 @@ import React, {useState, useEffect} from 'react';
 import {Image, View, Platform, TouchableOpacity, Text, StyleSheet, FlatList, TouchableWithoutFeedback, Keyboard, KeyboardAvoidingView, TextInput} from 'react-native';
 import { Avatar, VStack } from '@react-native-material/core';
 import { Ionicons } from '@expo/vector-icons';
+import { auth } from '../../components/Auth/firebase/firebase';
 import axios from 'axios';
 
-var DATA = [
-  {
-    id: 1234567,
-    username: 'thisGuy',
-    usericon: 'https://mui.com/static/images/avatar/2.jpg',
-    friends: ['thisGuy2', 'thisGuy3']
-  },
-  {
-    id: 1234568,
-    username: 'thisGuy2',
-    usericon: 'https://mui.com/static/images/avatar/2.jpg',
-  },
-  {
-    id: 1234569,
-    username: 'thisGuy3',
-    usericon: 'https://mui.com/static/images/avatar/2.jpg',
-  },
-  {
-    id: 1234570,
-    username: 'thisGuy4',
-    usericon: 'https://mui.com/static/images/avatar/2.jpg',
-  },
-  {
-    id: 1234571,
-    username: 'thisGuy5',
-    usericon: 'https://mui.com/static/images/avatar/2.jpg',
-  },
-  {
-    id: 1234572,
-    username: 'thisGuy6',
-    usericon: 'https://mui.com/static/images/avatar/2.jpg',
-  },
-  {
-    id: 1234573,
-    username: 'thisGuy7',
-    usericon: 'https://mui.com/static/images/avatar/2.jpg',
-  },
-  {
-    id: 1234574,
-    username: 'thisGuy8',
-    usericon: 'https://mui.com/static/images/avatar/2.jpg',
-  },
-  {
-    id: 1234575,
-    username: 'thisGuy9',
-    usericon: 'https://mui.com/static/images/avatar/2.jpg',
-  },
-  {
-    id: 1234576,
-    username: 'thisGuy10',
-    usericon: 'https://mui.com/static/images/avatar/2.jpg',
-  },
-  {
-    id: 1234577,
-    username: 'thisGuy11',
-    usericon: 'https://mui.com/static/images/avatar/2.jpg',
-  },
-];
 
 export default function Search() {
 
   // const queryClient = useQueryClient()
   // const {get, add} = useFriends();
   // const {isLoading: useFriendsGetIsLoading, data: friends} = get;
-  const [ users, setUsers ] = useState(DATA);
+  const [ users, setUsers ] = useState(null);
   const [ filteredUsers, setFilteredUsers ] = useState();
   const [ searchInput, setSearchInput ] = useState();
 
   useEffect(() => {
-    axios.get('https://famous-eggs-sell-75-80-43-25.loca.lt/users')
+    axios.get('http://localhost:8000/users')
       .then((res) => {
         setUsers(res.data);
         setFilteredUsers(res.data);
@@ -88,9 +31,11 @@ export default function Search() {
     setFilteredUsers(searchResults);
   };
 
-  // const handleAdd = () => {
-
-  // };
+  const handleAdd = (user) => {
+    axios.post('https://famous-eggs-sell-75-80-43-25.loca.lt/user/friends', {firebaseID: auth.currentUser.uid, friendID: user.firebaseID })
+      .then(console.log('added:', user.firebaseID))
+      .catch(err => console.log(err));
+  };
 
   const UserItem = ({user}) => {
     return (
@@ -103,7 +48,7 @@ export default function Search() {
             <Text style={styles.text}>{user.username}</Text>
           </View>
           <View>
-            <Ionicons style={styles.icon} name="ios-person-add-outline" size={15} color="#FF842B" /*onPress={handleAdd}*//>
+            <Ionicons style={styles.icon} name="ios-person-add-outline" size={15} color="#FF842B" onPress={handleAdd(user)}/>
           </View>
         </View>
       </View>

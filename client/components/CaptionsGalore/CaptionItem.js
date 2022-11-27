@@ -6,21 +6,19 @@ import { auth } from '../Auth/firebase/firebase.js';
 import axios from 'axios';
 
 const CaptionItem = ({ caption }) => {
-  const [voted, setVoted] = useState(caption.voted);
-  const [votes, setVotes] = useState(caption.upvotes);
-  const [avatarUri, setAvatarUri] = useState(caption.usericon);
+  const [voted, setVoted] = useState(false);
+  const [votes, setVotes] = useState(0);
+  const [avatarUri, setAvatarUri] = useState('https://res.cloudinary.com/cwhrcloud/image/upload/v1669246271/orange_auy0ff.png');
+
   // console.log(caption)
   // const [newCaption, setNewCaption] = useState('');
 
   useEffect(() => {
-    setVotes(caption.upvotes); //takes care of asynchronous state setting
-    setAvatarUri(caption.usericon);
+    // console.log('caption', caption)
+    caption.upvotes ? setVotes(caption.upvotes) : null;
+    // setVotes(caption.upvotes); //takes care of asynchronous state setting
+    caption.usericon ? setAvatarUri(caption.usericon) : setAvatarUri('https://res.cloudinary.com/cwhrcloud/image/upload/v1669246271/orange_auy0ff.png');
   }, []);
-
-  const handleCaptionSubmit = (event) => {
-    event.preventDefault();
-    console.log('newCaption', newCaption.current.value);
-  };
 
   // const putUserUpvote = (allVotes) => {
   //   console.log('allVotes', allVotes);
@@ -39,7 +37,7 @@ const CaptionItem = ({ caption }) => {
           size={35}
           style={styles.avatar}
         />
-        <Text style={styles.username}>{caption.username}</Text>
+        <Text style={styles.username}>{caption.captioner}</Text>
         </View>
       { voted ?
         <View style={styles.heartIcon} >
@@ -63,7 +61,7 @@ const CaptionItem = ({ caption }) => {
           />
         </View>}
       </View>
-      <Text style={styles.title}>{caption.caption}</Text>
+      <Text style={styles.title}>{caption.body}</Text>
     </View>
     <View style={styles.borderSmaller} >
     </View>

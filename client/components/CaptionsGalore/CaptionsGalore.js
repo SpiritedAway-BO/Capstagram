@@ -6,131 +6,54 @@ import { auth } from '../Auth/firebase/firebase.js';
 import CaptionItem from './CaptionItem.js';
 import { AppContext}  from '../../contexts/AppContext.js';
 import axios from 'axios';
+import {LOCALTUNNEL} from '../Auth/firebase/config.js';
 
-
-
-var DATA = [{
-  id: 1234567,
-  username: 'thisGuy',
-  caption: 'It\'s the little things in life',
-  upvotes: 5,
-  usericon: 'https://res.cloudinary.com/cwhrcloud/image/upload/v1669246271/orange_auy0ff.png',
-  voted: true,
-  timestamp: Date(),
-},
-{
-  id: 1234568,
-  username: 'thisGuy2',
-  caption: 'Let me show you my Pokemon!',
-  upvotes: 15,
-  usericon: 'https://res.cloudinary.com/cwhrcloud/image/upload/v1669246271/orange_auy0ff.png',
-  voted: false,
-  timestamp: Date(),
-
-},
-{
-  id: 1234569,
-  username: 'thisGuy3',
-  caption: 'Are we there yet?',
-  upvotes: 0,
-  usericon: 'https://res.cloudinary.com/cwhrcloud/image/upload/v1669246271/orange_auy0ff.png',
-  voted: false,
-  timestamp: Date(),
-
-},
-{
-  id: 1234570,
-  username: 'thisGuy4',
-  caption: 'I can show you the world!',
-  upvotes: 33,
-  usericon: 'https://res.cloudinary.com/cwhrcloud/image/upload/v1669246271/orange_auy0ff.png',
-  voted: true,
-  timestamp: Date(),
-
-},
-{
-  id: 1234571,
-  username: 'thisGuy5',
-  caption: 'All your base are belongs to us!',
-  upvotes: 2,
-  usericon: 'https://res.cloudinary.com/cwhrcloud/image/upload/v1669246271/orange_auy0ff.png',
-  voted: false,
-  timestamp: Date(),
-},
-{
-  id: 1234572,
-  username: 'thisGuy6',
-  caption: 'I can haz cheezburger?',
-  upvotes: 4,
-  usericon: 'https://res.cloudinary.com/cwhrcloud/image/upload/v1669246271/orange_auy0ff.png',
-  voted: false,
-  timestamp: Date(),
-},
-{
-  id: 1234573,
-  username: 'thisGuy7',
-  caption: 'Momma said there\'d be days like this...',
-  upvotes: 12,
-  usericon: 'https://res.cloudinary.com/cwhrcloud/image/upload/v1669246271/orange_auy0ff.png',
-  voted: false,
-  timestamp: Date(),
-},
-{
-  id: 1234574,
-  username: 'thisGuy7',
-  caption: 'Whodunnit',
-  upvotes: 12,
-  usericon: 'https://res.cloudinary.com/cwhrcloud/image/upload/v1669246271/orange_auy0ff.png',
-  voted: false,
-  timestamp: Date(),
-},
-];
 
 const CaptionsGalore = () => {
   const [allCaptions, setAllCaptions] = useState([]);
   const {username, setUserName} = useContext(AppContext);
   const {currentUser, setCurrentUser} = useContext(AppContext);
+  const { currentPost } = useContext(AppContext);
   const [newCaption, setNewCaption] = useState('');
-
-  // get all captions for this photo
-  // useEffect(() => (
-  // axios.get('https://angry-pets-cheer-173-228-53-12.loca.lt/captions', {body: {photoID: }})
-
-  // ), [])
-    /** gets currentUser Object **/
-    useEffect(() => {
-      // console.log(currentUser);
-      if (currentUser) {
-        console.log('currentUser.uid', currentUser.uid)
-        axios.get(`http://full-carrots-add-173-228-53-12.loca.lt/photos?firebaseID=${currentUser.uid}`)
-        // axios.get('https://full-carrots-add-173-228-53-12.loca.lt/photos', {params: {firebaseID: currentUser.uid}})
-
-          .then((results) => {
-            console.log('results', results);
-            if (results.length > 0) {
-              // setUserPhotos(results.data);
-            }
-          })
-          .catch(err => console.log('error in CaptionsGalore'))
-      }
-    }, [currentUser]);
+  const [photoObject, setPhotoObject] = useState('6382cd1905e5b94830a216bf');
+  const [captionArray, setCaptionArray] = useState([]);
 
   const renderCaption = ({ item }) => (
     <CaptionItem caption={item} />
   );
+  useEffect(() => {
+    getCaptions();
+  }, []);
 
+  const getCaptions = () => {
+    if (currentPost._id) {
+      axios.get(`${LOCALTUNNEL}/captions/${currentPost._id}`)
+      .then(results => {
+        let reverseCaptionsArray = results.data[0].photos[0].captions.reverse();
+        setCaptionArray(reverseCaptionsArray);
+      })
+      .catch(err => console.log('error in caption get'))
+    }
+  };
+
+  console.log('current post', currentPost._id);
   const handleCaptionSubmit = () => {
-
-
-    // console.log('auth', auth.currentUser.uid);
-    //put caption to database
+    // console.log('currentUser', currentUser)
+    /***** REPLACE PHOTOID WITH USER SELECTED PHOTOID */
+    /** make a default for if usename is null */
+    axios.post(`${LOCALTUNNEL}/captions`, {username: currentUser.displayName, photoID: currentPost._id, captionBody: newCaption})
+      .then(results => {
+        getCaptions(); //helper function
+      })
+      .then(results => console.log('posted new caption'))
+      .catch(err => console.log('errors in captions galore'));
     setNewCaption(''); //reset
   }
 
   return (
     <SafeAreaView style={styles.container}>
       <FlatList //this is like map
-        data={DATA}
+        data={captionArray}
         renderItem={renderCaption}
         keyExtractor={item => item.id}
         />
@@ -142,7 +65,6 @@ const CaptionsGalore = () => {
           </View>
         </KeyboardAvoidingView>
       </TouchableWithoutFeedback>
-      {/* {console.log('currentUser context', currentUser.uid)} */}
     </SafeAreaView>
 
   );

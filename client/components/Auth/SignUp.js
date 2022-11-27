@@ -4,6 +4,8 @@ import { StyleSheet, Text, TextInput, View, KeyboardAvoidingView, TouchableOpaci
 import { updateProfile } from 'firebase/auth';
 import { createUser, auth } from './firebase/firebase.js';
 import axios from 'axios';
+import {LOCALTUNNEL} from '../Auth/firebase/config.js';
+
 
 const SignUp = ({ navigation }) => {
   // const navigation = useNavigation();
@@ -37,17 +39,18 @@ const SignUp = ({ navigation }) => {
           displayName: username,
         });
         setTimeout(() => {
-          axios.post('https://famous-eggs-sell-75-80-43-25.loca.lt/users',
+          console.log(auth.currentUser.uid)
+          axios.post('http://localhost:8000/user',
             {
-              firebaseID: auth.currentUser.uid,
-              username: username,
-              friends: [{_id: '6382d4f991ce1c852d8b8b78', username: 'SeanMac', profilePicURI: 'https://res.cloudinary.com/cwhrcloud/image/upload/v1669246271/orange_auy0ff.png'}]
+              userId: auth.currentUser.uid,
+              username,
+              //friends: [{ _id: '6382d4f991ce1c852d8b8b78', username: 'SeanMac', profilePicURI: 'https://res.cloudinary.com/cwhrcloud/image/upload/v1669246271/orange_auy0ff.png' }]rname: user
             })
             .then(res => console.log('User Posted'))
             .catch(err => { console.log(err); });
           navigation.navigate('Capstagram');
           setIsLoading(false);
-        }, 200);
+        }, 1000);
       })
       .catch(err => {
         console.log(err);

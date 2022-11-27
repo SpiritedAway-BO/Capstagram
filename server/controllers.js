@@ -7,6 +7,18 @@ module.exports = {
       .then(users => res.status(200).send(users))
       .catch(err => res.status(404).send(err));
   },
+  getOneUser: (req, res) => {
+    // console.log('getting');
+    models.getUser(req.params.firebaseID, (err, docs) => {
+      if (err) {
+        console.log(err);
+        res.status(400).send(err);
+      } else {
+        console.log('docs inside controllers: ', docs);
+        res.status(200).send(docs);
+      }
+    });
+  },
   createUser: (req, res) => {
     console.log('createUser req', req.body);
     models.addUser(req.body)
@@ -16,6 +28,7 @@ module.exports = {
   addPhoto: (req, res) => {
     console.log('addPhoto req', req.body);
     var userInfo = req.body.currentUser;
+    console.log('currentUser', userInfo);
     var uri = req.body.uri;
     models.postPhoto(userInfo, uri)
       .then(response => res.status(201).end())
@@ -46,12 +59,12 @@ module.exports = {
     });
   },
   getCaptions: (req, res) => {
-    models.getCaptions(req.body.photoID, (err, docs) => {
+    models.getCaptions(req.params.photoID, (err, docs) => {
       if (err) {
         console.log(err);
         res.status(400).send(err);
       } else {
-        console.log(docs);
+        console.log('docs in controllers line 67', docs);
         res.status(200).send(docs);
       }
     });
@@ -59,8 +72,8 @@ module.exports = {
   putProfilePic: (req, res) => {
     console.log('updateProfilePic req', req.body);
     models.updateUserProfilePic(req.body.firebaseID, req.body.uri)
-      .then(response => res.send(200).send(response))
-      .catch(err => res.send(404).send(err));
+      .then(response => res.sendStatus(200))
+      .catch(err => res.sendStatus(404));
   },
   getFriends: (req, res) => {
     models.getUserFriends(req.params.firebaseID, (err, docs) => {

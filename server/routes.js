@@ -5,13 +5,13 @@ const controllers = require('./controllers.js');
 //User Routes
 router.get('/users', controllers.getAllUsers); //get all users for search
 router.post('/users', controllers.createUser); //create new user
-// router.get('/user/:userId', controllers.getUserInfo); //get a user's info
+router.get('/user/:firebaseID', controllers.getOneUser); //get a user's info
 router.put('/users', controllers.putProfilePic); //update user profile pic
 // // router.put('/users/:userId/profile', controllers.updateUserInfo); //update user
 // //info
 
 // //Captions Routes
-router.get('/captions', controllers.getCaptions); // get captions for a photo
+router.get('/captions/:photoID', controllers.getCaptions); // get captions for a photo
 router.post('/captions', controllers.postCaption); // post a caption for a photo
 // // router.delete('/captions/:captionId', controllers.deleteCaption); // lets a user delete their own caption - might need to think this route out better
 // router.put('/captions/:captionId', controllers.likeCaption); // CHANGES a caption upvote (up or down)
