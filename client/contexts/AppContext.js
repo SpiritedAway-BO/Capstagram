@@ -12,6 +12,7 @@ export const AppProvider = ({ children }) => {
   /** asynchronously sets current userid so it is not undefined in other modules **/
   useEffect(() => {
     setCurrentUser(auth.currentUser);
+    // console.log('currentUser', currentUser.uid)
   }, []);
 
  /** INSERT VARIABLE NAMES into value deconstruction to make them available in other modules */
@@ -19,10 +20,12 @@ export const AppProvider = ({ children }) => {
 
  /** MAKES CONTEXT AVAILABLE **/
   useEffect(() => {
-    axios.get('https://thick-hoops-warn-99-227-192-34.loca.lt/photos/VwyMkBrrLsP047lPEfWqXAIKdDk1')
-      .then(res => console.log(res.data))
-      .catch(err => console.log(err));
-  }, []);
+    if (currentUser) {
+      axios.get(`https://silver-beans-smile-173-228-53-12.loca.lt/photos/${currentUser.uid}`)
+        .then(res => console.log('res data', res.data))
+        .catch(err => console.log('error', err));
+    }
+  }, [currentUser]);
 
 
   /** makes Context available to other modules **/

@@ -61,7 +61,7 @@ const AddPhotoCloudinary = ({ navigation }) => {
       .then(data => {
         console.log('response data', data);
         // setPhoto(data.secure_url);
-        axios.post('https://silver-files-act-99-227-192-34.loca.lt/photos', {
+        axios.post('https://silver-beans-smile-173-228-53-12.loca.lt/photos', {
           currentUser: auth.currentUser,
           uri: data.secure_url
         })
