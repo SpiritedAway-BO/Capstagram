@@ -17,7 +17,7 @@ export default function AccountPage({ navigation }) {
     });
   };
 
-  // console.log('auth info', auth.currentUser.displayName, auth.currentUser.uid, auth.currentUser);
+  console.log('auth info', auth.currentUser.displayName, auth.currentUser.uid, auth.currentUser);
 
   return (
     <View style={AccountPageStyles.AccountPageContainer}>
@@ -26,28 +26,28 @@ export default function AccountPage({ navigation }) {
         <View style={AccountPageStyles.infoContainer}>
           <View>
             <Text style={AccountPageStyles.label}>Username:</Text>
-            <Text style={AccountPageStyles.input}>Username</Text>
+            <Text style={AccountPageStyles.input}>{auth.currentUser.displayName}</Text>
           </View>
           <MaterialIcons name="edit" size={18} color="black" />
         </View>
         <View style={AccountPageStyles.infoContainer}>
           <View>
             <Text style={AccountPageStyles.label}>Name:</Text>
-            <Text style={AccountPageStyles.input}>Name</Text>
+            <Text style={AccountPageStyles.input}>Set Name</Text>
           </View>
           <MaterialIcons name="edit" size={18} color="black" />
         </View>
         <View style={AccountPageStyles.infoContainer}>
           <View>
             <Text style={AccountPageStyles.label}>Bio:</Text>
-            <Text style={AccountPageStyles.input}>Hello World</Text>
+            <Text style={AccountPageStyles.input}>Set Bio</Text>
           </View>
           <MaterialIcons name="edit" size={18} color="black" />
         </View>
         <View style={AccountPageStyles.infoContainer}>
           <View>
             <Text style={AccountPageStyles.label}>email:</Text>
-            <Text style={AccountPageStyles.input}>test@gmail.com</Text>
+            <Text style={AccountPageStyles.input}>{auth.currentUser.email}</Text>
           </View>
           <MaterialIcons name="edit" size={18} color="black" />
         </View>

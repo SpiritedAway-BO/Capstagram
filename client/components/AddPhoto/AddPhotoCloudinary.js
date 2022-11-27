@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
+import { AppContext } from '../../contexts/AppContext.js';
 import {
   StyleSheet,
   View,
@@ -18,6 +19,7 @@ import { LOCALTUNNEL } from '../Auth/firebase/config.js';
 const AddPhotoCloudinary = ({ navigation }) => {
 
   const [photo, setPhoto] = useState('https://res.cloudinary.com/ogcodes/image/upload/v1581387688/m0e7y6s5zkktpceh2moq.jpg');
+  const { setMainFeedData } = useContext(AppContext);
 
   const addPhoto = async () => {
     let _photo = await ImagePicker.launchImageLibraryAsync({
@@ -68,6 +70,11 @@ const AddPhotoCloudinary = ({ navigation }) => {
         })
           .then(results => {
             console.log('photo posted');
+            axios.get(`${LOCALTUNNEL}/photos/${auth.currentUser.uid}`)
+              .then(res => {
+                setMainFeedData(res.data[0].photos);
+              })
+              .catch(err => console.log('error getting main feed in add photo', err));
           })
           .catch(err => console.log('error posting photo', err));
       })
