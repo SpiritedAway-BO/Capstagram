@@ -22,16 +22,16 @@ module.exports = {
       .catch(err => res.status(404).send(err));
   },
   getMainFeedPhotos: (req, res) => {
-    console.log('getMainFeed req', req.query, req.params);
-    // models.getPhotos(req.query.firebaseID, (err, docs) => {
-    //   if (err) {
-    //     console.log(err);
-    //     res.status(400).send(err);
-    //   } else {
-    //     console.log('docs inside controllers: ', docs);
-    //     res.status(200).send(docs);
-    //   }
-    // });
+    console.log('getMainFeed req', req.params.firebaseID);
+    models.getPhotos(req.params.firebaseID, (err, docs) => {
+      if (err) {
+        console.log(err);
+        res.status(400).send(err);
+      } else {
+        console.log('docs inside controllers: ', docs);
+        res.status(200).send(docs);
+      }
+    });
   },
   postCaption: (req, res) => {
     console.log('postCaption req', req.body);
