@@ -12,16 +12,16 @@ export default function Caption({ caption }) {
   return (
     <View style={styles.captionContainer}>
       <View style={styles.captionerInfo}>
-        <Text style={styles.username}>{caption.username}</Text>
-        <Text>{caption.caption}</Text>
+        <Text style={styles.username}>{caption.captioner}</Text>
+        <Text>{caption.body}</Text>
       </View>
       {liked ?
         <Text style={styles.likeNumber}>
-          #
+          {caption.likes}
           <Ionicons name="ios-heart" size={15} color="#FF842B" onPress={heart}/>
         </Text> :
         <Text style={styles.likeNumber}>
-          #
+          {caption.likes}
           <Ionicons name="ios-heart-outline" size={15} color="#FF842B" onPress={heart}/>
         </Text>}
     </View>
