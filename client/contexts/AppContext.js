@@ -13,7 +13,7 @@ export const AppProvider = ({ children }) => {
   useEffect(() => {
     setCurrentUser(auth.currentUser);
   }, []);
-
+  // console.log('currentUser in AppContext', currentUser.uid)
  /** INSERT VARIABLE NAMES into value deconstruction to make them available in other modules */
   const value = { username, setUsername, currentUser, userPhotos, setUserPhotos};
 
@@ -22,8 +22,8 @@ export const AppProvider = ({ children }) => {
     if (currentUser) {
       axios.get(`https://silver-beans-smile-173-228-53-12.loca.lt/photos/${currentUser.uid}`)
         .then(res => {
-          console.log('res data', res.data[0].photos);
-          setUserPhotos(res.data[0].photos);
+          // console.log('res data', res.data[0].photos);
+          setUserPhotos(res.data[0].photos); //an array of objects
         })
         .catch(err => console.log('error', err));
     }
