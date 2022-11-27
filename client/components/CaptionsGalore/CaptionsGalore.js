@@ -97,6 +97,23 @@ const CaptionsGalore = () => {
   // axios.get('https://angry-pets-cheer-173-228-53-12.loca.lt/captions', {body: {photoID: }})
 
   // ), [])
+    /** gets currentUser Object **/
+    useEffect(() => {
+      // console.log(currentUser);
+      if (currentUser) {
+        console.log('currentUser.uid', currentUser.uid)
+        axios.get(`http://full-carrots-add-173-228-53-12.loca.lt/photos?firebaseID=${currentUser.uid}`)
+        // axios.get('https://full-carrots-add-173-228-53-12.loca.lt/photos', {params: {firebaseID: currentUser.uid}})
+
+          .then((results) => {
+            console.log('results', results);
+            if (results.length > 0) {
+              // setUserPhotos(results.data);
+            }
+          })
+          .catch(err => console.log('error in CaptionsGalore'))
+      }
+    }, [currentUser]);
 
   const renderCaption = ({ item }) => (
     <CaptionItem caption={item} />
