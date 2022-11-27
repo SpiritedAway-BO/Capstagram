@@ -34,7 +34,7 @@ const styles = StyleSheet.create({
   },
   borderSmaller: {
     width: '92%',
-    borderBottomWidth: 3,
+    borderBottomWidth: 1,
     borderColor: '#d6d6d6',
   },
   captionIntro: {
