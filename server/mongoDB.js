@@ -142,7 +142,14 @@ module.exports = {
         cb(err, null);
       } else {
         let friendToAdd = docs;
-        Users.findOneAndUpdate({firebaseID: userID}, { $push: {friends: friendToAdd}});
+        console.log('friendToAdd', friendToAdd);
+        Users.findOneAndUpdate({firebaseID: userID}, { $push: {friends: friendToAdd}}).exec((err, docs) => {
+          if (err) {
+            cb(err, null);
+          } else {
+            cb(null, docs);
+          }
+        });
       }
     });
   }

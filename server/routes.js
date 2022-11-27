@@ -22,7 +22,7 @@ router.get('/photos/:firebaseID', controllers.getMainFeedPhotos); //gets all pho
 // router.get('/photos/:userId', controllers.getPhotos); //gets one user's photos (for main page and friends page)
 
 // //Friends Route
-router.get('/user/friends', controllers.getFriends); //gets a user's friends
+router.get('/user/:firebaseID/friends', controllers.getFriends); //gets a user's friends
 router.post('/user/friends', controllers.addFriend); // add a friend
 //  router.delete('/user/:userId/friends', controllers.removeFriend); // removes a friend   - Query param: friendId
 

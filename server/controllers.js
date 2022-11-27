@@ -64,7 +64,7 @@ module.exports = {
       .catch(err => res.send(404).send(err));
   },
   getFriends: (req, res) => {
-    models.getUserFriends(req.body.firebaseID, (err, docs) => {
+    models.getUserFriends(req.params.firebaseID, (err, docs) => {
       console.log(req.body.firebaseID);
       if (err) {
         console.log(err);
