@@ -1,6 +1,7 @@
 import { createContext, useState, useEffect } from 'react';
 import axios from 'axios';
 import { auth } from '../components/Auth/firebase/firebase.js';
+import {LOCALTUNNEL} from '../components/Auth/firebase/config.js';
 
 export const AppContext = createContext(null);
 
@@ -29,9 +30,10 @@ export const AppProvider = ({ children }) => {
  /** MAKES CONTEXT AVAILABLE **/
   useEffect(() => {
     if (currentUser) {
-      axios.get(`https://wide-ideas-smash-99-227-192-34.loca.lt/photos/${currentUser.uid}`)
+      console.log(LOCALTUNNEL)
+      axios.get(`${LOCALTUNNEL}/photos/${currentUser.uid}`)
         .then(res => {
-          setMainFeedData(res.data[0].photos);
+          setMainFeedData(res.data[1].photos);
         })
         .catch(err => console.log('error hello', err));
     }

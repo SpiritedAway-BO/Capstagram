@@ -99,12 +99,20 @@ const CaptionsGalore = () => {
   const renderCaption = ({ item }) => (
     <CaptionItem caption={item} />
   );
-
+  console.log('current post', currentPost._id);
   const handleCaptionSubmit = () => {
     // console.log('currentUser', currentUser)
     /***** REPLACE PHOTOID WITH USER SELECTED PHOTOID */
     /** make a default for if usename is null */
-    axios.post(`${LOCALTUNNEL}/captions`, {username: currentUser.displayName, photoID: '6382cd1905e5b94830a216bf', captionBody: newCaption})
+    axios.post(`${LOCALTUNNEL}/captions`, {username: currentUser.displayName, photoID: currentPost._id, captionBody: newCaption})
+      .then(results => {
+        axios.get(`${LOCALTUNNEL}/captions/${currentPost._id}`)
+        .then(results => {
+          setCaptionArray(results.data[0].photos[0].captions);
+          // console.log('results of caption get', results.data[0].photos[0].captions)
+        })
+        .catch(err => console.log('error in caption get'))
+      })
       .then(results => console.log('posted new caption'))
       .catch(err => console.log('errors in captions galore'));
     setNewCaption(''); //reset
@@ -113,7 +121,7 @@ const CaptionsGalore = () => {
   return (
     <SafeAreaView style={styles.container}>
       <FlatList //this is like map
-        data={DATA}
+        data={captionArray}
         renderItem={renderCaption}
         keyExtractor={item => item.id}
         />
@@ -125,7 +133,6 @@ const CaptionsGalore = () => {
           </View>
         </KeyboardAvoidingView>
       </TouchableWithoutFeedback>
-      {/* {console.log('currentUser context', currentUser.uid)} */}
     </SafeAreaView>
 
   );

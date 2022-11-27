@@ -43,7 +43,7 @@ const SignUp = ({ navigation }) => {
             {
               firebaseID: auth.currentUser.uid,
               username: username,
-              friends: [{ _id: '6382d4f991ce1c852d8b8b78', username: 'SeanMac', profilePicURI: 'https://res.cloudinary.com/cwhrcloud/image/upload/v1669246271/orange_auy0ff.png' }]
+              friends: [{ firebaseID: 'igyWVxSUN3Rvei7O41KfNCpCTYY2', username: 'SeanMaac', profilePicURI: 'https://res.cloudinary.com/cwhrcloud/image/upload/v1669246271/orange_auy0ff.png' }]
             })
             .then(res => console.log('User Posted'))
             .catch(err => { console.log(err); });
