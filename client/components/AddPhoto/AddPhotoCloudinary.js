@@ -62,7 +62,7 @@ const AddPhotoCloudinary = ({ navigation }) => {
       .then(data => {
         console.log('response data', data);
         // setPhoto(data.secure_url);
-        axios.post('https://full-carrots-add-173-228-53-12.loca.lt', {
+        axios.post('https://pretty-months-call-47-145-217-232.loca.lt/photos', {
           currentUser: auth.currentUser,
           uri: data.secure_url
         })
