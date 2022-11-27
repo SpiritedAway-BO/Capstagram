@@ -6,84 +6,85 @@ import { auth } from '../Auth/firebase/firebase.js';
 import CaptionItem from './CaptionItem.js';
 import { AppContext}  from '../../contexts/AppContext.js';
 import axios from 'axios';
+import {LOCALTUNNEL} from '../Auth/firebase/config.js';
 
 
+var DATA = [
+//   {
+//   id: 1234567,
+//   username: 'thisGuy',
+//   caption: 'It\'s the little things in life',
+//   upvotes: 5,
+//   usericon: 'https://res.cloudinary.com/cwhrcloud/image/upload/v1669246271/orange_auy0ff.png',
+//   voted: true,
+//   timestamp: Date(),
+// },
+// {
+//   id: 1234568,
+//   username: 'thisGuy2',
+//   caption: 'Let me show you my Pokemon!',
+//   upvotes: 15,
+//   usericon: 'https://res.cloudinary.com/cwhrcloud/image/upload/v1669246271/orange_auy0ff.png',
+//   voted: false,
+//   timestamp: Date(),
 
-var DATA = [{
-  id: 1234567,
-  username: 'thisGuy',
-  caption: 'It\'s the little things in life',
-  upvotes: 5,
-  usericon: 'https://res.cloudinary.com/cwhrcloud/image/upload/v1669246271/orange_auy0ff.png',
-  voted: true,
-  timestamp: Date(),
-},
-{
-  id: 1234568,
-  username: 'thisGuy2',
-  caption: 'Let me show you my Pokemon!',
-  upvotes: 15,
-  usericon: 'https://res.cloudinary.com/cwhrcloud/image/upload/v1669246271/orange_auy0ff.png',
-  voted: false,
-  timestamp: Date(),
+// },
+// {
+//   id: 1234569,
+//   username: 'thisGuy3',
+//   caption: 'Are we there yet?',
+//   upvotes: 0,
+//   usericon: 'https://res.cloudinary.com/cwhrcloud/image/upload/v1669246271/orange_auy0ff.png',
+//   voted: false,
+//   timestamp: Date(),
 
-},
-{
-  id: 1234569,
-  username: 'thisGuy3',
-  caption: 'Are we there yet?',
-  upvotes: 0,
-  usericon: 'https://res.cloudinary.com/cwhrcloud/image/upload/v1669246271/orange_auy0ff.png',
-  voted: false,
-  timestamp: Date(),
+// },
+// {
+//   id: 1234570,
+//   username: 'thisGuy4',
+//   caption: 'I can show you the world!',
+//   upvotes: 33,
+//   usericon: 'https://res.cloudinary.com/cwhrcloud/image/upload/v1669246271/orange_auy0ff.png',
+//   voted: true,
+//   timestamp: Date(),
 
-},
-{
-  id: 1234570,
-  username: 'thisGuy4',
-  caption: 'I can show you the world!',
-  upvotes: 33,
-  usericon: 'https://res.cloudinary.com/cwhrcloud/image/upload/v1669246271/orange_auy0ff.png',
-  voted: true,
-  timestamp: Date(),
-
-},
-{
-  id: 1234571,
-  username: 'thisGuy5',
-  caption: 'All your base are belongs to us!',
-  upvotes: 2,
-  usericon: 'https://res.cloudinary.com/cwhrcloud/image/upload/v1669246271/orange_auy0ff.png',
-  voted: false,
-  timestamp: Date(),
-},
-{
-  id: 1234572,
-  username: 'thisGuy6',
-  caption: 'I can haz cheezburger?',
-  upvotes: 4,
-  usericon: 'https://res.cloudinary.com/cwhrcloud/image/upload/v1669246271/orange_auy0ff.png',
-  voted: false,
-  timestamp: Date(),
-},
-{
-  id: 1234573,
-  username: 'thisGuy7',
-  caption: 'Momma said there\'d be days like this...',
-  upvotes: 12,
-  usericon: 'https://res.cloudinary.com/cwhrcloud/image/upload/v1669246271/orange_auy0ff.png',
-  voted: false,
-  timestamp: Date(),
-},
-{
-  id: 1234574,
-  username: 'thisGuy7',
-  caption: 'Whodunnit',
-  upvotes: 12,
-  usericon: 'https://res.cloudinary.com/cwhrcloud/image/upload/v1669246271/orange_auy0ff.png',
-  voted: false,
-  timestamp: Date(),
-},
+// },
+// {
+//   id: 1234571,
+//   username: 'thisGuy5',
+//   caption: 'All your base are belongs to us!',
+//   upvotes: 2,
+//   usericon: 'https://res.cloudinary.com/cwhrcloud/image/upload/v1669246271/orange_auy0ff.png',
+//   voted: false,
+//   timestamp: Date(),
+// },
+// {
+//   id: 1234572,
+//   username: 'thisGuy6',
+//   caption: 'I can haz cheezburger?',
+//   upvotes: 4,
+//   usericon: 'https://res.cloudinary.com/cwhrcloud/image/upload/v1669246271/orange_auy0ff.png',
+//   voted: false,
+//   timestamp: Date(),
+// },
+// {
+//   id: 1234573,
+//   username: 'thisGuy7',
+//   caption: 'Momma said there\'d be days like this...',
+//   upvotes: 12,
+//   usericon: 'https://res.cloudinary.com/cwhrcloud/image/upload/v1669246271/orange_auy0ff.png',
+//   voted: false,
+//   timestamp: Date(),
+// },
+// {
+//   id: 1234574,
+//   username: 'thisGuy7',
+//   caption: 'Whodunnit',
+//   upvotes: 12,
+//   usericon: 'https://res.cloudinary.com/cwhrcloud/image/upload/v1669246271/orange_auy0ff.png',
+//   voted: false,
+//   timestamp: Date(),
+// },
 ];
 
 const CaptionsGalore = () => {
@@ -102,7 +103,7 @@ const CaptionsGalore = () => {
     // console.log('currentUser', currentUser)
     /***** REPLACE PHOTOID WITH USER SELECTED PHOTOID */
     /** make a default for if usename is null */
-    axios.post('https://silver-beans-smile-173-228-53-12.loca.lt/captions', {username: currentUser.displayName, photoID: '6382cd1905e5b94830a216bf', captionBody: newCaption})
+    axios.post(`${LOCALTUNNEL}/captions`, {username: currentUser.displayName, photoID: '6382cd1905e5b94830a216bf', captionBody: newCaption})
       .then(results => console.log('posted new caption'))
       .catch(err => console.log('errors in captions galore'));
     setNewCaption(''); //reset

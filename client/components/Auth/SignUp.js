@@ -4,6 +4,8 @@ import { StyleSheet, Text, TextInput, View, KeyboardAvoidingView, TouchableOpaci
 import { updateProfile } from 'firebase/auth';
 import { createUser, auth } from './firebase/firebase.js';
 import axios from 'axios';
+import {LOCALTUNNEL} from '../Auth/firebase/config.js';
+
 
 const SignUp = ({ navigation }) => {
   // const navigation = useNavigation();
@@ -37,7 +39,7 @@ const SignUp = ({ navigation }) => {
           displayName: username,
         });
         setTimeout(() => {
-          axios.post('https://famous-eggs-sell-75-80-43-25.loca.lt/users',
+          axios.post(`${LOCALTUNNEL}/users`,
             {
               firebaseID: auth.currentUser.uid,
               username: username,
