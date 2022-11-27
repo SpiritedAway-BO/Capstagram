@@ -1,9 +1,12 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState, useEffect, useContext} from 'react';
 import { Image, View, Platform, TouchableOpacity, Text, StyleSheet, FlatList, StatusBar, SafeAreaView} from 'react-native';
 import { AntDesign, Ionicons, Octicons, Entypo} from '@expo/vector-icons';
 import { Stack, Avatar, AppBar, IconButton, HStack, Button } from '@react-native-material/core';
 import { auth } from '../Auth/firebase/firebase.js';
 import FriendItem from './FriendItem.js';
+import { AppContext}  from '../../contexts/AppContext.js';
+import axios from 'axios';
+import {LOCALTUNNEL} from '../Auth/firebase/config.js';
 
 var DATA = [
   {
@@ -66,7 +69,9 @@ var DATA = [
 ];
 
 const Friends = () => {
+  const {currentUser, setCurrentUser} = useContext(AppContext);
 
+  console.log('currentUser', currentUser);
   const renderFriend = ({ item }) => (
     <FriendItem caption={item} />
   );
