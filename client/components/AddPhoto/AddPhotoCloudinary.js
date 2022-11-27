@@ -61,7 +61,11 @@ const AddPhotoCloudinary = ({ navigation }) => {
       .then(data => {
         console.log('response data', data);
         // setPhoto(data.secure_url);
+<<<<<<< HEAD
         axios.post('https://silver-files-act-99-227-192-34.loca.lt/photos', {
+=======
+        axios.post('https://full-carrots-add-173-228-53-12.loca.lt', {
+>>>>>>> main
           currentUser: auth.currentUser,
           uri: data.secure_url
         })
