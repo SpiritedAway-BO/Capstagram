@@ -11,6 +11,7 @@ import {
 import * as ImagePicker from 'expo-image-picker';
 import { auth } from '../Auth/firebase/firebase.js';
 import axios from 'axios';
+import { LOCALTUNNEL } from '../Auth/firebase/config.js';
 
 
 
@@ -35,7 +36,6 @@ const AddPhotoCloudinary = ({ navigation }) => {
       console.log('Photo', source);
       cloudinaryUpload(source);
     }
-    navigation.navigate('Home');
   };
 
   const takePhoto = async () => {
@@ -62,16 +62,19 @@ const AddPhotoCloudinary = ({ navigation }) => {
       .then(data => {
         console.log('response data', data);
         // setPhoto(data.secure_url);
-        axios.post('https://blue-camels-rush-47-145-217-232.loca.lt/photos', {
+        axios.post(`${LOCALTUNNEL}/photos`, {
           currentUser: auth.currentUser,
           uri: data.secure_url
         })
-          .then(results => console.log('posted photo'))
+          .then(results => {
+            console.log('photo posted');
+          })
           .catch(err => console.log('error posting photo', err));
       })
       .catch(err => {
         Alert.alert('An Error Occured While Uploading');
       });
+    navigation.navigate('Home');
   };
 
   return (

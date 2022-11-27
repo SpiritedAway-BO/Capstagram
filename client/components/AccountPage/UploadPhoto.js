@@ -4,11 +4,12 @@ import { Entypo } from '@expo/vector-icons';
 import * as ImagePicker from 'expo-image-picker';
 import axios from 'axios';
 import { auth } from '../Auth/firebase/firebase.js';
+import { LOCALTUNNEL } from '../Auth/firebase/config.js';
 
 export default function UploadPhoto({ photo, setPhoto }) {
 
   useEffect(() => {
-    axios.get(`https://blue-camels-rush-47-145-217-232.loca.lt/user/${auth.currentUser.uid}`)
+    axios.get(`${LOCALTUNNEL}/user/${auth.currentUser.uid}`)
       .then(response => setPhoto(response.data.profilePicURI))
       .catch(err => console.log(err));
   }, []);
@@ -46,7 +47,7 @@ export default function UploadPhoto({ photo, setPhoto }) {
       .then(data => {
         console.log('response data', data);
         setPhoto(data.secure_url);
-        axios.put('https://blue-camels-rush-47-145-217-232.loca.lt/users', {
+        axios.put(`${LOCALTUNNEL}/users`, {
           firebaseID: auth.currentUser.uid,
           uri: data.secure_url
         })
