@@ -34,6 +34,7 @@ export const AppProvider = ({ children }) => {
       axios.get(`${LOCALTUNNEL}/photos/${currentUser.uid}`)
         .then(res => {
           setMainFeedData(res.data[1].photos);
+
         })
         .catch(err => console.log('error hello', err));
     }
