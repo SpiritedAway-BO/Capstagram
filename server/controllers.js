@@ -1,151 +1,191 @@
-const db = require('./neo4j.js');
+const models = require('./mongoDB.js');
 
 module.exports = {
-  getAllUsers: async (req, res) => {
-    try {
-      const session = db.session();
-      const queryResult = await session.executeRead((tx) => tx.run(`MATCH (u:User) return(u)`))
-        .then(result => result.records.map(record => record.get('u').properties))
-      res.status(200);
-      res.end(queryResult);
-      session.close();
-    } catch (error) {
-      console.log(error);
-      res.status(500);
-      res.end();
-    }
-
+  getAllUsers: (req, res) => {
+    // console.log('getting');
+    models.getUsers()
+      .then(users => res.status(200).send(users))
+      .catch(err => res.status(404).send(err));
   },
-  createUser: async (req, res) => {
-    if (req.data.hasOwnProperty('userId') && req.data.hasOwnProperty('username') && req.data.hasOwnProperty('email')) {
-      try {
-        const session = db.session();
-        const writeResult = await session.executeWrite((tx) => tx.run(`CREATE (u:User {id: '${req.data.userId}', username: '${req.data.username}', profilePicUrl: 'https://res.cloudinary.com/cwhrcloud/image/upload/v1669161707/orange_hhc8pc.png'}) return(u)`))
-          .then(result => result.records[0].get('u').properties);
-        console.log('User created: ', writeResult);
-        session.close();
-        res.status(201);
-        res.end();
-      } catch (error) {
-        console.log(error);
-        res.status(500);
-        res.end();
+  getOneUser: (req, res) => {
+    // console.log('getting');
+    models.getUser(req.params.firebaseID, (err, docs) => {
+      if (err) {
+        console.log(err);
+        res.status(400).send(err);
+      } else {
+        console.log('docs inside controllers: ', docs);
+        res.status(200).send(docs);
       }
-    } else {
-      res.status(401);
-      res.end();
-    }
+    });
   },
-  getUserInfo: async (req, res) => {
-    if (req.params.hasOwnProperty('userId')) {
-      try {
-        const session = db.session();
-        const queryResult = await session.executeRead((tx) => tx.run(`MATCH (u:User {id: '${req.params.userId}'}) return(u)`))
-          .then(result => result.records[0].get('u').properties)
-        console.log('User info: ', queryResult);
-        session.close();
-        res.status(200);
-        res.end(queryResult);
-      } catch (error) {
-        console.log(error);
-        res.status(500);
-        res.end();
-      }
-    } else {
-      res.status(401);
-      res.end();
-    }
+  createUser: (req, res) => {
+    console.log('createUser req', req.body);
+    models.addUser(req.body)
+      .then(response => res.status(201).end())
+      .catch(err => res.status(404).send(err));
   },
-  putProfilePic: async (req, res) => {
-    if (req.params.hasOwnProperty('userID') && req.query.hasOwnProperty(profilePicUri)) {
-      try {
-        const session = db.session();
-        const updateResult = await session.executeWrite((tx) => tx.run(`MATCH (u:User {id:'${req.params.userId}'}) SET u.profilePicUri = '${req.query.profilePicUri}' return(u)`))
-          .then(result => result.records[0].get('u'));
-        console.log('Updated user: ', updateResult);
-        session.close();
-        res.status(204);
-        res.end();
-      } catch (error) {
-        res.status(500);
-        res.end();
-      }
-    } else {
-      res.status(401);
-      res.end();
-    }
+  addPhoto: (req, res) => {
+    console.log('addPhoto req', req.body);
+    var userInfo = req.body.currentUser;
+    var uri = req.body.uri;
+    models.postPhoto(userInfo, uri)
+      .then(response => res.status(201).end())
+      .catch(err => res.status(404).send(err));
   },
-  getPhotoCaptions: async (req, res) => {
-    if (req.params.hasOwnProperty('photoId')) {
-      try {
-        const session = db.session();
-        const queryResult = await session.executeRead((tx) => tx.run(`MATCH (p:Photo)<-[:POSTED_ON]-(caption) WHERE p.id='${req.params.id}' return(caption)`))
-          .then(result => result.records.map(record => record.get('caption').properties))
-        res.status(200);
-        res.end(queryResult);
-        session.close();
-      } catch (error) {
-        console.log(error);
-        res.status(500);
-        res.end();
+  getMainFeedPhotos: (req, res) => {
+    console.log('getMainFeed req', req.params.firebaseID);
+    models.getPhotos(req.params.firebaseID, (err, docs) => {
+      if (err) {
+        console.log(err);
+        res.status(400).send(err);
+      } else {
+        console.log('docs inside controllers: ', docs);
+        res.status(200).send(docs);
       }
-    } else {
-      res.status(401);
-      res.end();
-    }
+    });
   },
-  postCaption: async (req, res) => {
-    if (req.params.hasOwnProperty('photoId') && req.body.hasOwnProperty('body') && req.body.hasOwnProperty('time_created')) {
-      try {
-        const session = db.session();
-        const writeResult = await session.executeWrite((tx) => tx.run(`CREATE (c:Caption {id: apoc.create.uuid(), body: '${req.body.body}', time_created: '${Number(req.body.time_created)}', likes: 0}) return(c)`))
-          .then(result => result.records[0].get('c').properties);
-        console.log('Caption created on image ', req.params.photoId, ': ', writeResult);
-        res.status(201);
-        res.end();
-        session.close();
-      } catch (error) {
-        console.log(error);
-        res.status(500);
-        res.end();
+  postCaption: (req, res) => {
+    console.log('postCaption req', req.body);
+    models.postCaption(req.body.username, req.body.photoID, req.body.captionBody, (err, docs) => {
+      if (err) {
+        console.log(err);
+        res.status(400).send(err);
+      } else {
+        console.log('docs inside controllers: ', docs);
+        res.status(200).send(docs);
       }
-    } else {
-      res.status(401);
-      res.end();
-    }
+    });
   },
-  patchCaption: async (req, res) => {
-    if (req.params.hasOwnProperty(captionId) && req.body.hasOwnProperty(upvote)) {
-      try {
-        const session = db.session();
-        const currentLikes = await session.executeRead((tx) => tx.run(`MATCH (c:Caption {id: '${req.params.captionId}'}) return(c)`))
-            .then(result => Number(result.records[0].get('c'.properties.likes)))
-            .catch(err => console.log(err));
-        if (req.body.upvote) {
-          const writeResult = await session.executeWrite((tx) => tx.run(`MATCH (c:Caption {id: '${req.params.captionId}'}) SET c.likes = ${currentLikes + 1}`))
-            .then(result => result.records[0].get('c').properties)
-            .catch(err => console.log(err));
-          console.log('Caption ', + req.params.captionId + ' has been upvoted');
-          res.status(204);
-          res.end();
-        } else {
-          const writeResult = await session.executeWrite((tx) => tx.run(`MATCH (c:Caption {id: '${req.params.captionId}'}) SET c.likes = ${currentLikes - 1}`))
-            .then(result => result.records[0].get('c').properties)
-            .catch(err => console.log(err));
-          console.log('Caption ', + req.params.captionId + ' has been downvoted');
-          res.status(204);
-          res.end();
-        }
-        session.close();
-
-      } catch (error) {
-        console.log(error);
-        res.status(500);
-        res.end();
+  getCaptions: (req, res) => {
+    models.getCaptions(req.params.photoID, (err, docs) => {
+      if (err) {
+        console.log(err);
+        res.status(400).send(err);
+      } else {
+        console.log(docs);
+        res.status(200).send(docs);
       }
-    } else {
-      res.status(401);
-      res.end();
-    }
+    });
+  },
+  putProfilePic: (req, res) => {
+    console.log('updateProfilePic req', req.body);
+    models.updateUserProfilePic(req.body.firebaseID, req.body.uri)
+      .then(response => res.sendStatus(200))
+      .catch(err => res.sendStatus(404));
+  },
+  getFriends: (req, res) => {
+    models.getUserFriends(req.params.firebaseID, (err, docs) => {
+      if (err) {
+        console.log(err);
+      } else {
+        res.status(200).send(docs);
+      }
+    });
+  },
+  addFriend: (req, res) => {
+    models.addUserFriend(req.body.firebaseID, req.body.friendID, (err, docs) => {
+      if (err) {
+        console.log(err);
+        res.sendStatus(400);
+      } else {
+        res.sendStatus(201);
+      }
+    });
   }
-}
+};
+
+module.exports = {
+  getAllUsers: (req, res) => {
+    // console.log('getting');
+    models.getUsers()
+      .then(users => res.status(200).send(users))
+      .catch(err => res.status(404).send(err));
+  },
+  getOneUser: (req, res) => {
+    // console.log('getting');
+    models.getUser(req.params.firebaseID, (err, docs) => {
+      if (err) {
+        console.log(err);
+        res.status(400).send(err);
+      } else {
+        console.log('docs inside controllers: ', docs);
+        res.status(200).send(docs);
+      }
+    });
+  },
+  createUser: (req, res) => {
+    console.log('createUser req', req.body);
+    models.addUser(req.body)
+      .then(response => res.status(201).end())
+      .catch(err => res.status(404).send(err));
+  },
+  addPhoto: (req, res) => {
+    console.log('addPhoto req', req.body);
+    var userInfo = req.body.currentUser;
+    var uri = req.body.uri;
+    models.postPhoto(userInfo, uri)
+      .then(response => res.status(201).end())
+      .catch(err => res.status(404).send(err));
+  },
+  getMainFeedPhotos: (req, res) => {
+    console.log('getMainFeed req', req.params.firebaseID);
+    models.getPhotos(req.params.firebaseID, (err, docs) => {
+      if (err) {
+        console.log(err);
+        res.status(400).send(err);
+      } else {
+        console.log('docs inside controllers: ', docs);
+        res.status(200).send(docs);
+      }
+    });
+  },
+  postCaption: (req, res) => {
+    console.log('postCaption req', req.body);
+    models.postCaption(req.body.username, req.body.photoID, req.body.captionBody, (err, docs) => {
+      if (err) {
+        console.log(err);
+        res.status(400).send(err);
+      } else {
+        console.log('docs inside controllers: ', docs);
+        res.status(200).send(docs);
+      }
+    });
+  },
+  getCaptions: (req, res) => {
+    models.getCaptions(req.params.photoID, (err, docs) => {
+      if (err) {
+        console.log(err);
+        res.status(400).send(err);
+      } else {
+        console.log(docs);
+        res.status(200).send(docs);
+      }
+    });
+  },
+  putProfilePic: (req, res) => {
+    console.log('updateProfilePic req', req.body);
+    models.updateUserProfilePic(req.body.firebaseID, req.body.uri)
+      .then(response => res.sendStatus(200))
+      .catch(err => res.sendStatus(404));
+  },
+  getFriends: (req, res) => {
+    models.getUserFriends(req.params.firebaseID, (err, docs) => {
+      if (err) {
+        console.log(err);
+      } else {
+        res.status(200).send(docs);
+      }
+    });
+  },
+  addFriend: (req, res) => {
+    models.addUserFriend(req.body.firebaseID, req.body.friendID, (err, docs) => {
+      if (err) {
+        console.log(err);
+        res.sendStatus(400);
+      } else {
+        res.sendStatus(201);
+      }
+    });
+  }
+};

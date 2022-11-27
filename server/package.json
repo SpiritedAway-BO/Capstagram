@@ -1,6 +1,6 @@
 {
   "scripts": {
-    "server-dev": "npx nodemon --watch server index.js"
+    "server": "npx nodemon --watch server server/index.js"
   },
   "dependencies": {
     "dotenv": "^16.0.3",
@@ -9,6 +9,8 @@
     "neo4j-driver": "^5.2.0"
   },
   "devDependencies": {
-    "nodemon": "^2.0.20"
+    "nodemon": "^2.0.20",
+    "mongoose": "^6.7.3",
+    "morgan": "^1.10.0"
   }
 }

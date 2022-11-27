@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
 import { useNavigation } from '@react-navigation/core';
-import { StyleSheet, Text, TextInput, View, KeyboardAvoidingView, TouchableOpacity, Keyboard, TouchableWithoutFeedback, Image} from 'react-native';
+import { StyleSheet, Text, TextInput, View, KeyboardAvoidingView, TouchableOpacity, Keyboard, TouchableWithoutFeedback, Image } from 'react-native';
 import { updateProfile } from 'firebase/auth';
 import { createUser, auth } from './firebase/firebase.js';
+import axios from 'axios';
 
 const SignUp = ({ navigation }) => {
   // const navigation = useNavigation();
@@ -36,10 +37,17 @@ const SignUp = ({ navigation }) => {
           displayName: username,
         });
         setTimeout(() => {
+          axios.post('https://blue-camels-rush-47-145-217-232.loca.lt/users',
+            {
+              firebaseID: auth.currentUser.uid,
+              username: username,
+              friends: [{ _id: '6382d4f991ce1c852d8b8b78', username: 'SeanMac', profilePicURI: 'https://res.cloudinary.com/cwhrcloud/image/upload/v1669246271/orange_auy0ff.png' }]
+            })
+            .then(res => console.log('User Posted'))
+            .catch(err => { console.log(err); });
           navigation.navigate('Capstagram');
           setIsLoading(false);
         }, 200);
-
       })
       .catch(err => {
         console.log(err);
@@ -63,8 +71,8 @@ const SignUp = ({ navigation }) => {
             <Text style={isLoading ? styles.loadingButton : styles.signUpButton}>{isLoading ? 'Loading..' : 'Sign Up'}</Text>
           </TouchableOpacity>
         </View>
-        <View styles={styles.haveaccount}>
-          <Text style={styles.haveaccounttext}>Already have an account?</Text>
+        <View>
+          <Text style={styles.registeredText}>Already have an account?</Text>
           <TouchableOpacity style={styles.buttonGrp} onPress={() => navigation.goBack()}>
             <Text style={styles.link}>Log In.</Text>
           </TouchableOpacity>
@@ -140,7 +148,7 @@ const styles = StyleSheet.create({
     textDecorationLine: 'underline',
     textAlign: 'center'
   },
-  haveaccounttext: {
+  registeredText: {
     marginTop: 21,
     color: "whitesmoke",
     alignSelf: 'center',

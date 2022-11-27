@@ -1,71 +1,97 @@
 import React, { useState, useEffect } from 'react';
-import { Image, View, Platform, TouchableOpacity, Text, StyleSheet } from 'react-native';
+import { Image, View, Platform, TouchableOpacity, Text, StyleSheet, ImageBackground } from 'react-native';
 import { Entypo } from '@expo/vector-icons';
 import * as ImagePicker from 'expo-image-picker';
+import axios from 'axios';
+import { auth } from '../Auth/firebase/firebase.js';
 
-export default function UploadPhoto() {
-  const [photo, setPhoto] = useState(null);
+export default function UploadPhoto({ photo, setPhoto }) {
 
   useEffect(() => {
-    // checkForCameraPermission();
+    axios.get(`https://blue-camels-rush-47-145-217-232.loca.lt/user/${auth.currentUser.uid}`)
+      .then(response => setPhoto(response.data.profilePicURI))
+      .catch(err => console.log(err));
   }, []);
-
-  // const checkForCameraPermission = async () => {
-  //   const { status } = await ImagePicker.getMediaLibraryPermissionsAsync();
-  //   if (status !== 'granted') {
-  //     alert('Please grant camera roll permissions inside your system\'s settings');
-  //   } else {
-  //     console.log('Media Permissions are granted');
-  //   }
-  // };
 
   const addPhoto = async () => {
     let _photo = await ImagePicker.launchImageLibraryAsync({
       mediaTypes: ImagePicker.MediaTypeOptions.Images,
       allowsEditing: true,
-      quality: 1,
     });
     console.log(JSON.stringify(_photo));
     if (!_photo.canceled) {
-      setPhoto(_photo.assets[0].uri);
+      const uri = _photo.assets[0].uri;
+      const type = _photo.assets[0].type;
+      const name = _photo.assets[0].fileName;
+      const source = {
+        uri,
+        type,
+        name,
+      };
+      console.log('Photo', source);
+      cloudinaryUpload(source);
     }
+  };
+
+  const cloudinaryUpload = (photo) => {
+    const data = new FormData();
+    data.append('file', photo);
+    data.append('upload_preset', 'uw_blueocean');
+    data.append('cloud_name', 'cwhrcloud');
+    fetch('https://api.cloudinary.com/v1_1/cwhrcloud/upload', {
+      method: 'post',
+      body: data
+    })
+      .then(res => res.json())
+      .then(data => {
+        console.log('response data', data);
+        setPhoto(data.secure_url);
+        axios.put('https://blue-camels-rush-47-145-217-232.loca.lt/users', {
+          firebaseID: auth.currentUser.uid,
+          uri: data.secure_url
+        })
+          .then(response => console.log('profile pic has been updated'))
+          .catch(err => console.log('error updating profile pic'));
+      })
+      .catch(err => {
+        Alert.alert('An Error Occured While Uploading');
+      });
   };
 
   return (
     <View style={photoUploaderStyles.container}>
-      {photo && <Image source={{ uri: photo }} style={{ width: 200, height: 200 }} />}
-      <View style={photoUploaderStyles.uploadBtnContainer}>
-        <TouchableOpacity onPress={addPhoto} style={photoUploaderStyles.uploadBtn}>
-          <Text style={{ paddingTop: 5 }}>{photo ? 'Edit' : 'Upload'}</Text>
-          <Entypo name='camera' size={20} color='black' />
-        </TouchableOpacity>
-      </View>
+      <ImageBackground source={{ uri: photo }} style={photoUploaderStyles.image}>
+        <View style={photoUploaderStyles.uploadBtnContainer}>
+          <TouchableOpacity onPress={addPhoto} style={photoUploaderStyles.uploadBtn}>
+            <Text>{photo ? 'Edit' : 'Upload'}</Text>
+            <Entypo name='camera' size={20} color='black' />
+          </TouchableOpacity>
+        </View>
+      </ImageBackground>
     </View>
   );
 }
 
 const photoUploaderStyles = StyleSheet.create({
   container: {
-    elevation: 2,
     height: 200,
     width: 200,
-    backgroundColor: '#efefef',
-    position: 'relative',
+    backgroundColor: '#EFEFEF',
     borderRadius: 999,
     overflow: 'hidden',
   },
   uploadBtnContainer: {
-    opacity: 0.7,
-    position: 'absolute',
-    right: 0,
-    bottom: 0,
-    backgroundColor: 'lightgrey',
     width: '100%',
-    height: '25%',
+    height: '22.5%',
+    opacity: 0.7,
+    backgroundColor: 'lightgrey',
   },
   uploadBtn: {
-    display: 'flex',
     alignItems: 'center',
-    justifyContent: 'center',
   },
+  image: {
+    width: '100%',
+    height: '100%',
+    justifyContent: 'flex-end'
+  }
 });

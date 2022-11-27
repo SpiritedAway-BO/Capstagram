@@ -10,7 +10,6 @@ const Login = ({navigation}) => {
   const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
-
     const unsubscribe = onAuthStateChanged(auth, (user) => {
       if (user && user.displayName) {
         navigation.reset({
@@ -26,6 +25,7 @@ const Login = ({navigation}) => {
     setIsLoading(true);
     loginUser(email, password)
       .then(() => {
+        // console.log(auth.currentUser);
         navigation.reset({
           index: 0,
           routes: [{ name: 'Capstagram' }],

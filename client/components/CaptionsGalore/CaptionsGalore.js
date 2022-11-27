@@ -1,7 +1,12 @@
-import React, {useState, useEffect} from 'react';
-import { Image, View, Platform, TouchableOpacity, Text, StyleSheet, FlatList, StatusBar, SafeAreaView} from 'react-native';
+import React, {useState, useEffect, useRef, useContext} from 'react';
+import { Image, View, Platform, TouchableOpacity, Text, StyleSheet, FlatList, StatusBar, SafeAreaView, TextInput, TouchableWithoutFeedback, KeyboardAvoidingView, Keyboard} from 'react-native';
 import { AntDesign, Ionicons, Octicons, Entypo} from '@expo/vector-icons';
-import { Stack, Avatar, AppBar, IconButton, HStack, Button } from '@react-native-material/core';
+import { Stack, AppBar, IconButton, HStack, Button } from '@react-native-material/core';
+import { auth } from '../Auth/firebase/firebase.js';
+import CaptionItem from './CaptionItem.js';
+import { AppContext}  from '../../contexts/AppContext.js';
+import axios from 'axios';
+
 
 
 var DATA = [{
@@ -9,7 +14,7 @@ var DATA = [{
   username: 'thisGuy',
   caption: 'It\'s the little things in life',
   upvotes: 5,
-  usericon: '../../assets/favicon.png',
+  usericon: 'https://res.cloudinary.com/cwhrcloud/image/upload/v1669246271/orange_auy0ff.png',
   voted: true,
   timestamp: Date(),
 },
@@ -18,7 +23,7 @@ var DATA = [{
   username: 'thisGuy2',
   caption: 'Let me show you my Pokemon!',
   upvotes: 15,
-  usericon: '../../assets/favicon.png',
+  usericon: 'https://res.cloudinary.com/cwhrcloud/image/upload/v1669246271/orange_auy0ff.png',
   voted: false,
   timestamp: Date(),
 
@@ -28,7 +33,7 @@ var DATA = [{
   username: 'thisGuy3',
   caption: 'Are we there yet?',
   upvotes: 0,
-  usericon: '../../assets/favicon.png',
+  usericon: 'https://res.cloudinary.com/cwhrcloud/image/upload/v1669246271/orange_auy0ff.png',
   voted: false,
   timestamp: Date(),
 
@@ -36,9 +41,9 @@ var DATA = [{
 {
   id: 1234570,
   username: 'thisGuy4',
-  caption: 'Let me show you the world!',
+  caption: 'I can show you the world!',
   upvotes: 33,
-  usericon: '../../assets/favicon.png',
+  usericon: 'https://res.cloudinary.com/cwhrcloud/image/upload/v1669246271/orange_auy0ff.png',
   voted: true,
   timestamp: Date(),
 
@@ -48,7 +53,7 @@ var DATA = [{
   username: 'thisGuy5',
   caption: 'All your base are belongs to us!',
   upvotes: 2,
-  usericon: '../../assets/favicon.png',
+  usericon: 'https://res.cloudinary.com/cwhrcloud/image/upload/v1669246271/orange_auy0ff.png',
   voted: false,
   timestamp: Date(),
 },
@@ -57,7 +62,7 @@ var DATA = [{
   username: 'thisGuy6',
   caption: 'I can haz cheezburger?',
   upvotes: 4,
-  usericon: '../../assets/favicon.png',
+  usericon: 'https://res.cloudinary.com/cwhrcloud/image/upload/v1669246271/orange_auy0ff.png',
   voted: false,
   timestamp: Date(),
 },
@@ -66,59 +71,42 @@ var DATA = [{
   username: 'thisGuy7',
   caption: 'Momma said there\'d be days like this...',
   upvotes: 12,
-  usericon: '../../assets/favicon.png',
+  usericon: 'https://res.cloudinary.com/cwhrcloud/image/upload/v1669246271/orange_auy0ff.png',
+  voted: false,
+  timestamp: Date(),
+},
+{
+  id: 1234574,
+  username: 'thisGuy7',
+  caption: 'Whodunnit',
+  upvotes: 12,
+  usericon: 'https://res.cloudinary.com/cwhrcloud/image/upload/v1669246271/orange_auy0ff.png',
   voted: false,
   timestamp: Date(),
 },
 ];
 
-const CaptionItem = ({ caption }) => {
-  const [voted, setVoted] = useState(caption.voted);
-  const [votes, setVotes] = useState(caption.upvotes);
-
-  useEffect(() => {
-    setVotes(caption.upvotes); //takes care of asynchronous state setting
-  }, []);
-
-  /* will need to send put/patch state to database, or somehow keep track of uservotes and also specifically THIS user's vote */
-
-  return (
-    <View style={styles.item}>
-      <View style={styles.userInfo} >
-        <Avatar image={{ uri: '/Users/tthornberryclass/HackReactorSEI/Capstagram/client/assets/orange.png' }}
-          size={35}
-          style={styles.avatar}
-        />
-        <Text style={styles.title}>{caption.username}</Text>
-      </View>
-      <Text style={styles.title}>{caption.caption}</Text>
-      { voted ?
-        <View style={styles.heartIcon} >
-          <Text style={styles.title}>{votes}</Text>
-          <Ionicons name="ios-heart" size={30} color="#FF842B"
-            onPress={() => {
-              setVotes(votes - 1);
-              setVoted(!voted);
-            }}/>
-        </View> :
-        <View style={styles.heartIcon} >
-          <Text style={styles.title} >{votes}</Text>
-          <Ionicons style={styles.heartIcon} name="ios-heart-outline" size={30} color="#FF842B"
-            onPress={() => {
-              setVotes(votes + 1);
-              setVoted(!voted);
-            }}
-          />
-        </View>}
-    </View>
-  );
-};
-
 const CaptionsGalore = () => {
+  const [allCaptions, setAllCaptions] = useState([]);
+  const {username, setUserName} = useContext(AppContext);
+  const {currentUser, setCurrentUser} = useContext(AppContext);
+  const [newCaption, setNewCaption] = useState('');
+  const [photoObject, setPhotoObject] = useState('6382cd1905e5b94830a216bf');
+  const [captionArray, setCaptionArray] = useState([]);
 
   const renderCaption = ({ item }) => (
     <CaptionItem caption={item} />
   );
+
+  const handleCaptionSubmit = () => {
+    // console.log('currentUser', currentUser)
+    /***** REPLACE PHOTOID WITH USER SELECTED PHOTOID */
+    /** make a default for if usename is null */
+    axios.post('https://silver-beans-smile-173-228-53-12.loca.lt/captions', {username: currentUser.displayName, photoID: '6382cd1905e5b94830a216bf', captionBody: newCaption})
+      .then(results => console.log('posted new caption'))
+      .catch(err => console.log('errors in captions galore'));
+    setNewCaption(''); //reset
+  }
 
   return (
     <SafeAreaView style={styles.container}>
@@ -126,9 +114,18 @@ const CaptionsGalore = () => {
         data={DATA}
         renderItem={renderCaption}
         keyExtractor={item => item.id}
-      />
-
+        />
+      <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
+        <KeyboardAvoidingView behavior="padding">
+          <View style={styles.newCommentView}>
+          <TextInput style={styles.newComment} value={newCaption} onChangeText={newCaption => setNewCaption(newCaption)} placeholder="Add a new caption..." />
+          <Button style={styles.newCommentButton} accessibilityLabel="Post a New caption button" title="Post" color="9D4EDD" onPress={handleCaptionSubmit}/>
+          </View>
+        </KeyboardAvoidingView>
+      </TouchableWithoutFeedback>
+      {/* {console.log('currentUser context', currentUser.uid)} */}
     </SafeAreaView>
+
   );
 };
 
@@ -138,24 +135,46 @@ const styles = StyleSheet.create({
     marginTop: StatusBar.currentHeight || 0,
     backgroundColor: '#fff',
   },
+  captionIntro: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    paddingBottom: 20,
+  },
   userInfo: {
     flexDirection: 'row',
     justifyContent: 'flex-start',
+    justifyContent: 'space-between',
   },
   heartIcon: {
     flexDirection: 'row',
     justifyContent: 'flex-end',
+    paddingleft: 2,
   },
-  item: {
-    backgroundColor: '#fff',
-    padding: 20,
+  newComment: {
+    position: 'sticky',
+    bottom: 0,
+    fontSize: 20,
+    width: `100%`,
+    height: 46,
+    borderWidth: 2,
+    borderColor: '#d6d6d6',
+    width: `60%`,
+    marginLeft: 30,
   },
-  title: {
-    fontSize: 24,
-    paddingHorizontal: 5,
+  newCommentView: {
+    height: 56,
+    justifyContent: 'space-around',
+    alignItems: 'space-around',
+    flexDirection: 'row',
+    borderTopWidth: 2,
+    borderColor: '#d6d6d6',
+
   },
-  avatar: {
-    borderRadius: '50%',
+  newCommentButton: {
+    height: 46,
+    width: 'auto',
+    backgroundColor: `#9D4EDD`,
+    justifyContent: 'space-around',
   },
 });
 
