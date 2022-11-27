@@ -99,6 +99,21 @@ const CaptionsGalore = () => {
   const renderCaption = ({ item }) => (
     <CaptionItem caption={item} />
   );
+  useEffect(() => {
+    getCaptions();
+  }, []);
+
+  const getCaptions = () => {
+    if (currentPost._id) {
+      axios.get(`${LOCALTUNNEL}/captions/${currentPost._id}`)
+      .then(results => {
+        let reverseCaptionsArray = results.data[0].photos[0].captions.reverse();
+        setCaptionArray(reverseCaptionsArray);
+      })
+      .catch(err => console.log('error in caption get'))
+    }
+  };
+
   console.log('current post', currentPost._id);
   const handleCaptionSubmit = () => {
     // console.log('currentUser', currentUser)
@@ -106,12 +121,7 @@ const CaptionsGalore = () => {
     /** make a default for if usename is null */
     axios.post(`${LOCALTUNNEL}/captions`, {username: currentUser.displayName, photoID: currentPost._id, captionBody: newCaption})
       .then(results => {
-        axios.get(`${LOCALTUNNEL}/captions/${currentPost._id}`)
-        .then(results => {
-          setCaptionArray(results.data[0].photos[0].captions);
-          // console.log('results of caption get', results.data[0].photos[0].captions)
-        })
-        .catch(err => console.log('error in caption get'))
+        getCaptions(); //helper function
       })
       .then(results => console.log('posted new caption'))
       .catch(err => console.log('errors in captions galore'));

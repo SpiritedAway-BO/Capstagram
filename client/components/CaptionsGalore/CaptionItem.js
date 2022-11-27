@@ -14,7 +14,7 @@ const CaptionItem = ({ caption }) => {
   // const [newCaption, setNewCaption] = useState('');
 
   useEffect(() => {
-    console.log('caption', caption)
+    // console.log('caption', caption)
     caption.upvotes ? setVotes(caption.upvotes) : null;
     // setVotes(caption.upvotes); //takes care of asynchronous state setting
     caption.usericon ? setAvatarUri(caption.usericon) : setAvatarUri('https://res.cloudinary.com/cwhrcloud/image/upload/v1669246271/orange_auy0ff.png');
