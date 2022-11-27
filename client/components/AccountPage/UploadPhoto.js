@@ -4,14 +4,15 @@ import { Entypo } from '@expo/vector-icons';
 import * as ImagePicker from 'expo-image-picker';
 import axios from 'axios';
 import { auth } from '../Auth/firebase/firebase.js';
+import { LOCALTUNNEL } from '../Auth/firebase/config.js';
 
 export default function UploadPhoto({ photo, setPhoto }) {
 
   useEffect(() => {
     axios.get(`http://localhost:8000/user/${auth.currentUser.uid}`)
       .then(response => {
-        console.log(response.data)
-        setPhoto(response.data.profilePicURI)
+        console.log(response.data);
+        setPhoto(response.data.profilePicURI);
       })
       .catch(err => console.log(err));
   }, []);

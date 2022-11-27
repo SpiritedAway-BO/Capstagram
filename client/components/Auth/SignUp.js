@@ -4,8 +4,7 @@ import { StyleSheet, Text, TextInput, View, KeyboardAvoidingView, TouchableOpaci
 import { updateProfile } from 'firebase/auth';
 import { createUser, auth } from './firebase/firebase.js';
 import axios from 'axios';
-import {LOCALTUNNEL} from '../Auth/firebase/config.js';
-
+import { LOCALTUNNEL } from './firebase/config.js';
 
 const SignUp = ({ navigation }) => {
   // const navigation = useNavigation();
@@ -39,7 +38,7 @@ const SignUp = ({ navigation }) => {
           displayName: username,
         });
         setTimeout(() => {
-          console.log(auth.currentUser.uid)
+          console.log(auth.currentUser.uid);
           axios.post('http://localhost:8000/user',
             {
               userId: auth.currentUser.uid,
