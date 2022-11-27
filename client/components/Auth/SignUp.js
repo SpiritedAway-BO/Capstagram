@@ -37,12 +37,11 @@ const SignUp = ({ navigation }) => {
           displayName: username,
         });
         setTimeout(() => {
-          axios.post('https://silver-beans-smile-173-228-53-12.loca.lt/users',
+          axios.post('https://famous-eggs-sell-75-80-43-25.loca.lt/users',
             {
               firebaseID: auth.currentUser.uid,
               username: username,
-              // friends: ['BJUtNzadq8hgWKQ7l5vxg1ys1vt2']
-              friends: ['3zOXbKdTDEekSbx13NlPKIdsHNG3']
+              friends: [{_id: '6382d4f991ce1c852d8b8b78', username: 'SeanMac', profilePicURI: 'https://res.cloudinary.com/cwhrcloud/image/upload/v1669246271/orange_auy0ff.png'}]
             })
             .then(res => console.log('User Posted'))
             .catch(err => { console.log(err); });

@@ -2,6 +2,7 @@ import React, {useState, useEffect} from 'react';
 import {Image, View, Platform, TouchableOpacity, Text, StyleSheet, FlatList, TouchableWithoutFeedback, Keyboard, KeyboardAvoidingView, TextInput} from 'react-native';
 import { Avatar, VStack } from '@react-native-material/core';
 import { Ionicons } from '@expo/vector-icons';
+import axios from 'axios';
 
 var DATA = [
   {
@@ -71,13 +72,13 @@ export default function Search() {
   const [ filteredUsers, setFilteredUsers ] = useState();
   const [ searchInput, setSearchInput ] = useState();
 
-  // useEffect(() => {
-  //   // axios.get('localhost:3000/users')
-  //   //   .then((res) => {
-  //   //     setUsers(res.data);
-  //   //     setFilteredUsers(res.data);
-  //   //   });
-  // }, []);
+  useEffect(() => {
+    axios.get('https://famous-eggs-sell-75-80-43-25.loca.lt/users')
+      .then((res) => {
+        setUsers(res.data);
+        setFilteredUsers(res.data);
+      });
+  }, []);
 
 
   const handleSearch = (e, input) => {
@@ -86,6 +87,10 @@ export default function Search() {
     });
     setFilteredUsers(searchResults);
   };
+
+  // const handleAdd = () => {
+
+  // };
 
   const UserItem = ({user}) => {
     return (
@@ -98,7 +103,7 @@ export default function Search() {
             <Text style={styles.text}>{user.username}</Text>
           </View>
           <View>
-            <Ionicons style={styles.icon} name="ios-person-add-outline" size={15} color="#FF842B"/>
+            <Ionicons style={styles.icon} name="ios-person-add-outline" size={15} color="#FF842B" /*onPress={handleAdd}*//>
           </View>
         </View>
       </View>
