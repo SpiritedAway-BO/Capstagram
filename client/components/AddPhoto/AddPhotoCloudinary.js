@@ -11,6 +11,7 @@ import {
 import * as ImagePicker from 'expo-image-picker';
 import { auth } from '../Auth/firebase/firebase.js';
 import axios from 'axios';
+import {LOCALTUNNEL} from '../Auth/firebase/config.js';
 
 
 

@@ -4,6 +4,8 @@ import { StyleSheet, Text, TextInput, View, KeyboardAvoidingView, TouchableOpaci
 import { updateProfile } from 'firebase/auth';
 import { createUser, auth } from './firebase/firebase.js';
 import axios from 'axios';
+import {LOCALTUNNEL} from '../Auth/firebase/config.js';
+
 
 const SignUp = ({ navigation }) => {
   // const navigation = useNavigation();

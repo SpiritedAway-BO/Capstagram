@@ -1,6 +1,7 @@
 import { createContext, useState, useEffect } from 'react';
 import axios from 'axios';
 import { auth } from '../components/Auth/firebase/firebase.js';
+import {LOCALTUNNEL} from '../components/Auth/firebase/config.js';
 
 export const AppContext = createContext(null);
 
@@ -31,7 +32,8 @@ export const AppProvider = ({ children }) => {
     if (currentUser) {
       axios.get(`https://localhost:8000/photos/${currentUser.uid}`)
         .then(res => {
-          setMainFeedData(res.data[0].photos);
+          setMainFeedData(res.data[1].photos);
+
         })
         .catch(err => console.log('error hello', err));
     }

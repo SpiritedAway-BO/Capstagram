@@ -28,6 +28,7 @@ module.exports = {
   addPhoto: (req, res) => {
     console.log('addPhoto req', req.body);
     var userInfo = req.body.currentUser;
+    console.log('currentUser', userInfo);
     var uri = req.body.uri;
     models.postPhoto(userInfo, uri)
       .then(response => res.status(201).end())
@@ -63,7 +64,7 @@ module.exports = {
         console.log(err);
         res.status(400).send(err);
       } else {
-        console.log(docs);
+        console.log('docs in controllers line 67', docs);
         res.status(200).send(docs);
       }
     });
