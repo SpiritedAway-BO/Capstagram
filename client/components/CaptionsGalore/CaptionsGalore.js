@@ -91,39 +91,20 @@ const CaptionsGalore = () => {
   const {username, setUserName} = useContext(AppContext);
   const {currentUser, setCurrentUser} = useContext(AppContext);
   const [newCaption, setNewCaption] = useState('');
-
-  // get all captions for this photo
-  // useEffect(() => (
-  // axios.get('https://angry-pets-cheer-173-228-53-12.loca.lt/captions', {body: {photoID: }})
-
-  // ), [])
-    /** gets currentUser Object **/
-    useEffect(() => {
-      // console.log(currentUser);
-      if (currentUser) {
-        console.log('currentUser.uid', currentUser.uid)
-        axios.get(`http://full-carrots-add-173-228-53-12.loca.lt/photos?firebaseID=${currentUser.uid}`)
-        // axios.get('https://full-carrots-add-173-228-53-12.loca.lt/photos', {params: {firebaseID: currentUser.uid}})
-
-          .then((results) => {
-            console.log('results', results);
-            if (results.length > 0) {
-              // setUserPhotos(results.data);
-            }
-          })
-          .catch(err => console.log('error in CaptionsGalore'))
-      }
-    }, [currentUser]);
+  const [photoObject, setPhotoObject] = useState('6382cd1905e5b94830a216bf');
+  const [captionArray, setCaptionArray] = useState([]);
 
   const renderCaption = ({ item }) => (
     <CaptionItem caption={item} />
   );
 
   const handleCaptionSubmit = () => {
-
-
-    // console.log('auth', auth.currentUser.uid);
-    //put caption to database
+    // console.log('currentUser', currentUser)
+    /***** REPLACE PHOTOID WITH USER SELECTED PHOTOID */
+    /** make a default for if usename is null */
+    axios.post('https://silver-beans-smile-173-228-53-12.loca.lt/captions', {username: currentUser.displayName, photoID: '6382cd1905e5b94830a216bf', captionBody: newCaption})
+      .then(results => console.log('posted new caption'))
+      .catch(err => console.log('errors in captions galore'));
     setNewCaption(''); //reset
   }
 

@@ -75,11 +75,21 @@ module.exports = {
       .catch(err => res.sendStatus(404));
   },
   getFriends: (req, res) => {
-    models.getUserFriends(req.body.firebaseID, (err, docs) => {
+    models.getUserFriends(req.params.firebaseID, (err, docs) => {
       if (err) {
         console.log(err);
       } else {
         res.status(200).send(docs);
+      }
+    });
+  },
+  addFriend: (req, res) => {
+    models.addUserFriend(req.body.firebaseID, req.body.friendID, (err, docs) => {
+      if (err) {
+        console.log(err);
+        res.sendStatus(400);
+      } else {
+        res.sendStatus(201);
       }
     });
   }

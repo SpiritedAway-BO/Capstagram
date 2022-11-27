@@ -19,9 +19,17 @@ let captionSchema = new Schema({
   captioner: String,
   likes: Number,
   likeUsers: { type: Array }
+<<<<<<< HEAD
 }, {
   timestamps: true
 });
+=======
+},
+{
+  timestamps: true
+}
+);
+>>>>>>> main
 
 var Captions = mongoose.model('Captions', captionSchema);
 
@@ -114,8 +122,9 @@ module.exports = {
       if (err) {
         cb(err, null);
       } else {
-        let friendsArr = docs.friends || [];
-        Users.find({ 'users._id': { $in: friendsArr } }).select('photos').exec((err, docs) => {
+        console.log('FRIENDS ARRAY: ', docs.friends);
+        let friendsArr = docs.friends;
+        Users.find({ 'firebaseID': { $in: friendsArr } }).select('photos').exec((err, docs) => {
           if (err) {
             cb(err, null);
           } else {
@@ -126,13 +135,31 @@ module.exports = {
     });
   },
   //friends req handling
-  getUserFriends: async (userID) => {
+  getUserFriends: (userID, cb) => {
     Users.findOne({ firebaseID: userID }, { friends: 1, _id: 0 }).exec((err, docs) => {
       if (err) {
         cb(err, null);
       } else {
-        let friendsArr = docs.friends || [];
-        Users.find({ user_id: { $in: friendsArr } }).select(['username', 'profilePicURI',]).exec((err, docs) => {
+        let friendsArr = docs.friends;
+        console.log('friendsArr', friendsArr);
+        Users.find({ '_id': { $in: friendsArr } }).select(['username', 'profilePicURI']).exec((err, docs) => {
+          if (err) {
+            cb(err, null);
+          } else {
+            cb(null, docs);
+          }
+        });
+      }
+    });
+  },
+  addUserFriend: (userID, friendID, cb) => {
+    Users.findOne({ firebaseID: friendID }).select(['username', 'profilePicURI']).exec((err, docs) => {
+      if (err) {
+        cb(err, null);
+      } else {
+        let friendToAdd = docs;
+        console.log('friendToAdd', friendToAdd);
+        Users.findOneAndUpdate({ firebaseID: userID }, { $push: { 'friends': friendToAdd } }).exec((err, docs) => {
           if (err) {
             cb(err, null);
           } else {
