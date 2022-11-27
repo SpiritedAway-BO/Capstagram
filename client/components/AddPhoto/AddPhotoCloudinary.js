@@ -61,7 +61,7 @@ const AddPhotoCloudinary = () => {
       .then(data => {
         console.log('response data', data);
         // setPhoto(data.secure_url);
-        axios.post('https://pretty-months-call-47-145-217-232.loca.lt/photos', {
+        axios.post('https://public-ads-own-75-80-43-25.loca.lt/photos', {
           currentUser: auth.currentUser,
           uri: data.secure_url
         })

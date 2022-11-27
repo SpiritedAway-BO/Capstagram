@@ -119,19 +119,30 @@ module.exports = {
     });
   },
   //friends req handling
-  getUserFriends: async (userID) => {
+  getUserFriends: async (userID, cb) => {
     Users.findOne({ firebaseID: userID }, { friends: 1, _id: 0 }).exec((err, docs) => {
       if (err) {
         cb(err, null);
       } else {
         let friendsArr = docs.friends;
-        Users.find({ user_id: { $in: friendsArr } }).select(['username', 'profilePicURI',]).exec((err, docs) => {
+        console.log('friendsArr', friendsArr);
+        Users.find({ user_id: { $in: friendsArr } }).select(['username', 'profilePicURI']).exec((err, docs) => {
           if (err) {
             cb(err, null);
           } else {
             cb(null, docs);
           }
         });
+      }
+    });
+  },
+  addUserFriend: async (userID, friendID, cb) => {
+    Users.findOne({firebaseID: friendID}).select(['username', 'profilePicURI']).exec((err, docs) => {
+      if (err) {
+        cb(err, null);
+      } else {
+        let friendToAdd = docs;
+        Users.findOneAndUpdate({firebaseID: userID}, { $push: {friends: friendToAdd}});
       }
     });
   }
