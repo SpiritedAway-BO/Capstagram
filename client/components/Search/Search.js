@@ -12,8 +12,8 @@ export default function Search() {
   // const {get, add} = useFriends();
   // const {isLoading: useFriendsGetIsLoading, data: friends} = get;
   const [ users, setUsers ] = useState(null);
-  const [ filteredUsers, setFilteredUsers ] = useState();
-  const [ searchInput, setSearchInput ] = useState();
+  const [ filteredUsers, setFilteredUsers ] = useState([]);
+  const [ searchInput, setSearchInput ] = useState('');
 
   useEffect(() => {
     axios.get('http://localhost:8000/users')
@@ -23,7 +23,7 @@ export default function Search() {
       });
   }, []);
 
-
+  console.log('filteredUsers', filteredUsers)
   const handleSearch = (e, input) => {
     let searchResults = users.filter((user) => {
       return user.username.toLowerCase().includes(input.toLowerCase());

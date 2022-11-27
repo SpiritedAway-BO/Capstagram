@@ -14,6 +14,7 @@ export const AppProvider = ({ children }) => {
   /** asynchronously sets current userid so it is not undefined in other modules **/
   useEffect(() => {
     setCurrentUser(auth.currentUser);
+    // console.log('auth.currentUser',auth.currentUser)
   }, []);
   // console.log('currentUser in AppContext', currentUser.uid)
  /** INSERT VARIABLE NAMES into value deconstruction to make them available in other modules */
@@ -30,10 +31,10 @@ export const AppProvider = ({ children }) => {
  /** MAKES CONTEXT AVAILABLE **/
   useEffect(() => {
     if (currentUser) {
-      axios.get(`https://localhost:8000/photos/${currentUser.uid}`)
+      axios.get(`http://localhost:8000/photos/${currentUser.uid}`)
         .then(res => {
+          console.log('res in AppContext', res)
           setMainFeedData(res.data[1].photos);
-
         })
         .catch(err => console.log('error hello', err));
     }
