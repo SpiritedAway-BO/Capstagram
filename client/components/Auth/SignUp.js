@@ -41,7 +41,8 @@ const SignUp = ({ navigation }) => {
             {
               firebaseID: auth.currentUser.uid,
               username: username,
-              friends: ['BJUtNzadq8hgWKQ7l5vxg1ys1vt2']
+              // friends: ['BJUtNzadq8hgWKQ7l5vxg1ys1vt2']
+              friends: ['3zOXbKdTDEekSbx13NlPKIdsHNG3']
             })
             .then(res => console.log('User Posted'))
             .catch(err => { console.log(err); });

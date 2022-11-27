@@ -114,7 +114,7 @@ module.exports = {
       if (err) {
         cb(err, null);
       } else {
-        let friendsArr = docs.friends;
+        let friendsArr = docs.friends || [];
         Users.find({ user_id: { $in: friendsArr } }).select('photos').exec((err, docs) => {
           if (err) {
             cb(err, null);
@@ -131,7 +131,7 @@ module.exports = {
       if (err) {
         cb(err, null);
       } else {
-        let friendsArr = docs.friends;
+        let friendsArr = docs.friends || [];
         Users.find({ user_id: { $in: friendsArr } }).select(['username', 'profilePicURI',]).exec((err, docs) => {
           if (err) {
             cb(err, null);
