@@ -11,6 +11,7 @@ import {
 import * as ImagePicker from 'expo-image-picker';
 import { auth } from '../Auth/firebase/firebase.js';
 import axios from 'axios';
+import {LOCALTUNNEL} from '../Auth/firebase/config.js';
 
 
 
@@ -62,7 +63,7 @@ const AddPhotoCloudinary = ({ navigation }) => {
       .then(data => {
         console.log('response data', data);
         // setPhoto(data.secure_url);
-        axios.post('https://brave-beds-suffer-99-227-192-34.loca.lt/photos', {
+        axios.post(`${LOCALTUNNEL}/photos`, {
           currentUser: auth.currentUser,
           uri: data.secure_url
         })

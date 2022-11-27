@@ -4,6 +4,8 @@ import { StyleSheet, Text, TextInput, View, KeyboardAvoidingView, TouchableOpaci
 import { updateProfile } from 'firebase/auth';
 import { createUser, auth } from './firebase/firebase.js';
 import axios from 'axios';
+import {LOCALTUNNEL} from '../Auth/firebase/config.js';
+
 
 const SignUp = ({ navigation }) => {
   // const navigation = useNavigation();
@@ -37,11 +39,11 @@ const SignUp = ({ navigation }) => {
           displayName: username,
         });
         setTimeout(() => {
-          axios.post('https://calm-owls-pick-99-227-192-34.loca.lt/users',
+          axios.post(`${LOCALTUNNEL}/users`,
             {
               firebaseID: auth.currentUser.uid,
               username: username,
-              friends: [{ _id: '6382d4f991ce1c852d8b8b78', username: 'SeanMac', profilePicURI: 'https://res.cloudinary.com/cwhrcloud/image/upload/v1669246271/orange_auy0ff.png' }]
+              friends: [{ firebaseID: 'igyWVxSUN3Rvei7O41KfNCpCTYY2', username: 'SeanMaac', profilePicURI: 'https://res.cloudinary.com/cwhrcloud/image/upload/v1669246271/orange_auy0ff.png' }]
             })
             .then(res => console.log('User Posted'))
             .catch(err => { console.log(err); });
