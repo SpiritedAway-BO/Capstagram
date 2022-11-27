@@ -9,7 +9,7 @@ var DATA = [
   {
     id: 1234567,
     username: 'thisGuy',
-    usericon: '/Users/tthornberryclass/HackReactorSEI/Capstagram/client/assets/favicon.png',
+    usericon: 'https://res.cloudinary.com/cwhrcloud/image/upload/v1669246271/orange_auy0ff.png',
   },
   {
     id: 1234568,
@@ -25,7 +25,7 @@ var DATA = [
   {
     id: 1234570,
     username: 'thisGuy4',
-    usericon: '/Users/tthornberryclass/HackReactorSEI/Capstagram/client/assets/favicon.png',
+    usericon: 'https://res.cloudinary.com/cwhrcloud/image/upload/v1669246271/orange_auy0ff.png',
   },
   {
     id: 1234571,
@@ -56,7 +56,7 @@ var DATA = [
   {
     id: 1234576,
     username: 'thisGuy10',
-    usericon: '/Users/tthornberryclass/HackReactorSEI/Capstagram/client/assets/favicon.png',
+    usericon: 'https://res.cloudinary.com/cwhrcloud/image/upload/v1669246271/orange_auy0ff.png',
   },
   {
     id: 1234577,
@@ -64,22 +64,6 @@ var DATA = [
     usericon: 'https://mui.com/static/images/avatar/1.jpg',
   },
 ];
-
-// const FriendItem = ({ caption }) => {
-//   /*this would be where we could keep track of state for the onPress handler
-//   that would potentially take us to the feed with only that friend's photos or captions, depending on what we decide to prioritize theoretically, given a large budget and more time, we could make the friends page have two tabs, one for their photos and one for their captions*/
-//   return (
-//     <View style={styles.item}>
-//       <View style={styles.userInfo} >
-//         <Avatar image={{ uri: caption.usericon }} //local OR cloudinary
-//           size={35}
-//           style={styles.avatar}
-//         />
-//         <Text style={styles.title}>{caption.username}</Text>
-//       </View>
-//     </View>
-//   );
-// };
 
 const Friends = () => {
 
@@ -109,19 +93,14 @@ const styles = StyleSheet.create({
   userInfo: {
     flexDirection: 'row',
     justifyContent: 'flex-start',
-    // alignItems: 'center',
   },
   item: {
     backgroundColor: '#fff',
-    // padding: 20,
-    backgroundColor: '#fff',
-    // padding: 20,
     paddingTop: 12,
     borderBottomWidth: 1,
     borderColor: '#d6d6d6',
   },
   title: {
-    // fontSize: 20,
     paddingHorizontal: 10,
     height: '100%',
     fontWeight: 'bold',

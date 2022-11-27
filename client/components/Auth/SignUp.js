@@ -37,7 +37,11 @@ const SignUp = ({ navigation }) => {
           displayName: username,
         });
         setTimeout(() => {
+<<<<<<< HEAD
           axios.post('https://public-ads-own-75-80-43-25.loca.lt/users',
+=======
+          axios.post('https://mighty-feet-jam-99-227-192-34.loca.lt/users',
+>>>>>>> main
             {
               firebaseID: auth.currentUser.uid,
               username: username,
