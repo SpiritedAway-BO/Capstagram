@@ -64,7 +64,6 @@ module.exports = {
   },
   getFriends: (req, res) => {
     models.getUserFriends(req.params.firebaseID, (err, docs) => {
-      console.log(req.body.firebaseID);
       if (err) {
         console.log(err);
       } else {
@@ -76,8 +75,9 @@ module.exports = {
     models.addUserFriend(req.body.firebaseID, req.body.friendID, (err, docs) => {
       if (err) {
         console.log(err);
+        res.sendStatus(400);
       } else {
-        res.status(201);
+        res.sendStatus(201);
       }
     });
   }
