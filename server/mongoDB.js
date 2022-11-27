@@ -19,18 +19,25 @@ let captionSchema = new Schema({
   captioner: String,
   likes: Number,
   likeUsers: { type: Array }
-});
+  },
+  {
+    timestamps: true
+  }
+);
 
-let Captions = mongoose.model('Captions', captionSchema);
+var Captions = mongoose.model('Captions', captionSchema);
 
 let photoSchema = new Schema({
   creator: String,
   uri: String,
   timePosted: String,
   captions: [captionSchema]
+},
+{
+  timestamps: true
 });
 
-let Photos = mongoose.model('Photos', photoSchema);
+var Photos = mongoose.model('Photos', photoSchema);
 
 let userSchema = new Schema({
   firebaseID: { type: String, required: true },
@@ -39,9 +46,12 @@ let userSchema = new Schema({
   friends: { type: Array },
   photos: [photoSchema],
   captions: [captionSchema]
+},
+{
+  timestamps: true
 });
 
-let Users = mongoose.model('Users', userSchema);
+var Users = mongoose.model('Users', userSchema);
 
 module.exports = {
   // user req handling
@@ -62,29 +72,9 @@ module.exports = {
     return ppUpdate;
   },
   // captions req handling
-  getPhotoCaptions: (photoID, cb) => {
-    // let objIDPhoto = mongoose.Types.ObjectId(photoID);
-    console.log('model photoID', photoID);
-    Captions.find({ photoID: photoID })
-      .exec((err, docs) => {
-        if (err) {
-          cb(err, null);
-        } else {
-          cb(null, docs);
-        }
-      });
-  },
-  postCaption: (capUsername, photoID, captionBody, cb) => {
-    console.log("trying to post caption!");
+  getCaptions: (photoID, cb) => {
     let objIDPhoto = mongoose.Types.ObjectId(photoID);
-    let captionToAdd = new Captions({
-      photoID: objIDPhoto,
-      body: captionBody,
-      captioner: capUsername,
-      likes: 0
-    });
-    captionToAdd.save();
-    Photos.findOneAndUpdate({ _id: objIDPhoto }, { $push: { captions: captionToAdd } }, { new: true }).exec((err, docs) => {
+    Users.find({'photos._id': objIDPhoto}, { 'photos.captions': 1, _id: 1 }).exec((err, docs) => {
       if (err) {
         console.log(err);
         cb(err, null);
@@ -94,6 +84,22 @@ module.exports = {
       }
     });
   },
+  postCaption: async (capUsername, photoID, captionBody, cb) => {
+    let objIDPhoto = mongoose.Types.ObjectId(photoID);
+    let captionToAdd = new Captions({
+      photoID: photoID,
+      body: captionBody,
+      captioner: capUsername,
+      likes: 0,
+      likeUsers: []
+    });
+    captionToAdd.save();
+    const doc = await Users.findOneAndUpdate({"photos._id": objIDPhoto}, {$push: {"photos.$.captions": captionToAdd}}, {new:true });
+    cb(null, doc);
+  },
+
+
+
   // photos req handling
   postPhoto: async (userInfo, uri) => {
     let photoToAdd = new Photos({ creator: userInfo.displayName, uri: uri, timePosted: Date.now(), captions: [] });
@@ -111,7 +117,6 @@ module.exports = {
           if (err) {
             cb(err, null);
           } else {
-            console.log('docs inside mongoDB.js: ', docs);
             cb(null, docs);
           }
         });
