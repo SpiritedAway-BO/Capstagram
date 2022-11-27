@@ -32,7 +32,10 @@ export default function Search() {
   };
 
   const handleAdd = (user) => {
-    axios.post('https://famous-eggs-sell-75-80-43-25.loca.lt/user/friends', {firebaseID: auth.currentUser.uid, friendID: user.firebaseID })
+    console.log(auth.currentUser.uid);
+    console.log(user.firebaseID);
+
+    axios.post('http://localhost:8000/user/friends', {firebaseID: auth.currentUser.uid, friendID: user.firebaseID })
       .then(console.log('added:', user.firebaseID))
       .catch(err => console.log(err));
   };
@@ -48,7 +51,7 @@ export default function Search() {
             <Text style={styles.text}>{user.username}</Text>
           </View>
           <View>
-            <Ionicons style={styles.icon} name="ios-person-add-outline" size={15} color="#FF842B" onPress={handleAdd(user)}/>
+            <Ionicons style={styles.icon} name="ios-person-add-outline" size={15} color="#FF842B" onPress={() => handleAdd(user)}/>
           </View>
         </View>
       </View>
