@@ -19,17 +19,9 @@ let captionSchema = new Schema({
   captioner: String,
   likes: Number,
   likeUsers: { type: Array }
-<<<<<<< HEAD
 }, {
   timestamps: true
 });
-=======
-},
-{
-  timestamps: true
-}
-);
->>>>>>> main
 
 var Captions = mongoose.model('Captions', captionSchema);
 
@@ -124,7 +116,7 @@ module.exports = {
       } else {
         console.log('FRIENDS ARRAY: ', docs.friends);
         let friendsArr = docs.friends;
-        Users.find({ 'firebaseID': { $in: friendsArr } }).select('photos').exec((err, docs) => {
+        Users.find({ 'users.firebaseID': { $in: friendsArr } }).select('photos').exec((err, docs) => {
           if (err) {
             cb(err, null);
           } else {
