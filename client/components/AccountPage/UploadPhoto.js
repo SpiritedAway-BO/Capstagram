@@ -8,8 +8,8 @@ import { auth } from '../Auth/firebase/firebase.js';
 export default function UploadPhoto({ photo, setPhoto }) {
 
   useEffect(() => {
-    axios.get(`https://sixty-worlds-think-47-145-217-232.loca.lt/user/${auth.currentUser.uid}`)
-      .then(response => console.log('response', response.data.profilePicURI))
+    axios.get(`https://blue-camels-rush-47-145-217-232.loca.lt/user/${auth.currentUser.uid}`)
+      .then(response => setPhoto(response.data.profilePicURI))
       .catch(err => console.log(err));
   }, []);
 
@@ -46,7 +46,7 @@ export default function UploadPhoto({ photo, setPhoto }) {
       .then(data => {
         console.log('response data', data);
         setPhoto(data.secure_url);
-        axios.put('https://pretty-months-call-47-145-217-232.loca.lt/users', {
+        axios.put('https://blue-camels-rush-47-145-217-232.loca.lt/users', {
           firebaseID: auth.currentUser.uid,
           uri: data.secure_url
         })

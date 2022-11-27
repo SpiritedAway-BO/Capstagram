@@ -19,11 +19,9 @@ let captionSchema = new Schema({
   captioner: String,
   likes: Number,
   likeUsers: { type: Array }
-  },
-  {
-    timestamps: true
-  }
-);
+}, {
+  timestamps: true
+});
 
 var Captions = mongoose.model('Captions', captionSchema);
 
@@ -32,8 +30,7 @@ let photoSchema = new Schema({
   uri: String,
   timePosted: String,
   captions: [captionSchema]
-},
-{
+}, {
   timestamps: true
 });
 
@@ -46,8 +43,7 @@ let userSchema = new Schema({
   friends: { type: Array },
   photos: [photoSchema],
   captions: [captionSchema]
-},
-{
+}, {
   timestamps: true
 });
 
@@ -80,7 +76,7 @@ module.exports = {
   // captions req handling
   getCaptions: (photoID, cb) => {
     let objIDPhoto = mongoose.Types.ObjectId(photoID);
-    Users.find({'photos._id': objIDPhoto}, { 'photos.captions': 1, _id: 1 }).exec((err, docs) => {
+    Users.find({ 'photos._id': objIDPhoto }, { 'photos.captions': 1, _id: 1 }).exec((err, docs) => {
       if (err) {
         console.log(err);
         cb(err, null);
@@ -100,7 +96,7 @@ module.exports = {
       likeUsers: []
     });
     captionToAdd.save();
-    const doc = await Users.findOneAndUpdate({"photos._id": objIDPhoto}, {$push: {"photos.$.captions": captionToAdd}}, {new:true });
+    const doc = await Users.findOneAndUpdate({ "photos._id": objIDPhoto }, { $push: { "photos.$.captions": captionToAdd } }, { new: true });
     cb(null, doc);
   },
 

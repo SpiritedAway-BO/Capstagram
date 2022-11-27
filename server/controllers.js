@@ -58,7 +58,7 @@ module.exports = {
     });
   },
   getCaptions: (req, res) => {
-    models.getCaptions(req.body.photoID, (err, docs) => {
+    models.getCaptions(req.params.photoID, (err, docs) => {
       if (err) {
         console.log(err);
         res.status(400).send(err);
