@@ -29,7 +29,7 @@ export const AppProvider = ({ children }) => {
  /** MAKES CONTEXT AVAILABLE **/
   useEffect(() => {
     if (currentUser) {
-      axios.get(`https://wide-ideas-smash-99-227-192-34.loca.lt/photos/${currentUser.uid}`)
+      axios.get(`https://localhost:8000/photos/${currentUser.uid}`)
         .then(res => {
           setMainFeedData(res.data[0].photos);
         })

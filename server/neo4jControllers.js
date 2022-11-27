@@ -49,10 +49,10 @@ module.exports = {
 
   },
   createUser: async (req, res) => {
-    if (req.body.hasOwnProperty('userId') && req.body.hasOwnProperty('username') && req.body.hasOwnProperty('email')) {
+    if (req.body.hasOwnProperty('userId') && req.body.hasOwnProperty('username')) {
       try {
         const session = db.session();
-        const writeResult = await session.executeWrite((tx) => tx.run(`CREATE (u:User {id: '${req.body.firebaseID}', username: '${req.body.username}', profilePicURI: 'https://res.cloudinary.com/cwhrcloud/image/upload/v1669161707/orange_hhc8pc.png'}) return(u)`))
+        const writeResult = await session.executeWrite((tx) => tx.run(`CREATE (u:User {id: '${req.body.userId}', username: '${req.body.username}', profilePicURI: 'https://res.cloudinary.com/cwhrcloud/image/upload/v1669161707/orange_hhc8pc.png'}) return(u)`))
           .then(result => result.records[0].get('u').properties);
         console.log('User created: ', writeResult);
         session.close();
@@ -89,10 +89,12 @@ module.exports = {
     }
   },
   putProfilePic: async (req, res) => {
-    if (req.params.hasOwnProperty('userId') && req.body.hasOwnProperty('profilePicUrl')) {
+    if (req.params.hasOwnProperty('userId') && req.body.hasOwnProperty('uri')) {
       try {
+        console.log('body: ', req.body);
+        console.log('params: ', req.params)
         const session = db.session();
-        const updateResult = await session.executeWrite((tx) => tx.run(`MATCH (u:User {id:'${req.params.userId}'}) SET u.profilePicUri = '${req.body.profilePicUrl}' return(u)`))
+        const updateResult = await session.executeWrite((tx) => tx.run(`MATCH (u:User {id:'${req.params.userId}'}) SET u.profilePicURI = '${req.body.uri}' return(u)`))
           .then(result => result.records[0].get('u'));
         console.log('Updated user: ', updateResult);
         session.close();

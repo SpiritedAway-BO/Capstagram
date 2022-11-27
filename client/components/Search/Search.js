@@ -73,7 +73,7 @@ export default function Search() {
   const [ searchInput, setSearchInput ] = useState();
 
   useEffect(() => {
-    axios.get('https://famous-eggs-sell-75-80-43-25.loca.lt/users')
+    axios.get('http://localhost:8000/users')
       .then((res) => {
         setUsers(res.data);
         setFilteredUsers(res.data);
