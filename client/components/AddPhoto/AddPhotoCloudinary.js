@@ -14,7 +14,7 @@ import axios from 'axios';
 
 
 
-const AddPhotoCloudinary = () => {
+const AddPhotoCloudinary = ({ navigation }) => {
 
   const [photo, setPhoto] = useState('https://res.cloudinary.com/ogcodes/image/upload/v1581387688/m0e7y6s5zkktpceh2moq.jpg');
 
@@ -35,6 +35,7 @@ const AddPhotoCloudinary = () => {
       console.log('Photo', source);
       cloudinaryUpload(source);
     }
+    navigation.navigate('Home');
   };
 
   const takePhoto = async () => {
@@ -65,7 +66,7 @@ const AddPhotoCloudinary = () => {
           currentUser: auth.currentUser,
           uri: data.secure_url
         })
-          .then(results => console.log('posted'))
+          .then(results => console.log('posted photo'))
           .catch(err => console.log('error posting photo', err));
       })
       .catch(err => {

@@ -60,8 +60,8 @@ module.exports = {
   putProfilePic: (req, res) => {
     console.log('updateProfilePic req', req.body);
     models.updateUserProfilePic(req.body.firebaseID, req.body.uri)
-      .then(response => res.send(200).send(response))
-      .catch(err => res.send(404).send(err));
+      .then(response => res.sendStatus(200))
+      .catch(err => res.sendStatus(404));
   },
   getFriends: (req, res) => {
     models.getUserFriends(req.body.firebaseID, (err, docs) => {
