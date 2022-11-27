@@ -1,8 +1,10 @@
 import React from 'react';
-import { SafeAreaView, FlatList, View, ScrollView, StyleSheet, Text, Image, Modal, Dimensions, TouchableOpacity} from 'react-native';
+import Axios from 'axios';
+import { SafeAreaView, FlatList, View, ScrollView, StyleSheet, Text, Image, Modal, ImageBackground, Dimensions, TouchableOpacity} from 'react-native';
 import { Avatar, Divider } from '@react-native-material/core';
 import PersonalWins from '../PersonalWins/PersonalWins.js';
 import { LinearGradient } from 'expo-linear-gradient';
+import { BlurView } from 'expo-blur';
 
 import UserPic from './UPComponents/TopHalfComps/UserPic.js';
 import Posts from './UPComponents/TopHalfComps/Posts.js';
@@ -23,6 +25,9 @@ const UserPage = ({ navigation }) => {
 
   const [tab, setTab] = React.useState('posts');
   const [modalVisible, setModalVisible] = React.useState(false);
+  const [postData, setPostData] = React.useState(null);
+
+
 
   const onWins = () => {
     setTab('wins');
@@ -46,7 +51,7 @@ const UserPage = ({ navigation }) => {
   );
 
   return (
-    <View style={{backgroundColor: 'white', width: '100%', height: '100%'}}>
+    <View style={{backgroundColor: 'white', width: '100%', height: '100%', blurRadius:"100%"}}>
       <View style={styles.userInfoContainer}>
         <View style={styles.uiStatsBox}>
           <UserPic />
@@ -73,11 +78,15 @@ const UserPage = ({ navigation }) => {
       </View>
       <Modal
         animationType="fade"
-        transparent={false}
+        transparent={true}
         visible={modalVisible} >
-        <TouchableOpacity onPress={() => setModalVisible(false)} >
+          <BlurView intensity={25} style={styles.blurContainer}>
+        <TouchableOpacity
+          style={{ height: '100%', width: '95%', alignSelf: "center", flexGrow:"5", justifyContent: "center"}}
+          onPress={() => setModalVisible(false)} >
           <SinglePostView />
         </TouchableOpacity>
+        </BlurView>
       </Modal>
     </View>
   );

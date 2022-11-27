@@ -53,13 +53,14 @@ const Post = ({ navigation }) => {
 const styles = StyleSheet.create({
   postContainer: {
     width: '100%',
-    marginBottom: 25,
-
+    height: '100%',
+    marginTop: '50%',
   },
   creatorInfo: {
+    padding: '1%',
     flexDirection: 'row',
     alignItems: 'center',
-    margin: 5,
+    backgroundColor: 'white',
   },
   avatar: {
     marginRight: 5,
@@ -73,11 +74,13 @@ const styles = StyleSheet.create({
   },
   captionsContainer: {
     padding: 5,
+    backgroundColor: 'white',
   },
   viewAllContainer: {
     justifyContent: 'center',
-    margin: 5,
     marginTop: 0,
+    backgroundColor: 'white',
+    width: "100%",
   },
   vewAllText: {
     color: '#FF842B',
