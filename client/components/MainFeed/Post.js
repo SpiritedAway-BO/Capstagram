@@ -1,27 +1,13 @@
-import React from 'react';
+import { useContext } from 'react';
 import { View, Text, Image, StyleSheet } from 'react-native';
 import { Avatar } from '@react-native-material/core';
 import Caption from './Caption.js';
+import { AppContext } from '../../contexts/AppContext.js';
 
-const dummyData = [
-  {
-    username: 'username1',
-    caption: 'caption1',
-    liked: true
-  },
-  {
-    username: 'username2',
-    caption: 'caption2',
-    liked: false
-  },
-  {
-    username: 'username3',
-    caption: 'caption3',
-    liked: false
-  }
-];
+const Post = ({ post, navigation }) => {
+  const { setCurrentPost } = useContext(AppContext);
 
-const Post = ({ navigation }) => {
+  const captions = post.captions;
   return (
     <View style={styles.postContainer}>
       <View style={styles.creatorInfo}>
@@ -29,20 +15,23 @@ const Post = ({ navigation }) => {
           image={{ uri: 'https://mui.com/static/images/avatar/1.jpg' }}
           size={35}
           style={styles.avatar}/>
-        <Text style={styles.username}>username</Text>
+        <Text style={styles.username}>{post.creator}</Text>
       </View>
       <View>
         <Image
-          source={{uri: 'https://img.freepik.com/free-vector/cute-rabbit-with-duck-working-laptop-cartoon-illustration_56104-471.jpg?w=2000'}}
+          source={{uri: post.uri}}
           style={styles.image}/>
       </View>
       <View style={styles.captionsContainer}>
-        {dummyData.map(caption => <Caption caption={caption}/>)}
+        {captions.map(caption => <Caption key={caption._id} caption={caption}/>)}
       </View>
       <View style={styles.viewAllContainer}>
         <Text
           style={styles.vewAllText}
-          onPress={() => navigation.navigate('Captions')}>
+          onPress={() => {
+            setCurrentPost(post);
+            navigation.navigate('Captions');
+          }}>
             View all # captions
         </Text>
       </View>

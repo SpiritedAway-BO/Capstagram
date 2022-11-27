@@ -90,6 +90,7 @@ const CaptionsGalore = () => {
   const [allCaptions, setAllCaptions] = useState([]);
   const {username, setUserName} = useContext(AppContext);
   const {currentUser, setCurrentUser} = useContext(AppContext);
+  const { currentPost } = useContext(AppContext);
   const [newCaption, setNewCaption] = useState('');
 
   // get all captions for this photo

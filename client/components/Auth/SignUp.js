@@ -37,7 +37,7 @@ const SignUp = ({ navigation }) => {
           displayName: username,
         });
         setTimeout(() => {
-          axios.post('https://silver-beans-smile-173-228-53-12.loca.lt/users',
+          axios.post('https://calm-owls-pick-99-227-192-34.loca.lt/users',
             {
               firebaseID: auth.currentUser.uid,
               username: username,

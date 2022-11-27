@@ -7,7 +7,8 @@ export const AppContext = createContext(null);
 export const AppProvider = ({ children }) => {
   const [username, setUsername] = useState('stephc123');
   const [currentUser, setCurrentUser] = useState('');
-  const [userPhotos, setUserPhotos] = useState([])
+  const [mainFeedData, setMainFeedData] = useState([]);
+  const [currentPost, setCurrentPost] = useState(null);
 
   /** asynchronously sets current userid so it is not undefined in other modules **/
   useEffect(() => {
@@ -15,17 +16,24 @@ export const AppProvider = ({ children }) => {
   }, []);
 
  /** INSERT VARIABLE NAMES into value deconstruction to make them available in other modules */
-  const value = { username, setUsername, currentUser, userPhotos, setUserPhotos};
+  const value = {
+    username,
+    setUsername,
+    currentUser,
+    mainFeedData,
+    setMainFeedData,
+    currentPost,
+    setCurrentPost
+  };
 
  /** MAKES CONTEXT AVAILABLE **/
   useEffect(() => {
     if (currentUser) {
-      axios.get(`https://silver-beans-smile-173-228-53-12.loca.lt/photos/${currentUser.uid}`)
+      axios.get(`https://wide-ideas-smash-99-227-192-34.loca.lt/photos/${currentUser.uid}`)
         .then(res => {
-          console.log('res data', res.data[0].photos);
-          setUserPhotos(res.data[0].photos);
+          setMainFeedData(res.data[1].photos);
         })
-        .catch(err => console.log('error', err));
+        .catch(err => console.log('error hello', err));
     }
   }, [currentUser]);
 
