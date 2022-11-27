@@ -34,9 +34,10 @@ export const AppProvider = ({ children }) => {
   /** MAKES CONTEXT AVAILABLE **/
   useEffect(() => {
     if (currentUser) {
-      axios.get(`${LOCALTUNNEL}/photos/${currentUser.uid}`)
+      axios.get(`https://localhost:8000/photos/${currentUser.uid}`)
         .then(res => {
           setMainFeedData(res.data[1].photos);
+
         })
         .catch(err => console.log('error hello', err));
       // console.log('currentUser', currentUser);

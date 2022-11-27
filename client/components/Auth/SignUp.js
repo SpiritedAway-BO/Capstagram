@@ -38,17 +38,18 @@ const SignUp = ({ navigation }) => {
           displayName: username,
         });
         setTimeout(() => {
-          axios.post(`${LOCALTUNNEL}/users`,
+          console.log(auth.currentUser.uid);
+          axios.post('http://localhost:8000/user',
             {
-              firebaseID: auth.currentUser.uid,
-              username: username,
-              friends: [{ _id: '6382d4f991ce1c852d8b8b78', username: 'SeanMac', profilePicURI: 'https://res.cloudinary.com/cwhrcloud/image/upload/v1669246271/orange_auy0ff.png' }]
+              userId: auth.currentUser.uid,
+              username,
+              //friends: [{ _id: '6382d4f991ce1c852d8b8b78', username: 'SeanMac', profilePicURI: 'https://res.cloudinary.com/cwhrcloud/image/upload/v1669246271/orange_auy0ff.png' }]rname: user
             })
             .then(res => console.log('User Posted'))
             .catch(err => { console.log(err); });
           navigation.navigate('Capstagram');
           setIsLoading(false);
-        }, 200);
+        }, 1000);
       })
       .catch(err => {
         console.log(err);

@@ -99,8 +99,10 @@ module.exports = {
     const doc = await Users.findOneAndUpdate({ "photos._id": objIDPhoto }, { $push: { "photos.$.captions": captionToAdd } }, { new: true });
     cb(null, doc);
   },
+  likeCaption: async () => {
+    const doc = await Captions.findOneAndUpdate({"": ""}, { $inc: {likes: 1}});
 
-
+  },
 
   // photos req handling
   postPhoto: async (userInfo, uri) => {
@@ -114,7 +116,6 @@ module.exports = {
       if (err) {
         cb(err, null);
       } else {
-        console.log('FRIENDS ARRAY: ', docs.friends);
         let friendsArr = docs.friends;
         Users.find({ 'users.firebaseID': { $in: friendsArr } }).select('photos').exec((err, docs) => {
           if (err) {

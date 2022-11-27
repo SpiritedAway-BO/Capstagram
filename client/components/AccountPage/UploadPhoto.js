@@ -9,8 +9,11 @@ import { LOCALTUNNEL } from '../Auth/firebase/config.js';
 export default function UploadPhoto({ photo, setPhoto }) {
 
   useEffect(() => {
-    axios.get(`${LOCALTUNNEL}/user/${auth.currentUser.uid}`)
-      .then(response => setPhoto(response.data.profilePicURI))
+    axios.get(`http://localhost:8000/user/${auth.currentUser.uid}`)
+      .then(response => {
+        console.log(response.data);
+        setPhoto(response.data.profilePicURI);
+      })
       .catch(err => console.log(err));
   }, []);
 
@@ -23,7 +26,7 @@ export default function UploadPhoto({ photo, setPhoto }) {
     if (!_photo.canceled) {
       const uri = _photo.assets[0].uri;
       const type = _photo.assets[0].type;
-      const name = _photo.assets[0].fileName;
+      const name = _photo.assets[0].fileName || 'blank';
       const source = {
         uri,
         type,
@@ -47,8 +50,7 @@ export default function UploadPhoto({ photo, setPhoto }) {
       .then(data => {
         console.log('response data', data);
         setPhoto(data.secure_url);
-        axios.put(`${LOCALTUNNEL}/users`, {
-          firebaseID: auth.currentUser.uid,
+        axios.put(`http://localhost:8000/user/${auth.currentUser.uid}/profilePic`, {
           uri: data.secure_url
         })
           .then(response => console.log('profile pic has been updated'))

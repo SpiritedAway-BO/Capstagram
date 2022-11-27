@@ -1,6 +1,6 @@
 const express = require('express');
 
-const db = require('./mongoDB.js');
+//const db = require('./mongoDB.js');
 
 //Middleware
 const morgan = require('morgan');
@@ -8,7 +8,7 @@ const morgan = require('morgan');
 
 
 //Router
-const router = require('./routes.js');
+const router = require('./neo4jRoutes.js');
 
 const app = express();
 // module.exports.app = app;
