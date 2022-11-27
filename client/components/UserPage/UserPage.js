@@ -1,5 +1,5 @@
 import React from 'react';
-import { SafeAreaView, FlatList, View, ScrollView, StyleSheet, Text, Image, Dimensions, TouchableOpacity} from 'react-native';
+import { SafeAreaView, FlatList, View, ScrollView, StyleSheet, Text, Image, Modal, Dimensions, TouchableOpacity} from 'react-native';
 import { Avatar, Divider } from '@react-native-material/core';
 import PersonalWins from '../PersonalWins/PersonalWins.js';
 import { LinearGradient } from 'expo-linear-gradient';
@@ -11,6 +11,7 @@ import Username from './UPComponents/TopHalfComps/Username.js';
 import Bio from './UPComponents/TopHalfComps/Bio.js';
 import NavBar from './UPComponents/BottomHalfComps/NavBar.js';
 import MyPosts from './UPComponents/BottomHalfComps/MyPosts.js';
+import SinglePostView from './UPComponents/BottomHalfComps/SinglePostView.js';
 
 
 var x = {
@@ -21,6 +22,7 @@ var DATA = [x, x, x, x, x, x, x, x ];
 const UserPage = ({ navigation }) => {
 
   const [tab, setTab] = React.useState('posts');
+  const [modalVisible, setModalVisible] = React.useState(false);
 
   const onWins = () => {
     setTab('wins');
@@ -30,13 +32,17 @@ const UserPage = ({ navigation }) => {
     setTab('posts');
   };
 
+  const imagePress = (item) => {
+    setModalVisible(true);
+  };
+
   const renderImage = ({item}) => (
-    <View style={{}}>
+    <TouchableOpacity style={{}} onPress={() => imagePress(item)}>
       <Image
         source={item}
         style={styles.image}
       />
-    </View>
+    </TouchableOpacity>
   );
 
   return (
@@ -65,6 +71,14 @@ const UserPage = ({ navigation }) => {
           : <PersonalWins/>
         }
       </View>
+      <Modal
+        animationType="fade"
+        transparent={false}
+        visible={modalVisible} >
+        <TouchableOpacity onPress={() => setModalVisible(false)} >
+          <SinglePostView />
+        </TouchableOpacity>
+      </Modal>
     </View>
   );
 };

@@ -1,7 +1,7 @@
 import React from 'react';
 import { View, Text, Image, StyleSheet } from 'react-native';
 import { Avatar } from '@react-native-material/core';
-import Caption from './Caption.js';
+import Caption from '../../../MainFeed/Caption.js';
 
 const dummyData = [
   {
