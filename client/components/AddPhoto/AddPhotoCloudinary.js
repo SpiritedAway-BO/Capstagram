@@ -62,7 +62,7 @@ const AddPhotoCloudinary = ({ navigation }) => {
       .then(data => {
         console.log('response data', data);
         // setPhoto(data.secure_url);
-        axios.post('https://brave-beds-suffer-99-227-192-34.loca.lt/photos', {
+        axios.post('https://shaggy-streets-act-75-80-43-25.loca.lt/photos', {
           currentUser: auth.currentUser,
           uri: data.secure_url
         })
