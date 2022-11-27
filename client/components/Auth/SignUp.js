@@ -37,7 +37,7 @@ const SignUp = ({ navigation }) => {
           displayName: username,
         });
         setTimeout(() => {
-          axios.post('https://blue-camels-rush-47-145-217-232.loca.lt/users',
+          axios.post('https://calm-owls-pick-99-227-192-34.loca.lt/users',
             {
               firebaseID: auth.currentUser.uid,
               username: username,
