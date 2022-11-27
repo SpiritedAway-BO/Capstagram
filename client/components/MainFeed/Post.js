@@ -14,16 +14,16 @@ const Post = ({ post, navigation }) => {
         <Avatar
           image={{ uri: 'https://mui.com/static/images/avatar/1.jpg' }}
           size={35}
-          style={styles.avatar}/>
+          style={styles.avatar} />
         <Text style={styles.username}>{post.creator}</Text>
       </View>
       <View>
         <Image
-          source={{uri: post.uri}}
-          style={styles.image}/>
+          source={{ uri: post.uri }}
+          style={styles.image} />
       </View>
       <View style={styles.captionsContainer}>
-        {captions.map(caption => <Caption key={caption._id} caption={caption}/>)}
+        {captions.map(caption => <Caption key={caption._id} caption={caption} />)}
       </View>
       <View style={styles.viewAllContainer}>
         <Text
@@ -32,7 +32,7 @@ const Post = ({ post, navigation }) => {
             setCurrentPost(post);
             navigation.navigate('Captions');
           }}>
-            View all # captions
+          View all # captions
         </Text>
       </View>
     </View>

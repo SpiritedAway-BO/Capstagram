@@ -81,7 +81,7 @@ const AddPhotoCloudinary = ({ navigation }) => {
       .catch(err => {
         Alert.alert('An Error Occured While Uploading');
       });
-    navigation.navigate('Home');
+    navigation.navigate('Profile');
   };
 
   return (
