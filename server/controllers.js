@@ -58,13 +58,12 @@ module.exports = {
     });
   },
   getCaptions: (req, res) => {
-    console.log('getCaptions req', req.body);
-    models.getPhotoCaptions(req.body.photoID, (err, docs) => {
+    models.getCaptions(req.body.photoID, (err, docs) => {
       if (err) {
         console.log(err);
-        res.status(404).send(err);
+        res.status(400).send(err);
       } else {
-        console.log('docs inside controllers: ', docs);
+        console.log(docs);
         res.status(200).send(docs);
       }
     });
