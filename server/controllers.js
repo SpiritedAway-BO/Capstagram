@@ -34,8 +34,8 @@ module.exports = {
       .catch(err => res.status(404).send(err));
   },
   getMainFeedPhotos: (req, res) => {
-    console.log('getMainFeed req', req.body);
-    models.getPhotos(req.body.firebaseID, (err, docs) => {
+    console.log('getMainFeed req', req.params.firebaseID);
+    models.getPhotos(req.params.firebaseID, (err, docs) => {
       if (err) {
         console.log(err);
         res.status(400).send(err);
