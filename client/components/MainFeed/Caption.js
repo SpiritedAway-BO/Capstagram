@@ -12,7 +12,7 @@ export default function Caption({ caption }) {
   return (
     <View style={styles.captionContainer}>
       <View style={styles.captionerInfo}>
-        <Text style={styles.username}>{caption.captioner}</Text>
+        <Text style={styles.username}>{caption.captioner.username}</Text>
         <Text>{caption.body}</Text>
       </View>
       {liked ?

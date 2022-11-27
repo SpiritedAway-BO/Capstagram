@@ -39,8 +39,7 @@ export const AppProvider = ({ children }) => {
     if (currentUser) {
       axios.get(`http://localhost:8000/photos/${currentUser.uid}`)
         .then(res => {
-          setMainFeedData(res.data[1].photos);
-
+          setMainFeedData(res.data);
         })
         .catch(err => console.log('error hello', err));
       // console.log('currentUser', currentUser);
