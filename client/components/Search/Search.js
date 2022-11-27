@@ -33,10 +33,10 @@ export default function Search() {
 
   const handleAdd = (user) => {
     console.log(auth.currentUser.uid);
-    console.log(user.firebaseID);
+    console.log(user.id);
 
-    axios.post('http://localhost:8000/user/friends', {firebaseID: auth.currentUser.uid, friendID: user.firebaseID })
-      .then(console.log('added:', user.firebaseID))
+    axios.post('http://localhost:8000/user/friends', {firebaseID: auth.currentUser.uid, friendID: user.id })
+      .then(console.log('added:', user.id))
       .catch(err => console.log(err));
   };
 
