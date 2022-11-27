@@ -9,7 +9,7 @@ module.exports = {
   },
   getOneUser: (req, res) => {
     // console.log('getting');
-    models.getUser(req.body.firebaseID, (err, docs) => {
+    models.getUser(req.params.firebaseID, (err, docs) => {
       if (err) {
         console.log(err);
         res.status(400).send(err);

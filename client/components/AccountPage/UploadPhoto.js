@@ -5,8 +5,13 @@ import * as ImagePicker from 'expo-image-picker';
 import axios from 'axios';
 import { auth } from '../Auth/firebase/firebase.js';
 
-export default function UploadPhoto() {
-  const [photo, setPhoto] = useState('https://res.cloudinary.com/cwhrcloud/image/upload/v1669246271/orange_auy0ff.png');
+export default function UploadPhoto({ photo, setPhoto }) {
+
+  useEffect(() => {
+    axios.get(`https://sixty-worlds-think-47-145-217-232.loca.lt/user/${auth.currentUser.uid}`)
+      .then(response => console.log('response', response.data.profilePicURI))
+      .catch(err => console.log(err));
+  }, []);
 
   const addPhoto = async () => {
     let _photo = await ImagePicker.launchImageLibraryAsync({

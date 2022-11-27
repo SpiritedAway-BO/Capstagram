@@ -54,7 +54,7 @@ module.exports = {
     return dbUsers;
   },
   getUser: (userID, cb) => {
-    Users.findOne({ firebaseID: userID })
+    Users.findOne({ firebaseID: userID }, { profilePicURI: 1, _id: 0 })
       .exec((err, docs) => {
         if (err) {
           cb(err, null);
