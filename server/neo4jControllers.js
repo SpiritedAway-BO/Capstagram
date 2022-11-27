@@ -159,7 +159,7 @@ module.exports = {
     if (req.params.hasOwnProperty('photoId') && req.body.hasOwnProperty('body') && req.body.hasOwnProperty('currentUser')) {
       try {
         const session = db.session();
-        const writeResult = await session.executeWrite((tx) => tx.run(`CREATE (c:Caption {id: apoc.create.uuid(), body: '${req.body.body}', timePosted: '${Date.now()}'}, likes: '0') return(c)`))
+        const writeResult = await session.executeWrite((tx) => tx.run(`CREATE (c:Caption {id: apoc.create.uuid(), body: '${req.body.body}', timePosted: '${Date.now()}', likes: '0'}) return(c)`))
           .then(result => result.records[0].get('c').properties)
           .catch(err => console.log(err));
 
