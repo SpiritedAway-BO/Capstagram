@@ -100,26 +100,10 @@ module.exports = {
     // doc.photos.push(captionToAdd);
     console.log('NEW DOC!!!!: ', doc);
     cb(null, doc);
-
-    // let objIDPhoto = mongoose.Types.ObjectId(photoID);
-    // let captionToAdd = new Captions({
-    //   photoID: photoID,
-    //   body: captionBody,
-    //   captioner: capUsername,
-    //   likes: 0
-    // });
-    // captionToAdd.save();
-    // Users.find()
-    // Photos.findByIdAndUpdate(photoID, {$push: { captions: captionToAdd }}, {new: true}).exec((err, docs) => {
-    //   if (err) {
-    //     console.log(err);
-    //     cb(err, null);
-    //   } else {
-    //     console.log(docs);
-    //     cb(null, docs);
-    //   }
-    // });
   },
+
+
+
   // photos req handling
   postPhoto: async (userInfo, uri) => {
     let photoToAdd = new Photos({ creator: userInfo.displayName, uri: uri, timePosted: Date.now(), captions: [] });
