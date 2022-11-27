@@ -7,6 +7,18 @@ module.exports = {
       .then(users => res.status(200).send(users))
       .catch(err => res.status(404).send(err));
   },
+  getOneUser: (req, res) => {
+    // console.log('getting');
+    models.getUser(req.body.firebaseID, (err, docs) => {
+      if (err) {
+        console.log(err);
+        res.status(400).send(err);
+      } else {
+        console.log('docs inside controllers: ', docs);
+        res.status(200).send(docs);
+      }
+    });
+  },
   createUser: (req, res) => {
     console.log('createUser req', req.body);
     models.addUser(req.body)

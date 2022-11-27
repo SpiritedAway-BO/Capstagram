@@ -53,9 +53,15 @@ module.exports = {
     const dbUsers = await Users.find({});
     return dbUsers;
   },
-  getUser: async (userID) => {
-    const oneUser = await Users.findOne({ firebaseID: userID });
-    return oneUser;
+  getUser: (userID, cb) => {
+    Users.findOne({ firebaseID: userID })
+      .exec((err, docs) => {
+        if (err) {
+          cb(err, null);
+        } else {
+          cb(null, docs);
+        }
+      });
   },
   updateUserProfilePic: async (currFireID, picURI) => {
     const ppUpdate = await Users.findOneAndUpdate({ firebaseID: currFireID }, { profilePicURI: picURI }, { new: true });

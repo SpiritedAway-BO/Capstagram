@@ -5,7 +5,7 @@ const controllers = require('./controllers.js');
 //User Routes
 router.get('/users', controllers.getAllUsers); //get all users for search
 router.post('/users', controllers.createUser); //create new user
-// router.get('/user/:userId', controllers.getUserInfo); //get a user's info
+router.get('/user', controllers.getOneUser); //get a user's info
 router.put('/users', controllers.putProfilePic); //update user profile pic
 // // router.put('/users/:userId/profile', controllers.updateUserInfo); //update user
 // //info
