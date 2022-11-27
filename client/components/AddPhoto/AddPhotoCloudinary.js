@@ -35,6 +35,7 @@ const AddPhotoCloudinary = ({ navigation }) => {
       console.log('Photo', source);
       cloudinaryUpload(source);
     }
+    navigation.navigate('Home');
   };
 
   const takePhoto = async () => {
@@ -61,11 +62,11 @@ const AddPhotoCloudinary = ({ navigation }) => {
       .then(data => {
         console.log('response data', data);
         // setPhoto(data.secure_url);
-        axios.post('https://famous-eggs-sell-75-80-43-25.loca.lt/photos', {
+        axios.post('https://blue-camels-rush-47-145-217-232.loca.lt/photos', {
           currentUser: auth.currentUser,
           uri: data.secure_url
         })
-          .then(results => console.log('posted'))
+          .then(results => console.log('posted photo'))
           .catch(err => console.log('error posting photo', err));
       })
       .catch(err => {
