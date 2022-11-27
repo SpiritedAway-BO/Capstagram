@@ -91,6 +91,7 @@ const CaptionsGalore = () => {
   const [allCaptions, setAllCaptions] = useState([]);
   const {username, setUserName} = useContext(AppContext);
   const {currentUser, setCurrentUser} = useContext(AppContext);
+  const { currentPost } = useContext(AppContext);
   const [newCaption, setNewCaption] = useState('');
   const [photoObject, setPhotoObject] = useState('6382cd1905e5b94830a216bf');
   const [captionArray, setCaptionArray] = useState([]);

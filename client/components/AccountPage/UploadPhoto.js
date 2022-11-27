@@ -2,9 +2,16 @@ import React, { useState, useEffect } from 'react';
 import { Image, View, Platform, TouchableOpacity, Text, StyleSheet, ImageBackground } from 'react-native';
 import { Entypo } from '@expo/vector-icons';
 import * as ImagePicker from 'expo-image-picker';
+import axios from 'axios';
+import { auth } from '../Auth/firebase/firebase.js';
 
-export default function UploadPhoto() {
-  const [photo, setPhoto] = useState('https://res.cloudinary.com/cwhrcloud/image/upload/v1669246271/orange_auy0ff.png');
+export default function UploadPhoto({ photo, setPhoto }) {
+
+  useEffect(() => {
+    axios.get(`https://blue-camels-rush-47-145-217-232.loca.lt/user/${auth.currentUser.uid}`)
+      .then(response => setPhoto(response.data.profilePicURI))
+      .catch(err => console.log(err));
+  }, []);
 
   const addPhoto = async () => {
     let _photo = await ImagePicker.launchImageLibraryAsync({
@@ -39,6 +46,12 @@ export default function UploadPhoto() {
       .then(data => {
         console.log('response data', data);
         setPhoto(data.secure_url);
+        axios.put('https://blue-camels-rush-47-145-217-232.loca.lt/users', {
+          firebaseID: auth.currentUser.uid,
+          uri: data.secure_url
+        })
+          .then(response => console.log('profile pic has been updated'))
+          .catch(err => console.log('error updating profile pic'));
       })
       .catch(err => {
         Alert.alert('An Error Occured While Uploading');

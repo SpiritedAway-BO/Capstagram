@@ -36,6 +36,7 @@ const AddPhotoCloudinary = ({ navigation }) => {
       console.log('Photo', source);
       cloudinaryUpload(source);
     }
+    navigation.navigate('Home');
   };
 
   const takePhoto = async () => {
@@ -66,7 +67,7 @@ const AddPhotoCloudinary = ({ navigation }) => {
           currentUser: auth.currentUser,
           uri: data.secure_url
         })
-          .then(results => console.log('posted'))
+          .then(results => console.log('posted photo'))
           .catch(err => console.log('error posting photo', err));
       })
       .catch(err => {

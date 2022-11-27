@@ -1,19 +1,27 @@
-import React from 'react';
+import { useContext } from 'react';
 import { View, ScrollView, StyleSheet } from 'react-native';
 import Post from './Post.js';
+import { AppContext } from '../../contexts/AppContext.js';
 
 const MainFeed = ({ navigation }) => {
-  return (
-    <View style={styles.mainContainer}>
-      <ScrollView style={styles.feedContainer}>
+  const { mainFeedData } = useContext(AppContext);
+
+  console.log(mainFeedData);
+
+  if (mainFeedData) {
+    return (
+      <View style={styles.mainContainer}>
+        <ScrollView style={styles.feedContainer}>
+          {mainFeedData.map(post => <Post key={post._id}post={post} navigation={navigation}/>)}
+          {/* <Post navigation={navigation}/>
         <Post navigation={navigation}/>
         <Post navigation={navigation}/>
         <Post navigation={navigation}/>
-        <Post navigation={navigation}/>
-        <Post navigation={navigation}/>
-      </ScrollView>
-    </View>
-  );
+        <Post navigation={navigation}/> */}
+        </ScrollView>
+      </View>
+    );
+  }
 };
 
 const styles = StyleSheet.create({
