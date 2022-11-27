@@ -25,7 +25,7 @@ const Login = ({navigation}) => {
     setIsLoading(true);
     loginUser(email, password)
       .then(() => {
-        console.log(auth.currentUser);
+        // console.log(auth.currentUser);
         navigation.reset({
           index: 0,
           routes: [{ name: 'Capstagram' }],

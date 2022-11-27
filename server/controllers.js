@@ -2,10 +2,22 @@ const models = require('./mongoDB.js');
 
 module.exports = {
   getAllUsers: (req, res) => {
-    console.log('getting');
+    // console.log('getting');
     models.getUsers()
       .then(users => res.status(200).send(users))
       .catch(err => res.status(404).send(err));
+  },
+  getOneUser: (req, res) => {
+    // console.log('getting');
+    models.getUser(req.params.firebaseID, (err, docs) => {
+      if (err) {
+        console.log(err);
+        res.status(400).send(err);
+      } else {
+        console.log('docs inside controllers: ', docs);
+        res.status(200).send(docs);
+      }
+    });
   },
   createUser: (req, res) => {
     console.log('createUser req', req.body);
@@ -22,8 +34,8 @@ module.exports = {
       .catch(err => res.status(404).send(err));
   },
   getMainFeedPhotos: (req, res) => {
-    console.log('getMainFeed req', req.body);
-    models.getPhotos(req.body.firebaseID, (err, docs) => {
+    console.log('getMainFeed req', req.params.firebaseID);
+    models.getPhotos(req.params.firebaseID, (err, docs) => {
       if (err) {
         console.log(err);
         res.status(400).send(err);
@@ -46,13 +58,12 @@ module.exports = {
     });
   },
   getCaptions: (req, res) => {
-    console.log('getCaptions req', req.body);
-    models.getPhotoCaptions(req.body.photoID, (err, docs) => {
+    models.getCaptions(req.params.photoID, (err, docs) => {
       if (err) {
         console.log(err);
-        res.status(404).send(err);
+        res.status(400).send(err);
       } else {
-        console.log('docs inside controllers: ', docs);
+        console.log(docs);
         res.status(200).send(docs);
       }
     });
@@ -60,15 +71,25 @@ module.exports = {
   putProfilePic: (req, res) => {
     console.log('updateProfilePic req', req.body);
     models.updateUserProfilePic(req.body.firebaseID, req.body.uri)
-      .then(response => res.send(200).send(response))
-      .catch(err => res.send(404).send(err));
+      .then(response => res.sendStatus(200))
+      .catch(err => res.sendStatus(404));
   },
   getFriends: (req, res) => {
-    models.getUserFriends(req.body.firebaseID, (err, docs) => {
+    models.getUserFriends(req.params.firebaseID, (err, docs) => {
       if (err) {
         console.log(err);
       } else {
         res.status(200).send(docs);
+      }
+    });
+  },
+  addFriend: (req, res) => {
+    models.addUserFriend(req.body.firebaseID, req.body.friendID, (err, docs) => {
+      if (err) {
+        console.log(err);
+        res.sendStatus(400);
+      } else {
+        res.sendStatus(201);
       }
     });
   }

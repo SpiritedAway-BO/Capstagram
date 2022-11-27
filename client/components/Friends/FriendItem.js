@@ -12,12 +12,12 @@ const FriendItem = ({ caption }) => {
   return (
     <View style={styles.item}>
       <View style={styles.userInfo} >
-            <View style={styles.captionIntro}>
-        <Avatar image={{ uri: caption.usericon }} //local OR cloudinary
-          size={35}
-          style={styles.avatar}
-        />
-        <Text style={styles.title}>{caption.username}</Text>
+        <View style={styles.captionIntro}>
+          <Avatar image={{ uri: caption.usericon }} //local OR cloudinary
+            size={35}
+            style={styles.avatar}
+          />
+          <Text style={styles.title}>{caption.username}</Text>
         </View>
       </View>
       <View style={styles.borderSmaller}></View>
@@ -34,7 +34,7 @@ const styles = StyleSheet.create({
   },
   borderSmaller: {
     width: '92%',
-    borderBottomWidth: 3,
+    borderBottomWidth: 1,
     borderColor: '#d6d6d6',
   },
   captionIntro: {

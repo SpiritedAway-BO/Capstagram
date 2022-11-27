@@ -1,9 +1,12 @@
-import React, {useState, useEffect, useRef} from 'react';
+import React, {useState, useEffect, useRef, useContext} from 'react';
 import { Image, View, Platform, TouchableOpacity, Text, StyleSheet, FlatList, StatusBar, SafeAreaView, TextInput, TouchableWithoutFeedback, KeyboardAvoidingView, Keyboard} from 'react-native';
 import { AntDesign, Ionicons, Octicons, Entypo} from '@expo/vector-icons';
 import { Stack, AppBar, IconButton, HStack, Button } from '@react-native-material/core';
 import { auth } from '../Auth/firebase/firebase.js';
 import CaptionItem from './CaptionItem.js';
+import { AppContext}  from '../../contexts/AppContext.js';
+import axios from 'axios';
+
 
 
 var DATA = [{
@@ -11,7 +14,7 @@ var DATA = [{
   username: 'thisGuy',
   caption: 'It\'s the little things in life',
   upvotes: 5,
-  usericon: '../../assets/favicon.png',
+  usericon: 'https://res.cloudinary.com/cwhrcloud/image/upload/v1669246271/orange_auy0ff.png',
   voted: true,
   timestamp: Date(),
 },
@@ -20,7 +23,7 @@ var DATA = [{
   username: 'thisGuy2',
   caption: 'Let me show you my Pokemon!',
   upvotes: 15,
-  usericon: '../../assets/favicon.png',
+  usericon: 'https://res.cloudinary.com/cwhrcloud/image/upload/v1669246271/orange_auy0ff.png',
   voted: false,
   timestamp: Date(),
 
@@ -30,7 +33,7 @@ var DATA = [{
   username: 'thisGuy3',
   caption: 'Are we there yet?',
   upvotes: 0,
-  usericon: '../../assets/favicon.png',
+  usericon: 'https://res.cloudinary.com/cwhrcloud/image/upload/v1669246271/orange_auy0ff.png',
   voted: false,
   timestamp: Date(),
 
@@ -40,7 +43,7 @@ var DATA = [{
   username: 'thisGuy4',
   caption: 'I can show you the world!',
   upvotes: 33,
-  usericon: '../../assets/favicon.png',
+  usericon: 'https://res.cloudinary.com/cwhrcloud/image/upload/v1669246271/orange_auy0ff.png',
   voted: true,
   timestamp: Date(),
 
@@ -50,7 +53,7 @@ var DATA = [{
   username: 'thisGuy5',
   caption: 'All your base are belongs to us!',
   upvotes: 2,
-  usericon: '../../assets/favicon.png',
+  usericon: 'https://res.cloudinary.com/cwhrcloud/image/upload/v1669246271/orange_auy0ff.png',
   voted: false,
   timestamp: Date(),
 },
@@ -59,7 +62,7 @@ var DATA = [{
   username: 'thisGuy6',
   caption: 'I can haz cheezburger?',
   upvotes: 4,
-  usericon: '../../assets/favicon.png',
+  usericon: 'https://res.cloudinary.com/cwhrcloud/image/upload/v1669246271/orange_auy0ff.png',
   voted: false,
   timestamp: Date(),
 },
@@ -68,7 +71,7 @@ var DATA = [{
   username: 'thisGuy7',
   caption: 'Momma said there\'d be days like this...',
   upvotes: 12,
-  usericon: '../../assets/favicon.png',
+  usericon: 'https://res.cloudinary.com/cwhrcloud/image/upload/v1669246271/orange_auy0ff.png',
   voted: false,
   timestamp: Date(),
 },
@@ -77,23 +80,32 @@ var DATA = [{
   username: 'thisGuy7',
   caption: 'Whodunnit',
   upvotes: 12,
-  usericon: '../../assets/favicon.png',
+  usericon: 'https://res.cloudinary.com/cwhrcloud/image/upload/v1669246271/orange_auy0ff.png',
   voted: false,
   timestamp: Date(),
 },
 ];
 
 const CaptionsGalore = () => {
+  const [allCaptions, setAllCaptions] = useState([]);
+  const {username, setUserName} = useContext(AppContext);
+  const {currentUser, setCurrentUser} = useContext(AppContext);
+  const { currentPost } = useContext(AppContext);
+  const [newCaption, setNewCaption] = useState('');
+  const [photoObject, setPhotoObject] = useState('6382cd1905e5b94830a216bf');
+  const [captionArray, setCaptionArray] = useState([]);
 
   const renderCaption = ({ item }) => (
     <CaptionItem caption={item} />
   );
 
-  const [newCaption, setNewCaption] = useState('');
-
   const handleCaptionSubmit = () => {
-    console.log('newCaption', newCaption);
-    //put caption
+    // console.log('currentUser', currentUser)
+    /***** REPLACE PHOTOID WITH USER SELECTED PHOTOID */
+    /** make a default for if usename is null */
+    axios.post('https://silver-beans-smile-173-228-53-12.loca.lt/captions', {username: currentUser.displayName, photoID: '6382cd1905e5b94830a216bf', captionBody: newCaption})
+      .then(results => console.log('posted new caption'))
+      .catch(err => console.log('errors in captions galore'));
     setNewCaption(''); //reset
   }
 
@@ -103,16 +115,18 @@ const CaptionsGalore = () => {
         data={DATA}
         renderItem={renderCaption}
         keyExtractor={item => item.id}
-      />
-        <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
-          <KeyboardAvoidingView behavior="padding">
-            <View style={styles.newCommentView}>
-            <TextInput style={styles.newComment} value={newCaption} onChangeText={newCaption => setNewCaption(newCaption)} placeholder="Add a new caption..." />
-            <Button style={styles.newCommentButton} accessibilityLabel="Post a New caption button" title="Post" color="9D4EDD" onPress={handleCaptionSubmit}/>
-            </View>
-          </KeyboardAvoidingView>
-        </TouchableWithoutFeedback>
+        />
+      <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
+        <KeyboardAvoidingView behavior="padding">
+          <View style={styles.newCommentView}>
+          <TextInput style={styles.newComment} value={newCaption} onChangeText={newCaption => setNewCaption(newCaption)} placeholder="Add a new caption..." />
+          <Button style={styles.newCommentButton} accessibilityLabel="Post a New caption button" title="Post" color="9D4EDD" onPress={handleCaptionSubmit}/>
+          </View>
+        </KeyboardAvoidingView>
+      </TouchableWithoutFeedback>
+      {/* {console.log('currentUser context', currentUser.uid)} */}
     </SafeAreaView>
+
   );
 };
 
@@ -128,7 +142,7 @@ const styles = StyleSheet.create({
     paddingBottom: 20,
   },
   userInfo: {
-    // flexDirection: 'row',
+    flexDirection: 'row',
     justifyContent: 'flex-start',
     justifyContent: 'space-between',
   },

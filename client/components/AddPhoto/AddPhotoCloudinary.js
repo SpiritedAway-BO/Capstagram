@@ -14,7 +14,7 @@ import axios from 'axios';
 
 
 
-const AddPhotoCloudinary = () => {
+const AddPhotoCloudinary = ({ navigation }) => {
 
   const [photo, setPhoto] = useState('https://res.cloudinary.com/ogcodes/image/upload/v1581387688/m0e7y6s5zkktpceh2moq.jpg');
 
@@ -35,6 +35,7 @@ const AddPhotoCloudinary = () => {
       console.log('Photo', source);
       cloudinaryUpload(source);
     }
+    navigation.navigate('Home');
   };
 
   const takePhoto = async () => {
@@ -61,11 +62,11 @@ const AddPhotoCloudinary = () => {
       .then(data => {
         console.log('response data', data);
         // setPhoto(data.secure_url);
-        axios.post('https://pretty-months-call-47-145-217-232.loca.lt/photos', {
+        axios.post('https://brave-beds-suffer-99-227-192-34.loca.lt/photos', {
           currentUser: auth.currentUser,
           uri: data.secure_url
         })
-          .then(results => console.log('posted'))
+          .then(results => console.log('posted photo'))
           .catch(err => console.log('error posting photo', err));
       })
       .catch(err => {
