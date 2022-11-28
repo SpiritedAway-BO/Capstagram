@@ -4,11 +4,13 @@ import { Image, View, Platform, TouchableOpacity, Text, StyleSheet } from 'react
 import { auth, signOutUser } from '../Auth/firebase/firebase.js';
 import { VStack } from '@react-native-material/core';
 import { MaterialIcons } from '@expo/vector-icons';
+import { AppContext } from '../../contexts/AppContext.js';
 
 
 export default function AccountPage({ navigation }) {
 
   const [photo, setPhoto] = useState('https://res.cloudinary.com/cwhrcloud/image/upload/v1669246271/orange_auy0ff.png');
+  const { setCurrentUser } = useContext(AppContext);
 
   const handleSignOut = () => {
     signOutUser();
@@ -16,6 +18,7 @@ export default function AccountPage({ navigation }) {
       index: 0,
       routes: [{ name: 'Login' }]
     });
+    setCurrentUser('');
   };
 
   // console.log('auth info', auth.currentUser.displayName, auth.currentUser.uid, auth.currentUser);
