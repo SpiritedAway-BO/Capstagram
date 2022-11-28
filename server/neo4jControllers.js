@@ -300,8 +300,14 @@ module.exports = {
       for (let i = 0; i < readResult.length; i++) {
         readResult[i].captions = await getCaptionsModel(readResult[i].id);
       }
+      const userInfo = await session.executeRead((tx) => tx.run(`MATCH (u:User {id: '${req.params.userId}'}) return u`))
+        .then(results => results.records[0].get('u').properties)
+      const returnObj = {
+        creator: userInfo,
+        results: readResult
+      }
       res.status(200);
-      res.end(JSON.stringify(readResult));
+      res.end(JSON.stringify(returnObj));
       session.close();
     } else {
       res.status(400);
