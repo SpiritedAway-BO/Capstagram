@@ -35,8 +35,11 @@ export default function Caption({ caption }) {
   return (
     <View style={styles.captionContainer}>
       <View style={styles.captionerInfo}>
-        <Text style={styles.username}>{caption.captioner.username}</Text>
-        <Text>{caption.body}</Text>
+        <Text style={styles.username}>
+          {caption.captioner.username}
+          &nbsp;
+          <Text style={styles.caption}>{caption.body}</Text>
+        </Text>
       </View>
       {liked ?
         <Text style={styles.likeNumber}>
@@ -61,6 +64,8 @@ const styles = StyleSheet.create({
   },
   captionerInfo: {
     flexDirection: 'row',
+    maxWidth: '95%',
+    flexWrap: 'wrap',
   },
   username: {
     fontWeight: 'bold',
@@ -68,5 +73,8 @@ const styles = StyleSheet.create({
   },
   likeNumber: {
     color: '#FF842B',
+  },
+  caption: {
+    fontWeight: 'unset',
   }
 });
