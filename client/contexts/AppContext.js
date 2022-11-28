@@ -19,7 +19,6 @@ export const AppProvider = ({ children }) => {
     //   .then(res => console.log(res.data))
     //   .catch(err => console.log(err));
   }, []);
-
   /** INSERT VARIABLE NAMES into value deconstruction to make them available in other modules */
   const value = {
     currentUser,

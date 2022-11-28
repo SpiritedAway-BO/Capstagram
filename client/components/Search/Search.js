@@ -24,7 +24,7 @@ export default function Search() {
   useEffect(() => {
     axios.get(`${LOCALTUNNEL}/users`)
       .then((res) => {
-        console.log(friends);
+        console.log('friends', friends);
         setUsers(res.data);
         setFilteredUsers(res.data);
       });
@@ -50,6 +50,7 @@ export default function Search() {
     // console.log(auth.currentUser.uid);
     // console.log(user.id);
     friendsArr.push(user.username);
+    setFriends([...friends, user]);
 
     axios.post('http://localhost:8000/user/friends', {firebaseID: auth.currentUser.uid, friendID: user.id })
       .then(() => {
@@ -93,24 +94,24 @@ export default function Search() {
 
   return (
     <SafeAreaView style={styles.container}>
-    <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
-      <KeyboardAvoidingView behavior="padding" >
-        <View style={styles.inputContainer}>
-          <TextInput style={styles.input} placeholder='Search' placeholderTextColor='#D3D3D3'
-            onChangeText={text => setSearchInput(text)} onSubmitEditing={(e) => handleSearch(e, searchInput)}
-            enablesReturnKeyAutomatically />
-        </View>
-      </KeyboardAvoidingView>
-    </TouchableWithoutFeedback>
-        <View style={styles.listContainer}>
-          <VStack spacing={7} divider={true} w={'100%'}>
-            <FlatList
-              data={filteredUsers}
-              renderItem={renderSearchedUsers}
-              keyExtractor={item => item.id}
+      <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
+        <KeyboardAvoidingView behavior="padding" >
+          <View style={styles.inputContainer}>
+            <TextInput style={styles.input} placeholder='Search' placeholderTextColor='#D3D3D3'
+              onChangeText={text => setSearchInput(text)} onSubmitEditing={(e) => handleSearch(e, searchInput)}
             />
-          </VStack>
-        </View>
+          </View>
+        </KeyboardAvoidingView>
+      </TouchableWithoutFeedback>
+      <View style={styles.listContainer}>
+        <VStack spacing={7} divider={true} w={'100%'}>
+          <FlatList
+            data={filteredUsers}
+            renderItem={renderSearchedUsers}
+            keyExtractor={item => item.id}
+          />
+        </VStack>
+      </View>
     </SafeAreaView>
   );
 
