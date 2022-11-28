@@ -77,6 +77,7 @@ var DATA = [{
 ];
 
 export default function PersonalWins() {
+
   // receives array of posts where this user is top commenter and Renders each post
   const renderTopPost = ({ item }) => (
     <WinsFeed photo={item} />

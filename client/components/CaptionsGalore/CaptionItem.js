@@ -24,7 +24,7 @@ const CaptionItem = ({ caption }) => {
   const [votes, setVotes] = useState(0);
   const [avatarUri, setAvatarUri] = useState('https://res.cloudinary.com/cwhrcloud/image/upload/v1669246271/orange_auy0ff.png');
 
-  console.log('caption id', caption.id)
+  // console.log('caption id', caption.id)
   // const [newCaption, setNewCaption] = useState('');
 
   useEffect(() => {
