@@ -10,14 +10,14 @@ const CaptionItem = ({ caption }) => {
   const [votes, setVotes] = useState(0);
   const [avatarUri, setAvatarUri] = useState('https://res.cloudinary.com/cwhrcloud/image/upload/v1669246271/orange_auy0ff.png');
 
-  // console.log(caption)
+  console.log('caption id', caption.id)
   // const [newCaption, setNewCaption] = useState('');
 
   useEffect(() => {
     // console.log('caption', caption)
-    caption.upvotes ? setVotes(caption.upvotes) : null;
+    caption.likes ? setVotes(caption.likes) : null;
     // setVotes(caption.upvotes); //takes care of asynchronous state setting
-    caption.usericon ? setAvatarUri(caption.usericon) : setAvatarUri('https://res.cloudinary.com/cwhrcloud/image/upload/v1669246271/orange_auy0ff.png');
+    caption.captioner.profilePicURI ? setAvatarUri(caption.captioner.profilePicURI) : null;
   }, []);
 
   // const putUserUpvote = (allVotes) => {
@@ -27,6 +27,7 @@ const CaptionItem = ({ caption }) => {
   //     /* will need to send put/patch state to database, or somehow keep track of uservotes and also specifically THIS user's vote */
 
   // }
+  // console.log('caption', caption)
 
   return (
     <View style={styles.bigItem}>
@@ -37,7 +38,7 @@ const CaptionItem = ({ caption }) => {
           size={35}
           style={styles.avatar}
         />
-        <Text style={styles.username}>{caption.captioner}</Text>
+        <Text style={styles.username}>{caption.captioner.username}</Text>
         </View>
       { voted ?
         <View style={styles.heartIcon} >

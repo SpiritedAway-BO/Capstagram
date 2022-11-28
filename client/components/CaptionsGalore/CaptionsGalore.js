@@ -11,37 +11,42 @@ import {LOCALTUNNEL} from '../Auth/firebase/config.js';
 
 const CaptionsGalore = () => {
   const [allCaptions, setAllCaptions] = useState([]);
-  const {username, setUserName} = useContext(AppContext);
   const {currentUser, setCurrentUser} = useContext(AppContext);
   const { currentPost } = useContext(AppContext);
   const [newCaption, setNewCaption] = useState('');
   const [photoObject, setPhotoObject] = useState('6382cd1905e5b94830a216bf');
   const [captionArray, setCaptionArray] = useState([]);
 
-  const renderCaption = ({ item }) => (
-    <CaptionItem caption={item} />
-  );
+  const renderCaption = ({ item }) => {
+    // console.log('item in renderItem', item);
+
+    return (
+      <CaptionItem caption={item} />
+    );
+  }
+  // console.log('captionArray', captionArray)
   useEffect(() => {
     getCaptions();
   }, []);
-
+  // console.log('currentPost.id', currentPost.id)
   const getCaptions = () => {
-    if (currentPost._id) {
-      axios.get(`${LOCALTUNNEL}/captions/${currentPost._id}`)
+    if (currentPost) {
+      console.log( 'yes current post')
+      axios.get(`https://breezy-areas-fold-173-228-53-12.loca.lt/captions/${currentPost.id}`)
       .then(results => {
-        let reverseCaptionsArray = results.data[0].photos[0].captions.reverse();
+        // console.log('results.data', results.data)
+        let reverseCaptionsArray = results.data.reverse();
         setCaptionArray(reverseCaptionsArray);
       })
       .catch(err => console.log('error in caption get'))
     }
   };
 
-  console.log('current post', currentPost._id);
   const handleCaptionSubmit = () => {
     // console.log('currentUser', currentUser)
     /***** REPLACE PHOTOID WITH USER SELECTED PHOTOID */
     /** make a default for if usename is null */
-    axios.post(`${LOCALTUNNEL}/captions`, {username: currentUser.displayName, photoID: currentPost._id, captionBody: newCaption})
+    axios.post(`${LOCALTUNNEL}/captions/${}`, {username: currentUser.captioner.username, photoID: currentPost._id, captionBody: newCaption})
       .then(results => {
         getCaptions(); //helper function
       })
@@ -49,7 +54,7 @@ const CaptionsGalore = () => {
       .catch(err => console.log('errors in captions galore'));
     setNewCaption(''); //reset
   }
-
+  // console.log('captionArray', captionArray);
   return (
     <SafeAreaView style={styles.container}>
       <FlatList //this is like map

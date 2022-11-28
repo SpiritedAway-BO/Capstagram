@@ -32,16 +32,11 @@ export default function Search() {
   };
 
   const handleAdd = (user) => {
-<<<<<<< HEAD
-    axios.post('https://famous-eggs-sell-75-80-43-25.loca.lt/user/friends', {firebaseID: auth.currentUser.uid, friendID: user.firebaseID })
-      .then(console.log('added:', user.firebaseID))
-=======
     console.log(auth.currentUser.uid);
     console.log(user.id);
 
     axios.post('http://localhost:8000/user/friends', {firebaseID: auth.currentUser.uid, friendID: user.id })
       .then(console.log('added:', user.id))
->>>>>>> main
       .catch(err => console.log(err));
   };
 
