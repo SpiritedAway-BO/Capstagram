@@ -7,7 +7,8 @@ import { AppContext } from '../../contexts/AppContext.js';
 const Post = ({ post, navigation }) => {
   const { setCurrentPost } = useContext(AppContext);
 
-  const captions = post.captions;
+  const captions = post.captions.slice().sort((a, b) => b.likes - a.likes).slice(0, 3);
+
   return (
     <View style={styles.postContainer}>
       <View style={styles.creatorInfo}>
@@ -23,7 +24,7 @@ const Post = ({ post, navigation }) => {
           style={styles.image}/>
       </View>
       <View style={styles.captionsContainer}>
-        {captions.map(caption => <Caption key={caption.id}caption={caption}/>)}
+        {captions.map(caption => <Caption key={caption.id} caption={caption}/>)}
       </View>
       <View style={styles.viewAllContainer}>
         <Text
@@ -32,7 +33,7 @@ const Post = ({ post, navigation }) => {
             setCurrentPost(post);
             navigation.navigate('Captions');
           }}>
-            View all {captions.length} captions
+            View all {post.captions.length} captions
         </Text>
       </View>
     </View>

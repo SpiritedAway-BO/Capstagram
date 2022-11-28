@@ -156,18 +156,18 @@ module.exports = {
     }
   },
   postCaption: async (req, res) => {
-    if (req.params.hasOwnProperty('photoId') && req.body.hasOwnProperty('body') && req.body.hasOwnProperty('currentUser')) {
+    if (req.body.hasOwnProperty('photoId') && req.body.hasOwnProperty('body') && req.body.hasOwnProperty('userId')) {
       try {
         const session = db.session();
         const writeResult = await session.executeWrite((tx) => tx.run(`CREATE (c:Caption {id: apoc.create.uuid(), body: '${req.body.body}', timePosted: '${Date.now()}', likes: '0'}) return(c)`))
           .then(result => result.records[0].get('c').properties)
           .catch(err => console.log(err));
 
-        const writePhotoRelationResult = await session.executeWrite((tx) => tx.run(`MATCH (c:Caption), (p:Photo) WHERE c.id = '${writeResult.id}' AND p.id = '${req.params.photoId}' CREATE (c)-[:POSTED_ON]->(p) return(p)`))
+        const writePhotoRelationResult = await session.executeWrite((tx) => tx.run(`MATCH (c:Caption), (p:Photo) WHERE c.id = '${writeResult.id}' AND p.id = '${req.body.photoId}' CREATE (c)-[:POSTED_ON]->(p) return(p)`))
           .then(result => result.records[0].get('p').properties)
           .catch(err => console.log(err));
 
-        const writeUserCaptionRelationResult = await session.executeWrite((tx) => tx.run(`MATCH (c:Caption), (u:User) WHERE c.id = '${writeResult.id}' AND u.id = '${req.body.currentUser.uid}' CREATE (u)-[:CREATED]->(c)`));
+        const writeUserCaptionRelationResult = await session.executeWrite((tx) => tx.run(`MATCH (c:Caption), (u:User) WHERE c.id = '${writeResult.id}' AND u.id = '${req.body.userId}' CREATE (u)-[:CREATED]->(c)`));
 
         console.log('Caption created on image ', req.params.photoId, ': ', writeResult);
         res.status(201);
@@ -284,6 +284,22 @@ module.exports = {
       res.end();
     }
   },
+  getUserPhotos: async (req, res) => {
+    if (req.params.hasOwnProperty('userId')) {
+      const session = db.session();
+      const readResult = await session.executeRead((tx) => tx.run(`MATCH (p:Photo)<-[:CREATED]-(u:User {id: '${req.params.userId}'}) return p`))
+        .then(results => results.records.map(record => record.get('p').properties));
+      for (let i = 0; i < readResult.length; i++) {
+        readResult[i].captions = await getCaptionsModel(readResult[i].id);
+      }
+      res.status(200);
+      res.end(JSON.stringify(readResult));
+      session.close();
+    } else {
+      res.status(400);
+      res.end();
+    }
+  },
   addFriend: async (req, res) => {
     if (req.body.firebaseID && req.body.friendID) {
       try {
@@ -309,7 +325,7 @@ module.exports = {
     if (req.params.firebaseID) {
       try {
         const session = db.session();
-        const friends = await session.executeWrite((tx) => tx.run(`MATCH (f:User)-[:IS_FRIEND]-(:User {id: '${req.params.firebaseID}'}) return(f)`))
+        const friends = await session.executeRead((tx) => tx.run(`MATCH (f:User)-[:IS_FRIEND]-(:User {id: '${req.params.firebaseID}'}) return(f)`))
           .then((result) => result.records.map((record) => record.get('f').properties))
         res.status(200);
         res.end(JSON.stringify(friends));

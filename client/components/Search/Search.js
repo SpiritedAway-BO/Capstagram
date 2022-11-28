@@ -44,8 +44,6 @@ export default function Search() {
       return user.username.toLowerCase().includes(input.toLowerCase());
     });
     setFilteredUsers(searchResults);
-    setSearchInput('');
-    // console.log(filteredUsers);
   };
 
   const handleAdd = (user) => {
@@ -93,15 +91,13 @@ export default function Search() {
     );
   };
 
-
-
   return (
     <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
       <KeyboardAvoidingView behavior="padding" style={styles.container}>
         <View style={styles.inputContainer}>
           <TextInput style={styles.input} placeholder='Search' placeholderTextColor='#D3D3D3'
             onChangeText={text => setSearchInput(text)} onSubmitEditing={(e) => handleSearch(e, searchInput)}
-            /*enablesReturnKeyAutomatically*//>
+            enablesReturnKeyAutomatically/>
         </View>
         <View style={styles.listContainer}>
           <VStack spacing={7} divider={true} w={'100%'}>

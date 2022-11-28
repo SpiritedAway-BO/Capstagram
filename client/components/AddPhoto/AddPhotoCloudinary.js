@@ -68,7 +68,7 @@ const AddPhotoCloudinary = ({ navigation }) => {
           currentUser: auth.currentUser,
           uri: data.secure_url
         })
-          .then(results => {
+          .then(results => {s
             console.log('photo posted');
             axios.get(`${LOCALTUNNEL}/photos/${auth.currentUser.uid}`)
               .then(res => {

@@ -6,8 +6,6 @@ import { AppContext } from '../../contexts/AppContext.js';
 const MainFeed = ({ navigation }) => {
   const { mainFeedData } = useContext(AppContext);
 
-  // console.log(mainFeedData);
-
   if (mainFeedData) {
     return (
       <View style={styles.mainContainer}>
