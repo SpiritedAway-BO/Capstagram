@@ -64,7 +64,7 @@ const AddPhotoCloudinary = ({ navigation }) => {
       .then(data => {
         console.log('response data', data);
         // setPhoto(data.secure_url);
-        axios.post('https://bitter-lamps-eat-75-80-43-25.loca.lt/photos', {
+        axios.post(`${LOCALTUNNEL}/photos`, {
           currentUser: auth.currentUser,
           uri: data.secure_url
         })

@@ -9,7 +9,7 @@ import { LOCALTUNNEL } from '../Auth/firebase/config.js';
 export default function UploadPhoto({ photo, setPhoto }) {
 
   useEffect(() => {
-    axios.get(`https://bitter-lamps-eat-75-80-43-25.loca.lt/user/${auth.currentUser.uid}`)
+    axios.get(`${LOCALTUNNEL}/user/${auth.currentUser.uid}`)
       .then(response => {
         // console.log(response.data);
         setPhoto(response.data.profilePicURI);
@@ -50,7 +50,7 @@ export default function UploadPhoto({ photo, setPhoto }) {
       .then(data => {
         console.log('response data', data);
         setPhoto(data.secure_url);
-        axios.put(`https://bitter-lamps-eat-75-80-43-25.loca.lt/user/${auth.currentUser.uid}/profilePic`, {
+        axios.put(`${LOCALTUNNEL}/user/${auth.currentUser.uid}/profilePic`, {
           uri: data.secure_url
         })
           .then(response => console.log('profile pic has been updated'))

@@ -3,6 +3,7 @@ import { View, Text, StyleSheet } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import axios from 'axios';
 import { AppContext } from '../../contexts/AppContext.js';
+import { LOCALTUNNEL } from '../Auth/firebase/config.js';
 
 
 export default function TopCaption({ caption, topCaptioner, voted, upvotes }) {
@@ -38,7 +39,7 @@ export default function TopCaption({ caption, topCaptioner, voted, upvotes }) {
     } else {
       caption.likes++;
     }
-    axios.patch(`http://localhost:8000/captions/${caption.id}`, {
+    axios.patch(`${LOCALTUNNEL}/captions/${caption.id}`, {
       userId: currentUser.uid
     });
   };
@@ -66,7 +67,7 @@ export default function TopCaption({ caption, topCaptioner, voted, upvotes }) {
           <Ionicons name="ios-heart" size={15} color="#FF842B"
             onPress={() => {
               heart();
-              // setAllVotes(allVotes - 1);
+              setAllVotes(allVotes - 1);
               setUserVoted(!userVoted);
             }}/>
         </View> :
@@ -75,7 +76,7 @@ export default function TopCaption({ caption, topCaptioner, voted, upvotes }) {
           <Ionicons style={styles.heartIcon} name="ios-heart-outline" size={15} color="#FF842B"
             onPress={() => {
               heart();
-              // setAllVotes(allVotes + 1);
+              setAllVotes(allVotes + 1);
               setUserVoted(!userVoted);
             }}
           />

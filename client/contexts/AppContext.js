@@ -19,9 +19,11 @@ export const AppProvider = ({ children }) => {
     //   .then(res => console.log(res.data))
     //   .catch(err => console.log(err));
   }, []);
-  if (Object.keys(currentUser) > 0) {
-    console.log('currentUser in AppContext', currentUser.uid);
-  }
+
+  // if (Object.keys(currentUser) > 0) {
+  //   console.log('currentUser in AppContext', currentUser.uid);
+  // }
+
   /** INSERT VARIABLE NAMES into value deconstruction to make them available in other modules */
   const value = {
     currentUser,
@@ -36,7 +38,7 @@ export const AppProvider = ({ children }) => {
   /** MAKES CONTEXT AVAILABLE **/
   useEffect(() => {
     if (currentUser) {
-      axios.get(`https://bitter-lamps-eat-75-80-43-25.loca.lt/photos/${currentUser.uid}`)
+      axios.get(`${LOCALTUNNEL}/photos/${currentUser.uid}`)
         .then(res => {
           console.log(res.data);
           setMainFeedData(res.data);
@@ -48,7 +50,7 @@ export const AppProvider = ({ children }) => {
 
   useEffect(() => {
     if (currentUser) {
-      axios.get(`https://bitter-lamps-eat-75-80-43-25.loca.lt/user/${currentUser.uid}/friends`)
+      axios.get(`${LOCALTUNNEL}/user/${currentUser.uid}/friends`)
         .then(res => {
           setFriends(res.data);
         })

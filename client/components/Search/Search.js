@@ -5,7 +5,7 @@ import { Ionicons } from '@expo/vector-icons';
 import { auth } from '../../components/Auth/firebase/firebase';
 import { AppContext } from '../../contexts/AppContext';
 import axios from 'axios';
-
+import { LOCALTUNNEL } from '../Auth/firebase/config.js';
 
 export default function Search() {
 
@@ -22,11 +22,7 @@ export default function Search() {
   let friendsArr = [];
 
   useEffect(() => {
-<<<<<<< HEAD
-    axios.get('https://shaggy-streets-act-75-80-43-25.loca.lt/users')
-=======
-    axios.get('https://bitter-lamps-eat-75-80-43-25.loca.lt/users')
->>>>>>> main
+    axios.get(LOCALTUNNEL)
       .then((res) => {
         console.log(friends);
         setUsers(res.data);
@@ -55,10 +51,10 @@ export default function Search() {
     // console.log(user.id);
     friendsArr.push(user.username);
 
-    axios.post('https://bitter-lamps-eat-75-80-43-25.loca.lt/user/friends', {firebaseID: auth.currentUser.uid, friendID: user.id })
+    axios.post(`${LOCALTUNNEL}/user/friends`, {firebaseID: auth.currentUser.uid, friendID: user.id })
       .then(() => {
         console.log('added:', user.id);
-        axios.get(`https://bitter-lamps-eat-75-80-43-25.loca.lt/photos/${currentUser.uid}`)
+        axios.get(`${LOCALTUNNEL}/photos/${currentUser.uid}`)
           .then(res => {
             setMainFeedData(res.data);
           })

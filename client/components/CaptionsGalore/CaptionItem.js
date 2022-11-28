@@ -5,6 +5,7 @@ import { Avatar, Button } from '@react-native-material/core';
 import { auth } from '../Auth/firebase/firebase.js';
 import axios from 'axios';
 import { AppContext } from '../../contexts/AppContext.js';
+import { LOCALTUNNEL } from '../Auth/firebase/config.js';
 
 const CaptionItem = ({ caption }) => {
   const { currentUser } = useContext(AppContext);
@@ -29,7 +30,7 @@ const CaptionItem = ({ caption }) => {
     } else {
       caption.likes++;
     }
-    axios.patch(`http://localhost:8000/captions/${caption.id}`, {
+    axios.patch(`${LOCALTUNNEL}/captions/${caption.id}`, {
       userId: currentUser.uid
     });
   };
@@ -49,11 +50,8 @@ const CaptionItem = ({ caption }) => {
   const [votes, setVotes] = useState(0);
   const [avatarUri, setAvatarUri] = useState('https://res.cloudinary.com/cwhrcloud/image/upload/v1669246271/orange_auy0ff.png');
 
-  // console.log('caption id', caption.id)
-  // const [newCaption, setNewCaption] = useState('');
 
   useEffect(() => {
-    console.log(caption.likes);
     caption.likes ? setVotes(caption.likes) : null;
     caption.captioner.profilePicURI ? setAvatarUri(caption.captioner.profilePicURI) : null;
   }, []);
