@@ -1,7 +1,8 @@
-import React from 'react';
+import { useContext } from 'react';
 import { View, Text, Image, StyleSheet } from 'react-native';
 import { Avatar } from '@react-native-material/core';
 import Caption from '../../../MainFeed/Caption.js';
+import { AppContext } from '../../contexts/AppContext.js';
 
 const dummyData = [
   {
@@ -22,28 +23,35 @@ const dummyData = [
 ];
 
 const Post = ({ navigation }) => {
+  const { setCurrentPost } = useContext(AppContext);
+
+  // const captions = post.captions.sort((a, b) => b.likes - a.likes).slice(0, 3);
+
   return (
     <View style={styles.postContainer}>
       <View style={styles.creatorInfo}>
         <Avatar
-          image={{ uri: 'https://mui.com/static/images/avatar/1.jpg' }}
+          image={{ uri: post.creator.profilePicUri }}
           size={35}
           style={styles.avatar}/>
-        <Text style={styles.username}>username</Text>
+        <Text style={styles.username}>{post.creator.username}</Text>
       </View>
       <View>
         <Image
-          source={{uri: 'https://img.freepik.com/free-vector/cute-rabbit-with-duck-working-laptop-cartoon-illustration_56104-471.jpg?w=2000'}}
+          source={{uri: post.url}}
           style={styles.image}/>
       </View>
       <View style={styles.captionsContainer}>
-        {dummyData.map(caption => <Caption caption={caption}/>)}
+        {captions.map(caption => <Caption key={caption.id} caption={caption}/>)}
       </View>
       <View style={styles.viewAllContainer}>
         <Text
           style={styles.vewAllText}
-          onPress={() => navigation.navigate('Captions')}>
-            View all # captions
+          onPress={() => {
+            setCurrentPost(post);
+            navigation.navigate('Captions');
+          }}>
+            View all {post.captions.length} captions
         </Text>
       </View>
     </View>
@@ -53,14 +61,12 @@ const Post = ({ navigation }) => {
 const styles = StyleSheet.create({
   postContainer: {
     width: '100%',
-    height: '100%',
-    marginTop: '50%',
+    marginBottom: 25,
   },
   creatorInfo: {
-    padding: '1%',
     flexDirection: 'row',
     alignItems: 'center',
-    backgroundColor: 'white',
+    margin: 5,
   },
   avatar: {
     marginRight: 5,
@@ -74,13 +80,11 @@ const styles = StyleSheet.create({
   },
   captionsContainer: {
     padding: 5,
-    backgroundColor: 'white',
   },
   viewAllContainer: {
     justifyContent: 'center',
+    margin: 5,
     marginTop: 0,
-    backgroundColor: 'white',
-    width: "100%",
   },
   vewAllText: {
     color: '#FF842B',
