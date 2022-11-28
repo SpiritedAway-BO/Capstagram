@@ -13,7 +13,7 @@ const router = require('./neo4jRoutes.js');
 const app = express();
 // module.exports.app = app;
 
-app.set('port', 8001);
+app.set('port', 8000);
 
 //Logging and parsing
 app.use(morgan('dev'));
