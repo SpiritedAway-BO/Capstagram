@@ -53,7 +53,7 @@ export const AppProvider = ({ children }) => {
         })
         .catch(err => console.log('Fetch Friends Error', err));
     }
-  }, []);
+  }, [currentUser]);
 
   /** makes Context available to other modules **/
   return (
