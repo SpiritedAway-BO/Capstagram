@@ -18,7 +18,7 @@ router.patch('/captions/:captionId', controllers.patchCaption); // CHANGES a cap
 // //Photos Routes
 router.post('/photos', controllers.postPhoto); //posts user photo  - Query param: userId
 router.get('/photos/:userId', controllers.getPhotos); //gets all photos (esp. for trending)   - Query param: userId
-//router.get('/user/:userId/photos', controllers.getUserPhotos); //gets one user's photos (for main page and friends page)
+router.get('/user/:userId/photos', controllers.getUserPhotos); //gets one user's photos (for main page and friends page)
 
 // //Friends Route
 router.get('/user/:firebaseID/friends', controllers.getFriends); //gets a user's friends
