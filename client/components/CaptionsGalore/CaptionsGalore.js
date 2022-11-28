@@ -12,7 +12,7 @@ import {LOCALTUNNEL} from '../Auth/firebase/config.js';
 const CaptionsGalore = () => {
   const [allCaptions, setAllCaptions] = useState([]);
   const {currentUser, setCurrentUser} = useContext(AppContext);
-  const { currentPost, setMainFeedData } = useContext(AppContext);
+  const { currentPost, setCurrentPost, setMainFeedData } = useContext(AppContext);
   const [newCaption, setNewCaption] = useState('');
   const [photoObject, setPhotoObject] = useState('6382cd1905e5b94830a216bf');
   const [captionArray, setCaptionArray] = useState([]);
@@ -29,9 +29,6 @@ const CaptionsGalore = () => {
     if (currentPost.id) {
       axios.get(`${LOCALTUNNEL}/captions/${currentPost.id}`)
       .then(results => {
-        // console.log('results', results.data)
-        // let reverseCaptionsArray = results.data.reverse();
-        // setCaptionArray(reverseCaptionsArray);
         setCaptionArray(results.data);
       })
       .catch(err => console.log('error in caption get'))
@@ -49,13 +46,13 @@ const CaptionsGalore = () => {
     console.log(currentPost.id, currentUser.uid, newCaption)
     axios.post(`http://localhost:8000/captions`, {photoId: currentPost.id, userId: currentUser.uid, body: newCaption})
       .then(results => {
-        // RE-RENDER MAIN FEED
         getCaptions(); //helper function
+        // RE-RENDER MAIN FEED
         axios.get(`http://localhost:8000/photos/${currentUser.uid}`)
-          .then(res => {
-            setMainFeedData(res.data);
-          })
-          .catch(err => console.log('error in re-rendering main feed in captions galore', err));
+        .then(res => {
+          setMainFeedData(res.data);
+        })
+        .catch(err => console.log('error in re-rendering main feed in captions galore', err));
       })
       .then(results => console.log('posted new caption'))
       .catch(err => console.log('errors in captions galore'));
