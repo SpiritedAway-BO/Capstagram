@@ -1,3 +1,5 @@
+import { LOCALTUNNEL } from '../Auth/firebase/config.js';
+
 import React from 'react';
 import Axios from 'axios';
 import { AppContext } from '../../contexts/AppContext.js';
@@ -7,10 +9,8 @@ import { Avatar, Divider } from '@react-native-material/core';
 import { LinearGradient } from 'expo-linear-gradient';
 import { BlurView } from 'expo-blur';
 import { useIsFocused } from '@react-navigation/native';
-import { LOCALTUNNEL } from '../Auth/firebase/config';
 
 import PersonalWins from '../PersonalWins/PersonalWins.js';
-import { LOCALTUNNEL } from '../Auth/firebase/config.js';
 
 import UserPic from './UPComponents/TopHalfComps/UserPic.js';
 import Posts from './UPComponents/TopHalfComps/Posts.js';
@@ -77,7 +77,7 @@ const UserPage = ({ navigation }) => {
       <View style={styles.userInfoContainer}>
         <View style={styles.uiStatsBox}>
           <UserPic myPosts={myPosts}/>
-          <Posts numPosts={myPosts.length}/>
+          <Posts numPosts={myPosts.results.length}/>
           <Friends numFriends={friends.length} navigation={navigation}/>
         </View>
         <Username myPosts={myPosts}/>
@@ -93,7 +93,7 @@ const UserPage = ({ navigation }) => {
             numColumns={3}
             contentContainerStyle={styles.flatListContainer}
             style={styles.imageList}
-            data={myPosts}
+            data={myPosts.results}
             renderItem={renderImage}
             keyExtractor={(item, index) => item.id} />
             : null

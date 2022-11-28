@@ -114,7 +114,7 @@ module.exports = {
       res.status(400);
       res.end();
     }
-  }
+  },
   putProfilePic: async (req, res) => {
     if (req.params.hasOwnProperty('userId') && req.body.hasOwnProperty('uri')) {
       try {

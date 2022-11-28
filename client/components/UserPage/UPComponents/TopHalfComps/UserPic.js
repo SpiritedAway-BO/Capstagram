@@ -3,7 +3,7 @@ import { View, StyleSheet } from 'react-native';
 import { Avatar } from '@react-native-material/core';
 
 const UserPic = ({myPosts}) => {
-  let uri = myPosts.profilePicURI;
+  let uri = myPosts.creator.profilePicURI;
   console.log("MY POSTS IN USERPIC", myPosts);
   return (
 
