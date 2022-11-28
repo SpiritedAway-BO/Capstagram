@@ -22,11 +22,7 @@ export default function Search() {
   let friendsArr = [];
 
   useEffect(() => {
-<<<<<<< HEAD
-    axios.get('https://shaggy-streets-act-75-80-43-25.loca.lt/users')
-=======
     axios.get('https://bitter-lamps-eat-75-80-43-25.loca.lt/users')
->>>>>>> main
       .then((res) => {
         console.log(friends);
         setUsers(res.data);
