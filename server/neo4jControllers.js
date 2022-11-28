@@ -284,6 +284,22 @@ module.exports = {
       res.end();
     }
   },
+  getUserPhotos: async (req, res) => {
+    if (req.params.hasOwnProperty('userId')) {
+      const session = db.session();
+      const readResult = await session.executeRead((tx) => tx.run(`MATCH (p:Photo)<-[:CREATED]-(u:User {id: '${req.params.userId}'}) return p`))
+        .then(results => results.records.map(record => record.get('p').properties));
+      for (let i = 0; i < readResult.length; i++) {
+        readResult[i].captions = await getCaptionsModel(readResult[i].id);
+      }
+      res.status(200);
+      res.end(JSON.stringify(readResult));
+      session.close();
+    } else {
+      res.status(400);
+      res.end();
+    }
+  },
   addFriend: async (req, res) => {
     if (req.body.firebaseID && req.body.friendID) {
       try {
