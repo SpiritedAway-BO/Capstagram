@@ -39,7 +39,11 @@ const SignUp = ({ navigation }) => {
         });
         setTimeout(() => {
           console.log(auth.currentUser.uid);
+<<<<<<< HEAD
           axios.post(`${LOCALTUNNEL}/user`,
+=======
+          axios.post('http://localhost:8000/user',
+>>>>>>> main
             {
               userId: auth.currentUser.uid,
               username,
