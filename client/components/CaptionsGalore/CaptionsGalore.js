@@ -11,9 +11,8 @@ import {LOCALTUNNEL} from '../Auth/firebase/config.js';
 
 const CaptionsGalore = () => {
   const [allCaptions, setAllCaptions] = useState([]);
-  const {username, setUserName} = useContext(AppContext);
   const {currentUser, setCurrentUser} = useContext(AppContext);
-  const { currentPost } = useContext(AppContext);
+  const { currentPost, setCurrentPost, setMainFeedData } = useContext(AppContext);
   const [newCaption, setNewCaption] = useState('');
   const [photoObject, setPhotoObject] = useState('6382cd1905e5b94830a216bf');
   const [captionArray, setCaptionArray] = useState([]);
@@ -21,39 +20,49 @@ const CaptionsGalore = () => {
   const renderCaption = ({ item }) => (
     <CaptionItem caption={item} />
   );
-  // useEffect(() => {
-  //   getCaptions();
-  // }, []);
 
-  // const getCaptions = () => {
-  //   if (currentPost._id) {
-  //     axios.get(`${LOCALTUNNEL}/captions/${currentPost._id}`)
-  //     .then(results => {
-  //       let reverseCaptionsArray = results.data[0].photos[0].captions.reverse();
-  //       setCaptionArray(reverseCaptionsArray);
-  //     })
-  //     .catch(err => console.log('error in caption get'))
-  //   }
-  // };
+  useEffect(() => {
+    getCaptions();
+  }, []);
 
-  // console.log('current post', currentPost._id);
+  const getCaptions = () => {
+    if (currentPost.id) {
+      axios.get(`${LOCALTUNNEL}/captions/${currentPost.id}`)
+      .then(results => {
+        setCaptionArray(results.data);
+      })
+      .catch(err => console.log('error in caption get'))
+    }
+  };
+
+  // console.log('current post', currentPost.id);
+  // console.log('current post', currentUser.uid);
+
+
   const handleCaptionSubmit = () => {
     // console.log('currentUser', currentUser)
     /***** REPLACE PHOTOID WITH USER SELECTED PHOTOID */
     /** make a default for if usename is null */
-    axios.post(`${LOCALTUNNEL}/captions`, {username: currentUser.displayName, photoID: currentPost._id, captionBody: newCaption})
+    console.log(currentPost.id, currentUser.uid, newCaption)
+    axios.post(`http://localhost:8000/captions`, {photoId: currentPost.id, userId: currentUser.uid, body: newCaption})
       .then(results => {
         getCaptions(); //helper function
+        // RE-RENDER MAIN FEED
+        axios.get(`http://localhost:8000/photos/${currentUser.uid}`)
+        .then(res => {
+          setMainFeedData(res.data);
+        })
+        .catch(err => console.log('error in re-rendering main feed in captions galore', err));
       })
       .then(results => console.log('posted new caption'))
       .catch(err => console.log('errors in captions galore'));
     setNewCaption(''); //reset
   }
-
+  // console.log('captionArray', captionArray);
   return (
     <SafeAreaView style={styles.container}>
       <FlatList //this is like map
-        data={currentPost.captions}
+        data={captionArray}
         renderItem={renderCaption}
         keyExtractor={item => item.id}
         />

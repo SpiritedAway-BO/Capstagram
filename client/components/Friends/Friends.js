@@ -1,71 +1,80 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState, useEffect, useContext} from 'react';
 import { Image, View, Platform, TouchableOpacity, Text, StyleSheet, FlatList, StatusBar, SafeAreaView} from 'react-native';
 import { AntDesign, Ionicons, Octicons, Entypo} from '@expo/vector-icons';
 import { Stack, Avatar, AppBar, IconButton, HStack, Button } from '@react-native-material/core';
 import { auth } from '../Auth/firebase/firebase.js';
 import FriendItem from './FriendItem.js';
+import { AppContext}  from '../../contexts/AppContext.js';
+import axios from 'axios';
+import {LOCALTUNNEL} from '../Auth/firebase/config.js';
 
-var DATA = [
-  {
-    id: 1234567,
-    username: 'thisGuy',
-    usericon: 'https://res.cloudinary.com/cwhrcloud/image/upload/v1669246271/orange_auy0ff.png',
-  },
-  {
-    id: 1234568,
-    username: 'thisGuy2',
-    usericon: 'https://mui.com/static/images/avatar/2.jpg',
-  },
-  {
-    id: 1234569,
-    username: 'thisGuy3',
-    usericon: 'https://res.cloudinary.com/cwhrcloud/image/upload/v1669246271/orange_auy0ff.png',
+// var DATA = [
+//   {
+//     id: 1234567,
+//     username: 'thisGuy',
+//     usericon: 'https://res.cloudinary.com/cwhrcloud/image/upload/v1669246271/orange_auy0ff.png',
+//   },
+//   {
+//     id: 1234568,
+//     username: 'thisGuy2',
+//     usericon: 'https://mui.com/static/images/avatar/2.jpg',
+//   },
+//   {
+//     id: 1234569,
+//     username: 'thisGuy3',
+//     usericon: 'https://res.cloudinary.com/cwhrcloud/image/upload/v1669246271/orange_auy0ff.png',
 
-  },
-  {
-    id: 1234570,
-    username: 'thisGuy4',
-    usericon: 'https://res.cloudinary.com/cwhrcloud/image/upload/v1669246271/orange_auy0ff.png',
-  },
-  {
-    id: 1234571,
-    username: 'thisGuy5',
-    usericon: 'https://res.cloudinary.com/cwhrcloud/image/upload/v1669246271/orange_auy0ff.png',
+//   },
+//   {
+//     id: 1234570,
+//     username: 'thisGuy4',
+//     usericon: 'https://res.cloudinary.com/cwhrcloud/image/upload/v1669246271/orange_auy0ff.png',
+//   },
+//   {
+//     id: 1234571,
+//     username: 'thisGuy5',
+//     usericon: 'https://res.cloudinary.com/cwhrcloud/image/upload/v1669246271/orange_auy0ff.png',
 
-  },
-  {
-    id: 1234572,
-    username: 'thisGuy6',
-    usericon: 'https://mui.com/static/images/avatar/2.jpg',
-  },
-  {
-    id: 1234573,
-    username: 'thisGuy7',
-    usericon: 'https://res.cloudinary.com/cwhrcloud/image/upload/v1669246271/orange_auy0ff.png',
-  },
-  {
-    id: 1234574,
-    username: 'thisGuy8',
-    usericon: 'https://res.cloudinary.com/cwhrcloud/image/upload/v1669246271/orange_auy0ff.png',
-  },
-  {
-    id: 1234575,
-    username: 'thisGuy9',
-    usericon: 'https://res.cloudinary.com/cwhrcloud/image/upload/v1669246271/orange_auy0ff.png',
-  },
-  {
-    id: 1234576,
-    username: 'thisGuy10',
-    usericon: 'https://res.cloudinary.com/cwhrcloud/image/upload/v1669246271/orange_auy0ff.png',
-  },
-  {
-    id: 1234577,
-    username: 'thisGuy11',
-    usericon: 'https://mui.com/static/images/avatar/1.jpg',
-  },
-];
+//   },
+//   {
+//     id: 1234572,
+//     username: 'thisGuy6',
+//     usericon: 'https://mui.com/static/images/avatar/2.jpg',
+//   },
+//   {
+//     id: 1234573,
+//     username: 'thisGuy7',
+//     usericon: 'https://res.cloudinary.com/cwhrcloud/image/upload/v1669246271/orange_auy0ff.png',
+//   },
+//   {
+//     id: 1234574,
+//     username: 'thisGuy8',
+//     usericon: 'https://res.cloudinary.com/cwhrcloud/image/upload/v1669246271/orange_auy0ff.png',
+//   },
+//   {
+//     id: 1234575,
+//     username: 'thisGuy9',
+//     usericon: 'https://res.cloudinary.com/cwhrcloud/image/upload/v1669246271/orange_auy0ff.png',
+//   },
+//   {
+//     id: 1234576,
+//     username: 'thisGuy10',
+//     usericon: 'https://res.cloudinary.com/cwhrcloud/image/upload/v1669246271/orange_auy0ff.png',
+//   },
+//   {
+//     id: 1234577,
+//     username: 'thisGuy11',
+//     usericon: 'https://mui.com/static/images/avatar/1.jpg',
+//   },
+// ];
 
 const Friends = () => {
+  const {currentUser, setCurrentUser} = useContext(AppContext);
+
+  const {friends} = useContext(AppContext);
+
+  console.log('currentUser', currentUser);
+
 
   const renderFriend = ({ item }) => (
     <FriendItem caption={item} />
@@ -74,7 +83,7 @@ const Friends = () => {
   return (
     <SafeAreaView style={styles.container}>
       <FlatList //this is like map
-        data={DATA}
+        data={friends}
         renderItem={renderFriend}
         keyExtractor={item => item.id}
       />
