@@ -27,11 +27,7 @@ const CaptionsGalore = () => {
 
   const getCaptions = () => {
     if (currentPost.id) {
-<<<<<<< HEAD
-      axios.get(`https://bitter-lamps-eat-75-80-43-25.loca.lt/captions/${currentPost.id}`)
-=======
       axios.get(`${LOCALTUNNEL}/captions/${currentPost.id}`)
->>>>>>> main
         .then(results => {
           setCaptionArray(results.data);
         })
