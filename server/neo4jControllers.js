@@ -3,28 +3,36 @@ const db = require('./neo4j.js');
 const getCaptionsModel = async (photoId) => {
   try {
     const session = db.session();
-    const queryResult = await session.executeRead((tx) => tx.run(`MATCH (p:Photo)<-[:POSTED_ON]-(caption) WHERE p.id='${photoId}' return(caption)`))
-      .then(result => result.records.map(record => record.get('caption').properties))
-    const returnArr = [];
-    for (let i = 0; i < queryResult.length; i++) {
-      const returnObj = queryResult[i];
-      // get captioner
-      returnObj.captioner = await session.executeRead((tx) => tx.run(`MATCH (u:User)-[:CREATED]->(:Caption {id: '${queryResult[i].id}'}) return(u)`))
-        .then(result => result.records[0].get('u').properties);
-      // get users who liked caption
-      returnObj.likeUsers = await session.executeRead((tx) => tx.run(`MATCH (u:User)-[:LIKES]->(:Caption {id: '${queryResult[i].id}'}) return(u)`))
-        .then(result => result.records.map(record => record.get('u').properties));
-      returnObj.likes = returnObj.likeUsers.length;
+    return await session.executeRead((tx) => tx.run(`MATCH (p:Photo {id: '${photoId}'})<-[:POSTED_ON]-(c:Caption) MATCH (u:User)-[:CREATED]->(:Caption {id: c.id}) OPTIONAL MATCH (l:User)-[:LIKES]->(:Caption {id: c.id}) return c, u, collect(l)`))
+      .then(result => result.records.map(record => {
+        const returnObj = record.get('c').properties;
+        returnObj.captioner = record.get('u').properties;
+        returnObj.likeUsers = record.get('collect(l)').map((record => record.properties));
+        console.log(returnObj.likeUsers);
+        return returnObj;
+      }))
+      .catch(err => console.log(err));
+
+    //const returnArr = [];
+    // for (let i = 0; i < queryResult.length; i++) {
+    //   const returnObj = queryResult[i];
+    //   // get captioner
+    //   returnObj.captioner = await session.executeRead((tx) => tx.run(`MATCH (u:User)-[:CREATED]->(:Caption {id: '${queryResult[i].id}'}) return(u)`))
+    //     .then(result => result.records[0].get('u').properties);
+    //   // get users who liked caption
+    //   returnObj.likeUsers = await session.executeRead((tx) => tx.run(`MATCH (u:User)-[:LIKES]->(:Caption {id: '${queryResult[i].id}'}) return(u)`))
+    //     .then(result => result.records.map(record => record.get('u').properties));
+    //   returnObj.likes = returnObj.likeUsers.length;
       /*Promise.all([captioner, likeUsers])
         .then(values => {
           returnObj.captioner = values[0];
           returnObj.likeUsers = values[1];
           returnArr.push(returnObj);
         })*/
-      console.log('obj: ', returnObj);
-      returnArr.push(returnObj);
-      console.log('arr: ', returnArr);
-    }
+      //console.log('obj: ', returnObj);
+      //returnArr.push(returnObj);
+      //console.log('arr: ', returnArr);
+    //}
     session.close();
     return returnArr;
   } catch (error) {
