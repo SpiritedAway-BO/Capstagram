@@ -12,8 +12,8 @@ export default function Search() {
   // const {get, add} = useFriends();
   // const {isLoading: useFriendsGetIsLoading, data: friends} = get;
   const [ users, setUsers ] = useState(null);
-  const [ filteredUsers, setFilteredUsers ] = useState();
-  const [ searchInput, setSearchInput ] = useState();
+  const [ filteredUsers, setFilteredUsers ] = useState([]);
+  const [ searchInput, setSearchInput ] = useState('');
 
   useEffect(() => {
     axios.get('http://localhost:8000/users')
@@ -23,14 +23,12 @@ export default function Search() {
       });
   }, []);
 
-
+  console.log('filteredUsers', filteredUsers)
   const handleSearch = (e, input) => {
     let searchResults = users.filter((user) => {
       return user.username.toLowerCase().includes(input.toLowerCase());
     });
     setFilteredUsers(searchResults);
-    setSearchInput('');
-    // console.log(filteredUsers);
   };
 
   const handleAdd = (user) => {
@@ -53,7 +51,7 @@ export default function Search() {
             <Text style={styles.text}>{user.username}</Text>
           </View>
           <View>
-            <Ionicons style={styles.icon} name="ios-person-add-outline" size={15} color="#FF842B" onPress={() => handleAdd(user)}/>
+            <Ionicons style={styles.icon} name="ios-person-add-outline" size={15} color="#FF842B" onPress={handleAdd(user)}/>
           </View>
         </View>
       </View>
@@ -66,15 +64,13 @@ export default function Search() {
     );
   };
 
-
-
   return (
     <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
       <KeyboardAvoidingView behavior="padding" style={styles.container}>
         <View style={styles.inputContainer}>
           <TextInput style={styles.input} placeholder='Search' placeholderTextColor='#D3D3D3'
             onChangeText={text => setSearchInput(text)} onSubmitEditing={(e) => handleSearch(e, searchInput)}
-            /*enablesReturnKeyAutomatically*//>
+            enablesReturnKeyAutomatically/>
         </View>
         <View style={styles.listContainer}>
           <VStack spacing={7} divider={true} w={'100%'}>
