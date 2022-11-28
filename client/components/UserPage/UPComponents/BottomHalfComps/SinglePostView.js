@@ -2,39 +2,26 @@ import { useContext } from 'react';
 import { View, Text, Image, StyleSheet } from 'react-native';
 import { Avatar } from '@react-native-material/core';
 import Caption from '../../../MainFeed/Caption.js';
-import { AppContext } from '../../contexts/AppContext.js';
 
-const dummyData = [
-  {
-    username: 'username1',
-    caption: 'caption1',
-    liked: true
-  },
-  {
-    username: 'username2',
-    caption: 'caption2',
-    liked: false
-  },
-  {
-    username: 'username3',
-    caption: 'caption3',
-    liked: false
-  }
-];
 
-const Post = ({ navigation }) => {
-  const { setCurrentPost } = useContext(AppContext);
+const Post = ({ post, currentUser, navigation }) => {
 
-  // const captions = post.captions.sort((a, b) => b.likes - a.likes).slice(0, 3);
 
   return (
     <View style={styles.postContainer}>
       <View style={styles.creatorInfo}>
+        {currentUser.photoURL ?
         <Avatar
-          image={{ uri: post.creator.profilePicUri }}
-          size={35}
-          style={styles.avatar}/>
-        <Text style={styles.username}>{post.creator.username}</Text>
+            image={{ uri: currentUser.photoURL }}
+            size={35}
+            style={styles.avatar}/>
+          :
+          <Avatar
+            src='./orange.png'
+            size={35}
+            style={styles.avatar}/>
+        }
+        <Text style={styles.username}>{currentUser.displayName}</Text>
       </View>
       <View>
         <Image
@@ -42,17 +29,25 @@ const Post = ({ navigation }) => {
           style={styles.image}/>
       </View>
       <View style={styles.captionsContainer}>
-        {captions.map(caption => <Caption key={caption.id} caption={caption}/>)}
+        { post.captions !== [] ?
+          post.captions.map(caption => <Caption key={caption.id} caption={caption}/>)
+        :
+          <View>
+            <Text>
+              You do not have any captions for this photo!
+            </Text>
+          </View>
+        }
       </View>
       <View style={styles.viewAllContainer}>
-        <Text
-          style={styles.vewAllText}
+        {/* <Text
+          style={styles.viewAllText}
           onPress={() => {
             setCurrentPost(post);
             navigation.navigate('Captions');
           }}>
             View all {post.captions.length} captions
-        </Text>
+        </Text> */}
       </View>
     </View>
   );
@@ -62,6 +57,7 @@ const styles = StyleSheet.create({
   postContainer: {
     width: '100%',
     marginBottom: 25,
+    backgroundColor: 'white',
   },
   creatorInfo: {
     flexDirection: 'row',
@@ -86,7 +82,7 @@ const styles = StyleSheet.create({
     margin: 5,
     marginTop: 0,
   },
-  vewAllText: {
+  viewAllText: {
     color: '#FF842B',
     padding: 5,
   }
