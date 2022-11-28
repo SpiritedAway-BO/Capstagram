@@ -1,13 +1,13 @@
 import React from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 
-const Posts = (props) => {
+const Posts = ({numPosts}) => {
 
   return (
     <View style={styles.postsContainer}>
       <View style={styles.postStats} >
         <Text style={styles.textStyle}>
-          #12344546
+          {numPosts}
         </Text>
         <Text style={styles.textStyle}>
           Posts
@@ -33,7 +33,8 @@ const styles = StyleSheet.create({
   },
   textStyle: {
     color:"black",
-    textAlign: 'center'
+    textAlign: 'center',
+    fontWeight: 'bold',
   }
 });
 

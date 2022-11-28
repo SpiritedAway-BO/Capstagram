@@ -51,7 +51,7 @@ export default function Search() {
     // console.log(user.id);
     friendsArr.push(user.username);
 
-    axios.post(`${LOCALTUNNEL}/user/friends`, {firebaseID: auth.currentUser.uid, friendID: user.id })
+    axios.post('http://localhost:8000/user/friends', {firebaseID: auth.currentUser.uid, friendID: user.id })
       .then(() => {
         console.log('added:', user.id);
         axios.get(`${LOCALTUNNEL}/photos/${currentUser.uid}`)
