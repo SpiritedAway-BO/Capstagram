@@ -60,7 +60,7 @@ module.exports = {
     if (req.body.hasOwnProperty('userId') && req.body.hasOwnProperty('username')) {
       try {
         const session = db.session();
-        const writeResult = await session.executeWrite((tx) => tx.run(`CREATE (u:User {id: '${req.body.userId}', username: '${req.body.username}', profilePicURI: 'https://res.cloudinary.com/cwhrcloud/image/upload/v1669246271/orange_auy0ff.png'}) return(u)`))
+        const writeResult = await session.executeWrite((tx) => tx.run(`CREATE (u:User {id: '${req.body.userId}', username: '${req.body.username}', profilePicURI: 'https://res.cloudinary.com/cwhrcloud/image/upload/v1669246271/orange_auy0ff.png', bio: ''}) return(u)`))
           .then(result => result.records[0].get('u').properties);
         console.log('User created: ', writeResult);
         session.close();
@@ -96,15 +96,32 @@ module.exports = {
       res.end();
     }
   },
+  putUserBio: async (req, res) => {
+    if (req.params.hasOwnProperty('userId') && req.body.hasOwnProperty('bio')) {
+      try {
+        const session = db.session();
+        const updateResult = await session.executeWrite((tx) => tx.run(`MATCH (u:User {id:'${req.params.userId}'}) SET u.bio = '${req.body.bio}' return(u)`))
+          .then(result => result.records[0].get('u'));
+        console.log('Updated user bio: ', updateResult);
+        session.close();
+        res.status(204);
+        res.end();
+      } catch (error) {
+        res.status(500);
+        res.end();
+      }
+    } else {
+      res.status(400);
+      res.end();
+    }
+  }
   putProfilePic: async (req, res) => {
     if (req.params.hasOwnProperty('userId') && req.body.hasOwnProperty('uri')) {
       try {
-        console.log('body: ', req.body);
-        console.log('params: ', req.params)
         const session = db.session();
         const updateResult = await session.executeWrite((tx) => tx.run(`MATCH (u:User {id:'${req.params.userId}'}) SET u.profilePicURI = '${req.body.uri}' return(u)`))
           .then(result => result.records[0].get('u'));
-        console.log('Updated user: ', updateResult);
+        console.log('Updated user profile pic: ', updateResult);
         session.close();
         res.status(204);
         res.end();
