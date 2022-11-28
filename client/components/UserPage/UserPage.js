@@ -6,7 +6,8 @@ import { SafeAreaView, FlatList, View, ScrollView, StyleSheet, Text, Image, Moda
 import { Avatar, Divider } from '@react-native-material/core';
 import { LinearGradient } from 'expo-linear-gradient';
 import { BlurView } from 'expo-blur';
-import { useIsFocused } from '@react-navigation/native'
+import { useIsFocused } from '@react-navigation/native';
+import { LOCALTUNNEL } from '../Auth/firebase/config';
 
 import PersonalWins from '../PersonalWins/PersonalWins.js';
 
@@ -33,13 +34,13 @@ const UserPage = ({ navigation }) => {
 
   React.useEffect(() => {
     if (currentUser) {
-      Axios.get(`http://localhost:8000/user/${currentUser.uid}/photos`)
+      Axios.get(`${LOCALTUNNEL}/user/${currentUser.uid}/photos`)
         .then((res) => {
           setMyPosts(res.data);
           setModalPost(res.data[0]);
         })
         .catch((err) => console.log('Error @ UserPage Axios.get: ', err));
-      Axios.get(`http://localhost:8000/user/${currentUser.uid}/friends`)
+      Axios.get(`${LOCALTUNNEL}/user/${currentUser.uid}/friends`)
         .then(res => {
           setFriends(res.data);
         })
