@@ -1,13 +1,13 @@
 import React from 'react';
 import { View, Text, Dimensions, TouchableOpacity, StyleSheet } from 'react-native';
 
-const Friends = ({ navigation }) => {
+const Friends = ({ numFriends, navigation }) => {
 
   return (
     <TouchableOpacity onPress={() => navigation.navigate('Friends')} style={styles.friendsContainer}>
       <View style={styles.friendStats} >
         <Text style={styles.textStyle}>
-          #12344546
+          {numFriends}
         </Text>
         <Text style={styles.textStyle}>
           Friends
@@ -32,7 +32,8 @@ const styles = StyleSheet.create({
   },
   textStyle: {
     color:"black",
-    textAlign: 'center'
+    textAlign: 'center',
+    fontWeight: 'bold',
   }
 });
 

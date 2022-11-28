@@ -6,6 +6,7 @@ import { SafeAreaView, FlatList, View, ScrollView, StyleSheet, Text, Image, Moda
 import { Avatar, Divider } from '@react-native-material/core';
 import { LinearGradient } from 'expo-linear-gradient';
 import { BlurView } from 'expo-blur';
+import { useIsFocused } from '@react-navigation/native'
 
 import PersonalWins from '../PersonalWins/PersonalWins.js';
 
@@ -21,7 +22,9 @@ import SinglePostView from './UPComponents/BottomHalfComps/SinglePostView.js';
 
 const UserPage = ({ navigation }) => {
 
+  const isFocused = useIsFocused();
   const { currentUser } = React.useContext(AppContext);
+  const [friends, setFriends] = React.useState([]);
 
   const [tab, setTab] = React.useState('posts');
   const [modalVisible, setModalVisible] = React.useState(false);
@@ -34,11 +37,15 @@ const UserPage = ({ navigation }) => {
         .then((res) => {
           setMyPosts(res.data);
           setModalPost(res.data[0]);
-          console.log('CURRENT USER: ', currentUser);
         })
         .catch((err) => console.log('Error @ UserPage Axios.get: ', err));
+      Axios.get(`http://localhost:8000/user/${currentUser.uid}/friends`)
+        .then(res => {
+          setFriends(res.data);
+        })
+        .catch(err => console.log('Fetch Friends Error', err));
     }
-  }, [currentUser]);
+  }, [isFocused]);
 
 
   const onWins = () => {
@@ -67,11 +74,11 @@ const UserPage = ({ navigation }) => {
     <View style={{backgroundColor: 'white', width: '100%', height: '100%', blurRadius:"100%"}}>
       <View style={styles.userInfoContainer}>
         <View style={styles.uiStatsBox}>
-          <UserPic />
-          <Posts />
-          <Friends navigation={navigation}/>
+          <UserPic currentUser={currentUser}/>
+          <Posts numPosts={myPosts.length}/>
+          <Friends numFriends={friends.length} navigation={navigation}/>
         </View>
-        <Username />
+        <Username currentUser={currentUser}/>
         <Bio />
       </View>
       <NavBar tab={tab} setTab={setTab} onWins={onWins} onPosts={onPosts}/>

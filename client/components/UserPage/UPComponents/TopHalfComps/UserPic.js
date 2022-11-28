@@ -2,14 +2,24 @@ import React from 'react';
 import { View, StyleSheet } from 'react-native';
 import { Avatar } from '@react-native-material/core';
 
-const UserPic = (props) => {
-
+const UserPic = ({currentUser}) => {
   return (
-    <Avatar
-      style={styles.avatar}
-      image={{ uri: 'https://mui.com/static/images/avatar/1.jpg' }}
-      size={80}
-    />
+    <>
+    {currentUser.photoURL !== undefined ?
+      <Avatar
+        style={styles.avatar}
+        image={{ uri: currentUser.photoURL }}
+        size={80}
+      />
+      :
+      <Avatar
+        style={styles.avatar}
+        src='../BottomHalfComps/orange.png'
+        // image={{ uri: 'https://mui.com/static/images/avatar/1.jpg' }}
+        size={80}
+      />
+    }
+    </>
   );
 };
 

@@ -2,7 +2,7 @@ import React from 'react';
 import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 
-const Username = (props) => {
+const Username = ({currentUser}) => {
 
   const [ isAdded, setIsAdded ] = React.useState(false);
 
@@ -15,12 +15,13 @@ const Username = (props) => {
       setIsAdded(true);
     }
   }
-
   return (
     <View style={styles.nameAddContainer}>
       <View style={styles.username}>
         <Text style={styles.textStyle}>
-          Firstname Lastname
+          {currentUser.displayName ? currentUser.displayName
+          :
+          null}
         </Text>
       </View>
       {/* <TouchableOpacity style={styles.add} onPress={e => {addDeleteFriend()}} >
