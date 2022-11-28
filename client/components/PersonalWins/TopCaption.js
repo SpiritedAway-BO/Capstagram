@@ -1,15 +1,58 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useContext } from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
+import axios from 'axios';
+import { AppContext } from '../../contexts/AppContext.js';
+
 
 export default function TopCaption({ caption, topCaptioner, voted, upvotes }) {
   const [allVotes, setAllVotes] = useState(upvotes);
   const [userVoted, setUserVoted] = useState(voted);
+  const { currentUser } = useContext(AppContext);
 
   useEffect(() => {
     setAllVotes(upvotes);
     setUserVoted(voted);
   }, [])
+
+  const checkLike = () => {
+    let heart = false;
+    if (caption.likeUsers) {
+      for (let i = 0; i < caption.likeUsers.length; i++) {
+        if (caption.likeUsers[i].username === currentUser.displayName) {
+          heart = true;
+          break;
+        }
+      }
+      return heart;
+
+    }
+  };
+
+  const [liked, SetLiked] = useState(checkLike());
+
+  const heart = (event) => {
+    SetLiked(!liked);
+    if (liked) {
+      caption.likes--;
+    } else {
+      caption.likes++;
+    }
+    axios.patch(`http://localhost:8000/captions/${caption.id}`, {
+      userId: currentUser.uid
+    });
+  };
+
+  const checkVoted = () => {
+    let heart = false;
+    for (let i = 0; i < caption.likeUsers.length; i++) {
+      if (caption.likeUsers[i].username === currentUser.displayName) {
+        heart = true;
+        break;
+      }
+    }
+    return heart;
+  }
 
   return (
     <View style={styles.captionContainer}>
@@ -22,7 +65,8 @@ export default function TopCaption({ caption, topCaptioner, voted, upvotes }) {
           <Text style={styles.title}>{allVotes}</Text>
           <Ionicons name="ios-heart" size={15} color="#FF842B"
             onPress={() => {
-              setAllVotes(allVotes - 1);
+              heart();
+              // setAllVotes(allVotes - 1);
               setUserVoted(!userVoted);
             }}/>
         </View> :
@@ -30,7 +74,8 @@ export default function TopCaption({ caption, topCaptioner, voted, upvotes }) {
           <Text style={styles.title} >{allVotes}</Text>
           <Ionicons style={styles.heartIcon} name="ios-heart-outline" size={15} color="#FF842B"
             onPress={() => {
-              setAllVotes(allVotes + 1);
+              heart();
+              // setAllVotes(allVotes + 1);
               setUserVoted(!userVoted);
             }}
           />
