@@ -9,11 +9,12 @@ import { auth } from '../Auth/firebase/firebase.js';
 const FriendItem = ({ caption }) => {
   /*this would be where we could keep track of state for the onPress handler
   that would potentially take us to the feed with only that friend's photos or captions, depending on what we decide to prioritize theoretically, given a large budget and more time, we could make the friends page have two tabs, one for their photos and one for their captions*/
+  console.log('caption in friends',caption)
   return (
     <View style={styles.item}>
       <View style={styles.userInfo} >
         <View style={styles.captionIntro}>
-          <Avatar image={{ uri: caption.profilePicUri }} //local OR cloudinary
+          <Avatar image={{ uri: caption.profilePicURI }} //local OR cloudinary
             size={35}
             style={styles.avatar}
           />
