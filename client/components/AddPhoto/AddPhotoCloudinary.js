@@ -64,11 +64,7 @@ const AddPhotoCloudinary = ({ navigation }) => {
       .then(data => {
         console.log('response data', data);
         // setPhoto(data.secure_url);
-<<<<<<< HEAD
         axios.post(`${LOCALTUNNEL}/photos`, {
-=======
-        axios.post('http://localhost:8000/photos', {
->>>>>>> main
           currentUser: auth.currentUser,
           uri: data.secure_url
         })
