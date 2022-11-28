@@ -14,9 +14,7 @@ export const AppProvider = ({ children }) => {
 
   /** asynchronously sets current userid so it is not undefined in other modules **/
   useEffect(() => {
-    if (Object.keys(currentUser) > 0) {
-      setCurrentUser(auth.currentUser);
-    }
+    setCurrentUser(auth.currentUser);
     // axios.get(`http://localhost:8000/user/${currentUser.uid}`)
     //   .then(res => console.log(res.data))
     //   .catch(err => console.log(err));
