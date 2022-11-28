@@ -1,11 +1,11 @@
 import React, { useState, useEffect, useContext } from 'react';
-import { Image, View, Platform, TouchableOpacity, Text, StyleSheet, FlatList, TouchableWithoutFeedback, Keyboard, KeyboardAvoidingView, TextInput } from 'react-native';
+import { Image, View, Platform, TouchableOpacity, Text, StyleSheet, FlatList, TouchableWithoutFeedback, Keyboard, KeyboardAvoidingView, TextInput, SafeAreaView} from 'react-native';
 import { Avatar, VStack } from '@react-native-material/core';
 import { Ionicons } from '@expo/vector-icons';
 import { auth } from '../../components/Auth/firebase/firebase';
 import { AppContext } from '../../contexts/AppContext';
 import axios from 'axios';
-
+import { LOCALTUNNEL } from '../Auth/firebase/config.js';
 
 export default function Search() {
 
@@ -22,7 +22,7 @@ export default function Search() {
   let friendsArr = [];
 
   useEffect(() => {
-    axios.get('http://localhost:8000/users')
+    axios.get(`${LOCALTUNNEL}/users`)
       .then((res) => {
         console.log(friends);
         setUsers(res.data);
@@ -54,7 +54,7 @@ export default function Search() {
     axios.post('http://localhost:8000/user/friends', {firebaseID: auth.currentUser.uid, friendID: user.id })
       .then(() => {
         console.log('added:', user.id);
-        axios.get(`http://localhost:8000/photos/${currentUser.uid}`)
+        axios.get(`${LOCALTUNNEL}/photos/${currentUser.uid}`)
           .then(res => {
             setMainFeedData(res.data);
           })
@@ -92,13 +92,16 @@ export default function Search() {
   };
 
   return (
+    <SafeAreaView style={styles.container}>
     <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
-      <KeyboardAvoidingView behavior="padding" style={styles.container}>
+      <KeyboardAvoidingView behavior="padding" >
         <View style={styles.inputContainer}>
           <TextInput style={styles.input} placeholder='Search' placeholderTextColor='#D3D3D3'
             onChangeText={text => setSearchInput(text)} onSubmitEditing={(e) => handleSearch(e, searchInput)}
             enablesReturnKeyAutomatically />
         </View>
+      </KeyboardAvoidingView>
+    </TouchableWithoutFeedback>
         <View style={styles.listContainer}>
           <VStack spacing={7} divider={true} w={'100%'}>
             <FlatList
@@ -108,8 +111,7 @@ export default function Search() {
             />
           </VStack>
         </View>
-      </KeyboardAvoidingView>
-    </TouchableWithoutFeedback>
+    </SafeAreaView>
   );
 
 }

@@ -27,7 +27,7 @@ const CaptionsGalore = () => {
 
   const getCaptions = () => {
     if (currentPost.id) {
-      axios.get(`http://localhost:8000/captions/${currentPost.id}`)
+      axios.get(`${LOCALTUNNEL}/captions/${currentPost.id}`)
         .then(results => {
           setCaptionArray(results.data);
         })
