@@ -27,7 +27,7 @@ export default function Caption({ caption }) {
     } else {
       caption.likes++;
     }
-    axios.patch(`http://localhost:8000/captions/${caption.id}`, {
+    axios.patch(`https://bitter-lamps-eat-75-80-43-25.loca.lt/captions/${caption.id}`, {
       userId: currentUser.uid
     });
   };

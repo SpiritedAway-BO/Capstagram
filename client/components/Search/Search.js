@@ -1,5 +1,5 @@
 import React, {useState, useEffect, useContext} from 'react';
-import {Image, View, Platform, TouchableOpacity, Text, StyleSheet, FlatList, TouchableWithoutFeedback, Keyboard, KeyboardAvoidingView, TextInput} from 'react-native';
+import {Image, ScrollView, View, Platform, TouchableOpacity, Text, StyleSheet, FlatList, TouchableWithoutFeedback, Keyboard, KeyboardAvoidingView, TextInput} from 'react-native';
 import { Avatar, VStack } from '@react-native-material/core';
 import { Ionicons } from '@expo/vector-icons';
 import { auth } from '../../components/Auth/firebase/firebase';
@@ -97,7 +97,7 @@ export default function Search() {
         <View style={styles.inputContainer}>
           <TextInput style={styles.input} placeholder='Search' placeholderTextColor='#D3D3D3'
             onChangeText={text => setSearchInput(text)} onSubmitEditing={(e) => handleSearch(e, searchInput)}
-            enablesReturnKeyAutomatically/>
+          />
         </View>
         <View style={styles.listContainer}>
           <VStack spacing={7} divider={true} w={'100%'}>
