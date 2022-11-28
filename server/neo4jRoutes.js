@@ -8,6 +8,7 @@ router.post('/user', controllers.createUser); //create new user
 router.get('/user/:userId', controllers.getUserInfo); //get a user's info
 router.put('/user/:userId/profilePic', controllers.putProfilePic); //update user profile pic
 // //info
+router.put('/user/:userId/bio', controllers.putUserBio);
 
 // //Captions Routes
 router.get('/captions/:photoId', controllers.getPhotoCaptions); // get captions for a photo
