@@ -13,18 +13,18 @@ const Post = ({ post, navigation }) => {
     <View style={styles.postContainer}>
       <View style={styles.creatorInfo}>
         <Avatar
-          image={{ uri: post.creator.profilePicUri }}
+          image={{ uri: post.creator.profilePicURI }}
           size={35}
-          style={styles.avatar}/>
+          style={styles.avatar} />
         <Text style={styles.username}>{post.creator.username}</Text>
       </View>
       <View>
         <Image
-          source={{uri: post.url}}
-          style={styles.image}/>
+          source={{ uri: post.url }}
+          style={styles.image} />
       </View>
       <View style={styles.captionsContainer}>
-        {captions.map(caption => <Caption key={caption.id} caption={caption}/>)}
+        {captions.map(caption => <Caption key={caption.id} caption={caption} />)}
       </View>
       <View style={styles.viewAllContainer}>
         <Text
@@ -33,7 +33,7 @@ const Post = ({ post, navigation }) => {
             setCurrentPost(post);
             navigation.navigate('Captions');
           }}>
-            View all {post.captions.length} captions
+          View all {post.captions.length} captions
         </Text>
       </View>
     </View>
