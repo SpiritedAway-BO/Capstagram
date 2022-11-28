@@ -6,7 +6,8 @@ import { SafeAreaView, FlatList, View, ScrollView, StyleSheet, Text, Image, Moda
 import { Avatar, Divider } from '@react-native-material/core';
 import { LinearGradient } from 'expo-linear-gradient';
 import { BlurView } from 'expo-blur';
-import { useIsFocused } from '@react-navigation/native'
+import { useIsFocused } from '@react-navigation/native';
+import { LOCALTUNNEL } from '../Auth/firebase/config';
 
 import PersonalWins from '../PersonalWins/PersonalWins.js';
 import { LOCALTUNNEL } from '../Auth/firebase/config.js';

@@ -3,28 +3,36 @@ const db = require('./neo4j.js');
 const getCaptionsModel = async (photoId) => {
   try {
     const session = db.session();
-    const queryResult = await session.executeRead((tx) => tx.run(`MATCH (p:Photo)<-[:POSTED_ON]-(caption) WHERE p.id='${photoId}' return(caption)`))
-      .then(result => result.records.map(record => record.get('caption').properties))
-    const returnArr = [];
-    for (let i = 0; i < queryResult.length; i++) {
-      const returnObj = queryResult[i];
-      // get captioner
-      returnObj.captioner = await session.executeRead((tx) => tx.run(`MATCH (u:User)-[:CREATED]->(:Caption {id: '${queryResult[i].id}'}) return(u)`))
-        .then(result => result.records[0].get('u').properties);
-      // get users who liked caption
-      returnObj.likeUsers = await session.executeRead((tx) => tx.run(`MATCH (u:User)-[:LIKES]->(:Caption {id: '${queryResult[i].id}'}) return(u)`))
-        .then(result => result.records.map(record => record.get('u').properties));
-      returnObj.likes = returnObj.likeUsers.length;
+    return await session.executeRead((tx) => tx.run(`MATCH (p:Photo {id: '${photoId}'})<-[:POSTED_ON]-(c:Caption) MATCH (u:User)-[:CREATED]->(:Caption {id: c.id}) OPTIONAL MATCH (l:User)-[:LIKES]->(:Caption {id: c.id}) return c, u, collect(l)`))
+      .then(result => result.records.map(record => {
+        const returnObj = record.get('c').properties;
+        returnObj.captioner = record.get('u').properties;
+        returnObj.likeUsers = record.get('collect(l)').map((record => record.properties));
+        returnObj.likes = returnObj.likeUsers.length;
+        return returnObj;
+      }))
+      .catch(err => console.log(err));
+
+    //const returnArr = [];
+    // for (let i = 0; i < queryResult.length; i++) {
+    //   const returnObj = queryResult[i];
+    //   // get captioner
+    //   returnObj.captioner = await session.executeRead((tx) => tx.run(`MATCH (u:User)-[:CREATED]->(:Caption {id: '${queryResult[i].id}'}) return(u)`))
+    //     .then(result => result.records[0].get('u').properties);
+    //   // get users who liked caption
+    //   returnObj.likeUsers = await session.executeRead((tx) => tx.run(`MATCH (u:User)-[:LIKES]->(:Caption {id: '${queryResult[i].id}'}) return(u)`))
+    //     .then(result => result.records.map(record => record.get('u').properties));
+    //   returnObj.likes = returnObj.likeUsers.length;
       /*Promise.all([captioner, likeUsers])
         .then(values => {
           returnObj.captioner = values[0];
           returnObj.likeUsers = values[1];
           returnArr.push(returnObj);
         })*/
-      console.log('obj: ', returnObj);
-      returnArr.push(returnObj);
-      console.log('arr: ', returnArr);
-    }
+      //console.log('obj: ', returnObj);
+      //returnArr.push(returnObj);
+      //console.log('arr: ', returnArr);
+    //}
     session.close();
     return returnArr;
   } catch (error) {
@@ -52,7 +60,7 @@ module.exports = {
     if (req.body.hasOwnProperty('userId') && req.body.hasOwnProperty('username')) {
       try {
         const session = db.session();
-        const writeResult = await session.executeWrite((tx) => tx.run(`CREATE (u:User {id: '${req.body.userId}', username: '${req.body.username}', profilePicURI: 'https://res.cloudinary.com/cwhrcloud/image/upload/v1669246271/orange_auy0ff.png'}) return(u)`))
+        const writeResult = await session.executeWrite((tx) => tx.run(`CREATE (u:User {id: '${req.body.userId}', username: '${req.body.username}', profilePicURI: 'https://res.cloudinary.com/cwhrcloud/image/upload/v1669246271/orange_auy0ff.png', bio: ''}) return(u)`))
           .then(result => result.records[0].get('u').properties);
         console.log('User created: ', writeResult);
         session.close();
@@ -88,15 +96,32 @@ module.exports = {
       res.end();
     }
   },
+  putUserBio: async (req, res) => {
+    if (req.params.hasOwnProperty('userId') && req.body.hasOwnProperty('bio')) {
+      try {
+        const session = db.session();
+        const updateResult = await session.executeWrite((tx) => tx.run(`MATCH (u:User {id:'${req.params.userId}'}) SET u.bio = '${req.body.bio}' return(u)`))
+          .then(result => result.records[0].get('u'));
+        console.log('Updated user bio: ', updateResult);
+        session.close();
+        res.status(204);
+        res.end();
+      } catch (error) {
+        res.status(500);
+        res.end();
+      }
+    } else {
+      res.status(400);
+      res.end();
+    }
+  }
   putProfilePic: async (req, res) => {
     if (req.params.hasOwnProperty('userId') && req.body.hasOwnProperty('uri')) {
       try {
-        console.log('body: ', req.body);
-        console.log('params: ', req.params)
         const session = db.session();
         const updateResult = await session.executeWrite((tx) => tx.run(`MATCH (u:User {id:'${req.params.userId}'}) SET u.profilePicURI = '${req.body.uri}' return(u)`))
           .then(result => result.records[0].get('u'));
-        console.log('Updated user: ', updateResult);
+        console.log('Updated user profile pic: ', updateResult);
         session.close();
         res.status(204);
         res.end();
@@ -292,8 +317,14 @@ module.exports = {
       for (let i = 0; i < readResult.length; i++) {
         readResult[i].captions = await getCaptionsModel(readResult[i].id);
       }
+      const userInfo = await session.executeRead((tx) => tx.run(`MATCH (u:User {id: '${req.params.userId}'}) return u`))
+        .then(results => results.records[0].get('u').properties)
+      const returnObj = {
+        creator: userInfo,
+        results: readResult
+      }
       res.status(200);
-      res.end(JSON.stringify(readResult));
+      res.end(JSON.stringify(returnObj));
       session.close();
     } else {
       res.status(400);
