@@ -2,6 +2,7 @@ import { useState, useContext } from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { AppContext } from '../../contexts/AppContext.js';
+import { LOCALTUNNEL } from '../Auth/firebase/config.js';
 import axios from 'axios';
 
 export default function Caption({ caption }) {
@@ -27,7 +28,7 @@ export default function Caption({ caption }) {
     } else {
       caption.likes++;
     }
-    axios.patch(`http://localhost:8000/captions/${caption.id}`, {
+    axios.patch(`${LOCALTUNNEL}/captions/${caption.id}`, {
       userId: currentUser.uid
     });
   };

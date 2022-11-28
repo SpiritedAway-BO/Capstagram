@@ -1,10 +1,15 @@
-import { useContext } from 'react';
+import { useContext, useEffect } from 'react';
 import { View, ScrollView, StyleSheet } from 'react-native';
 import Post from './Post.js';
 import { AppContext } from '../../contexts/AppContext.js';
+import { auth } from '../Auth/firebase/firebase.js';
 
 const MainFeed = ({ navigation }) => {
-  const { mainFeedData } = useContext(AppContext);
+  const { mainFeedData, setCurrentUser } = useContext(AppContext);
+
+  useEffect(() => {
+    setCurrentUser(auth.currentUser);
+  }, []);
 
   if (mainFeedData) {
     return (

@@ -1,30 +1,27 @@
-import React, {useState, useEffect, useContext} from 'react';
-import {Image, View, Platform, TouchableOpacity, Text, StyleSheet, FlatList, TouchableWithoutFeedback, Keyboard, KeyboardAvoidingView, TextInput} from 'react-native';
+import React, { useState, useEffect, useContext } from 'react';
+import { Image, View, Platform, TouchableOpacity, Text, StyleSheet, FlatList, TouchableWithoutFeedback, Keyboard, KeyboardAvoidingView, TextInput, SafeAreaView} from 'react-native';
 import { Avatar, VStack } from '@react-native-material/core';
 import { Ionicons } from '@expo/vector-icons';
 import { auth } from '../../components/Auth/firebase/firebase';
 import { AppContext } from '../../contexts/AppContext';
 import axios from 'axios';
-
+import { LOCALTUNNEL } from '../Auth/firebase/config.js';
 
 export default function Search() {
 
   // const queryClient = useQueryClient()
   // const {get, add} = useFriends();
   // const {isLoading: useFriendsGetIsLoading, data: friends} = get;
-  const [ users, setUsers ] = useState(null);
-  const [ filteredUsers, setFilteredUsers ] = useState();
-  const [ searchInput, setSearchInput ] = useState();
+  const [users, setUsers] = useState(null);
+  const [filteredUsers, setFilteredUsers] = useState();
+  const [searchInput, setSearchInput] = useState();
   const { friends, setFriends } = useContext(AppContext);
   const { mainFeedData, setMainFeedData } = useContext(AppContext);
   const { currentUser, setCurrentUser } = useContext(AppContext);
-  const [ tryThis, setTryThis] = useState(null);
+  const [tryThis, setTryThis] = useState(null);
   let friendsArr = [];
 
   useEffect(() => {
-<<<<<<< HEAD
-    axios.get('https://shaggy-streets-act-75-80-43-25.loca.lt/users')
-=======
     axios.get('https://localhost:8000/users')
 >>>>>>> main
       .then((res) => {
@@ -67,42 +64,45 @@ export default function Search() {
       .catch(err => console.log(err));
   };
 
-  const UserItem = ({user}) => {
+  const UserItem = ({ user }) => {
     return (
       <View style={styles.item}>
         <View style={styles.userInfo}>
           <View style={styles.avatarView}>
             <Avatar image={{ uri: user.profilePicURI }}
               size={35}
-              styles={styles.avatar}/>
+              styles={styles.avatar} />
             <Text style={styles.text}>{user.username}</Text>
           </View>
-          { tryThis.includes(user.username) ?
+          {tryThis.includes(user.username) ?
             <View>
-              <Ionicons style={styles.icon} name="ios-person-add-sharp" size={20} color="#FF842B" onPress={() => handleAdd(user)}/>
+              <Ionicons style={styles.icon} name="ios-person-add-sharp" size={20} color="#FF842B" onPress={() => handleAdd(user)} />
             </View> :
             <View>
-              <Ionicons style={styles.icon} name="ios-person-add-outline" size={20} color="#FF842B" onPress={() => handleAdd(user)}/>
+              <Ionicons style={styles.icon} name="ios-person-add-outline" size={20} color="#FF842B" onPress={() => handleAdd(user)} />
             </View>}
         </View>
       </View>
     );
   };
 
-  const renderSearchedUsers = ({item}) => {
+  const renderSearchedUsers = ({ item }) => {
     return (
-      <UserItem user={item}/>
+      <UserItem user={item} />
     );
   };
 
   return (
+    <SafeAreaView style={styles.container}>
     <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
-      <KeyboardAvoidingView behavior="padding" style={styles.container}>
+      <KeyboardAvoidingView behavior="padding" >
         <View style={styles.inputContainer}>
           <TextInput style={styles.input} placeholder='Search' placeholderTextColor='#D3D3D3'
             onChangeText={text => setSearchInput(text)} onSubmitEditing={(e) => handleSearch(e, searchInput)}
-            enablesReturnKeyAutomatically/>
+            enablesReturnKeyAutomatically />
         </View>
+      </KeyboardAvoidingView>
+    </TouchableWithoutFeedback>
         <View style={styles.listContainer}>
           <VStack spacing={7} divider={true} w={'100%'}>
             <FlatList
@@ -112,8 +112,7 @@ export default function Search() {
             />
           </VStack>
         </View>
-      </KeyboardAvoidingView>
-    </TouchableWithoutFeedback>
+    </SafeAreaView>
   );
 
 }

@@ -5,9 +5,35 @@ import { Avatar, Button } from '@react-native-material/core';
 import { auth } from '../Auth/firebase/firebase.js';
 import axios from 'axios';
 import { AppContext } from '../../contexts/AppContext.js';
+import { LOCALTUNNEL } from '../Auth/firebase/config.js';
 
 const CaptionItem = ({ caption }) => {
   const { currentUser } = useContext(AppContext);
+
+  const checkLike = () => {
+    let heart = false;
+    for (let i = 0; i < caption.likeUsers.length; i++) {
+      if (caption.likeUsers[i].username === currentUser.displayName) {
+        heart = true;
+        break;
+      }
+    }
+    return heart;
+  };
+
+  const [liked, SetLiked] = useState(checkLike());
+
+  const heart = (event) => {
+    SetLiked(!liked);
+    if (liked) {
+      caption.likes--;
+    } else {
+      caption.likes++;
+    }
+    axios.patch(`${LOCALTUNNEL}/captions/${caption.id}`, {
+      userId: currentUser.uid
+    });
+  };
 
   const checkVoted = () => {
     let heart = false;
@@ -24,24 +50,11 @@ const CaptionItem = ({ caption }) => {
   const [votes, setVotes] = useState(0);
   const [avatarUri, setAvatarUri] = useState('https://res.cloudinary.com/cwhrcloud/image/upload/v1669246271/orange_auy0ff.png');
 
-  // console.log('caption id', caption.id)
-  // const [newCaption, setNewCaption] = useState('');
 
   useEffect(() => {
-    // console.log('caption', caption)
     caption.likes ? setVotes(caption.likes) : null;
-    // setVotes(caption.upvotes); //takes care of asynchronous state setting
     caption.captioner.profilePicURI ? setAvatarUri(caption.captioner.profilePicURI) : null;
   }, []);
-
-  // const putUserUpvote = (allVotes) => {
-  //   console.log('allVotes', allVotes);
-  //   // axios.put('http://link/captionid', {body: {upVotes: allVotes}})
-
-  //     /* will need to send put/patch state to database, or somehow keep track of uservotes and also specifically THIS user's vote */
-
-  // }
-  // console.log('caption', caption)
 
   return (
     <View style={styles.bigItem}>
@@ -59,19 +72,16 @@ const CaptionItem = ({ caption }) => {
               <Text style={styles.votes}>{caption.likes}</Text>
               <Ionicons name="ios-heart" size={15} color="#FF842B"
                 onPress={() => {
-                  setVotes(votes - 1);
+                  heart();
                   setVoted(!voted);
-                  console.log(votes - 1);
                 }}/>
             </View> :
             <View style={styles.heartIcon} >
               <Text style={styles.votes}>{caption.likes}</Text>
               <Ionicons style={styles.heartIcon} name="ios-heart-outline" size={15} color="#FF842B"
                 onPress={() => {
-                  setVotes(votes + 1);
+                  heart();
                   setVoted(!voted);
-                  console.log(votes + 1);
-
                 }}
               />
             </View>}

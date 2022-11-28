@@ -9,7 +9,7 @@ export const AppProvider = ({ children }) => {
   const [currentUser, setCurrentUser] = useState('');
   const [mainFeedData, setMainFeedData] = useState([]);
   const [currentPost, setCurrentPost] = useState(null);
-  const [friends, setFriends] = useState(null);
+  const [friends, setFriends] = useState([]);
 
 
   /** asynchronously sets current userid so it is not undefined in other modules **/
@@ -19,12 +19,11 @@ export const AppProvider = ({ children }) => {
     //   .then(res => console.log(res.data))
     //   .catch(err => console.log(err));
   }, []);
-  if (Object.keys(currentUser) > 0) {
-    console.log('currentUser in AppContext', currentUser.uid);
-  }
+
   /** INSERT VARIABLE NAMES into value deconstruction to make them available in other modules */
   const value = {
     currentUser,
+    setCurrentUser,
     mainFeedData,
     setMainFeedData,
     currentPost,
@@ -54,7 +53,7 @@ export const AppProvider = ({ children }) => {
         })
         .catch(err => console.log('Fetch Friends Error', err));
     }
-  }, []);
+  }, [currentUser]);
 
   /** makes Context available to other modules **/
   return (
