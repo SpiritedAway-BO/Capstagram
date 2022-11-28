@@ -70,11 +70,12 @@ const AddPhotoCloudinary = ({ navigation }) => {
         })
           .then(results => {
             console.log('photo posted');
-            axios.get(`${LOCALTUNNEL}/photos/${auth.currentUser.uid}`)
-              .then(res => {
-                setMainFeedData(res.data[0].photos);
-              })
-              .catch(err => console.log('error getting main feed in add photo', err));
+            // axios.get(`http://localhost:8000/photos/${auth.currentUser.uid}`)
+            //   .then(res => {
+            //     console.log('addPhoto res.data', res.data);
+            //     setMainFeedData(res.data);
+            //   })
+            //   .catch(err => console.log('error getting main feed in add photo', err));
           })
           .catch(err => console.log('error posting photo', err));
       })
