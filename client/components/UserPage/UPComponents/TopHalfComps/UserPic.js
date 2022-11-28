@@ -2,24 +2,25 @@ import React from 'react';
 import { View, StyleSheet } from 'react-native';
 import { Avatar } from '@react-native-material/core';
 
-const UserPic = ({currentUser}) => {
+const UserPic = ({myPosts}) => {
+  let uri = myPosts.creator.profilePicURI;
+  console.log("MY POSTS IN USERPIC", myPosts);
   return (
-    <>
-    {currentUser.photoURL !== undefined ?
+
       <Avatar
         style={styles.avatar}
-        image={{ uri: currentUser.photoURL }}
+        image={{ uri: uri }}
         size={80}
       />
-      :
-      <Avatar
-        style={styles.avatar}
-        src='../BottomHalfComps/orange.png'
-        // image={{ uri: 'https://mui.com/static/images/avatar/1.jpg' }}
-        size={80}
-      />
-    }
-    </>
+
+      // <Avatar
+      //   style={styles.avatar}
+      //   src='../BottomHalfComps/orange.png'
+      //   // image={{ uri: 'https://mui.com/static/images/avatar/1.jpg' }}
+      //   size={80}
+      // />
+
+
   );
 };
 

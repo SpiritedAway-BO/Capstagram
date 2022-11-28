@@ -1,3 +1,5 @@
+import { LOCALTUNNEL } from '../Auth/firebase/config.js';
+
 import React from 'react';
 import Axios from 'axios';
 import { AppContext } from '../../contexts/AppContext.js';
@@ -7,7 +9,6 @@ import { Avatar, Divider } from '@react-native-material/core';
 import { LinearGradient } from 'expo-linear-gradient';
 import { BlurView } from 'expo-blur';
 import { useIsFocused } from '@react-navigation/native';
-import { LOCALTUNNEL } from '../Auth/firebase/config';
 
 import PersonalWins from '../PersonalWins/PersonalWins.js';
 
@@ -75,11 +76,11 @@ const UserPage = ({ navigation }) => {
     <View style={{backgroundColor: 'white', width: '100%', height: '100%', blurRadius:"100%"}}>
       <View style={styles.userInfoContainer}>
         <View style={styles.uiStatsBox}>
-          <UserPic currentUser={currentUser}/>
-          <Posts numPosts={myPosts.length}/>
+          <UserPic myPosts={myPosts}/>
+          <Posts numPosts={myPosts.results.length}/>
           <Friends numFriends={friends.length} navigation={navigation}/>
         </View>
-        <Username currentUser={currentUser}/>
+        <Username myPosts={myPosts}/>
         <Bio />
       </View>
       <NavBar tab={tab} setTab={setTab} onWins={onWins} onPosts={onPosts}/>
@@ -92,7 +93,7 @@ const UserPage = ({ navigation }) => {
             numColumns={3}
             contentContainerStyle={styles.flatListContainer}
             style={styles.imageList}
-            data={myPosts}
+            data={myPosts.results}
             renderItem={renderImage}
             keyExtractor={(item, index) => item.id} />
             : null
