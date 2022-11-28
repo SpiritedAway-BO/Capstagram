@@ -24,30 +24,34 @@ const CaptionsGalore = () => {
   //   getCaptions();
   // }, []);
 
-  const getCaptions = () => {
-    if (currentPost._id) {
-      axios.get(`${LOCALTUNNEL}/captions/${currentPost._id}`)
-      .then(results => {
-        let reverseCaptionsArray = results.data[0].photos[0].captions.reverse();
-        setCaptionArray(reverseCaptionsArray);
-      })
-      .catch(err => console.log('error in caption get'))
-    }
-  };
-
-  // console.log('current post', currentPost._id);
-  // const handleCaptionSubmit = () => {
-  //   // console.log('currentUser', currentUser)
-  //   /***** REPLACE PHOTOID WITH USER SELECTED PHOTOID */
-  //   /** make a default for if usename is null */
-  //   axios.post(`${LOCALTUNNEL}/captions/${}`, {username: currentUser.captioner.username, photoID: currentPost._id, captionBody: newCaption})
+  // const getCaptions = () => {
+  //   if (currentPost._id) {
+  //     axios.get(`${LOCALTUNNEL}/captions/${currentPost._id}`)
   //     .then(results => {
-  //       getCaptions(); //helper function
+  //       let reverseCaptionsArray = results.data[0].photos[0].captions.reverse();
+  //       setCaptionArray(reverseCaptionsArray);
   //     })
-  //     .then(results => console.log('posted new caption'))
-  //     .catch(err => console.log('errors in captions galore'));
-  //   setNewCaption(''); //reset
-  // }
+  //     .catch(err => console.log('error in caption get'))
+  //   }
+  // };
+
+  console.log('current post', currentPost.id);
+  console.log('current post', currentUser.uid);
+
+
+  const handleCaptionSubmit = () => {
+    // console.log('currentUser', currentUser)
+    /***** REPLACE PHOTOID WITH USER SELECTED PHOTOID */
+    /** make a default for if usename is null */
+    axios.post(`${LOCALTUNNEL}/captions/`, {photoID: currentPost.id, userId: currentUser.uid, body: newCaption})
+      // .then(results => {
+      //   // RE-RENDER MAIN FEED
+      //   // getCaptions(); //helper function
+      // })
+      .then(results => console.log('posted new caption'))
+      .catch(err => console.log('errors in captions galore'));
+    setNewCaption(''); //reset
+  }
   // console.log('captionArray', captionArray);
   return (
     <SafeAreaView style={styles.container}>
