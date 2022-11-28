@@ -11,7 +11,7 @@ router.put('/user/:userId/profilePic', controllers.putProfilePic); //update user
 
 // //Captions Routes
 router.get('/captions/:photoId', controllers.getPhotoCaptions); // get captions for a photo
-router.post('/captions/:photoId', controllers.postCaption); // post a caption for a photo
+router.post('/captions', controllers.postCaption); // post a caption for a photo
 // // router.delete('/captions/:captionId', controllers.deleteCaption); // lets a user delete their own caption - might need to think this route out better
 router.patch('/captions/:captionId', controllers.patchCaption); // CHANGES a caption upvote (up or down)
 
