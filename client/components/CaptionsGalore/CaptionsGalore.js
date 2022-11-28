@@ -21,22 +21,22 @@ const CaptionsGalore = () => {
   const renderCaption = ({ item }) => (
     <CaptionItem caption={item} />
   );
-  useEffect(() => {
-    getCaptions();
-  }, []);
+  // useEffect(() => {
+  //   getCaptions();
+  // }, []);
 
-  const getCaptions = () => {
-    if (currentPost._id) {
-      axios.get(`${LOCALTUNNEL}/captions/${currentPost._id}`)
-      .then(results => {
-        let reverseCaptionsArray = results.data[0].photos[0].captions.reverse();
-        setCaptionArray(reverseCaptionsArray);
-      })
-      .catch(err => console.log('error in caption get'))
-    }
-  };
+  // const getCaptions = () => {
+  //   if (currentPost._id) {
+  //     axios.get(`${LOCALTUNNEL}/captions/${currentPost._id}`)
+  //     .then(results => {
+  //       let reverseCaptionsArray = results.data[0].photos[0].captions.reverse();
+  //       setCaptionArray(reverseCaptionsArray);
+  //     })
+  //     .catch(err => console.log('error in caption get'))
+  //   }
+  // };
 
-  console.log('current post', currentPost._id);
+  // console.log('current post', currentPost._id);
   const handleCaptionSubmit = () => {
     // console.log('currentUser', currentUser)
     /***** REPLACE PHOTOID WITH USER SELECTED PHOTOID */
@@ -53,7 +53,7 @@ const CaptionsGalore = () => {
   return (
     <SafeAreaView style={styles.container}>
       <FlatList //this is like map
-        data={captionArray}
+        data={currentPost.captions}
         renderItem={renderCaption}
         keyExtractor={item => item.id}
         />
