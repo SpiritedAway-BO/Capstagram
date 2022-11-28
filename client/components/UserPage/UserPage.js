@@ -1,10 +1,14 @@
 import React from 'react';
 import Axios from 'axios';
+import { AppContext } from '../../contexts/AppContext.js';
+
 import { SafeAreaView, FlatList, View, ScrollView, StyleSheet, Text, Image, Modal, ImageBackground, Dimensions, TouchableOpacity} from 'react-native';
 import { Avatar, Divider } from '@react-native-material/core';
-import PersonalWins from '../PersonalWins/PersonalWins.js';
 import { LinearGradient } from 'expo-linear-gradient';
 import { BlurView } from 'expo-blur';
+import { useIsFocused } from '@react-navigation/native'
+
+import PersonalWins from '../PersonalWins/PersonalWins.js';
 
 import UserPic from './UPComponents/TopHalfComps/UserPic.js';
 import Posts from './UPComponents/TopHalfComps/Posts.js';
@@ -16,17 +20,32 @@ import MyPosts from './UPComponents/BottomHalfComps/MyPosts.js';
 import SinglePostView from './UPComponents/BottomHalfComps/SinglePostView.js';
 
 
-var x = {
-  uri: 'https://img.freepik.com/free-vector/cute-rabbit-with-duck-working-laptop-cartoon-illustration_56104-471.jpg?w=2000'
-};
-var DATA = [x, x, x, x, x, x, x, x ];
-
 const UserPage = ({ navigation }) => {
+
+  const isFocused = useIsFocused();
+  const { currentUser } = React.useContext(AppContext);
+  const [friends, setFriends] = React.useState([]);
 
   const [tab, setTab] = React.useState('posts');
   const [modalVisible, setModalVisible] = React.useState(false);
-  const [postData, setPostData] = React.useState(null);
+  const [myPosts, setMyPosts] = React.useState([]);
+  const [modalPost, setModalPost] = React.useState({});
 
+  React.useEffect(() => {
+    if (currentUser) {
+      Axios.get(`http://localhost:8000/user/${currentUser.uid}/photos`)
+        .then((res) => {
+          setMyPosts(res.data);
+          setModalPost(res.data[0]);
+        })
+        .catch((err) => console.log('Error @ UserPage Axios.get: ', err));
+      Axios.get(`http://localhost:8000/user/${currentUser.uid}/friends`)
+        .then(res => {
+          setFriends(res.data);
+        })
+        .catch(err => console.log('Fetch Friends Error', err));
+    }
+  }, [isFocused]);
 
 
   const onWins = () => {
@@ -39,12 +58,13 @@ const UserPage = ({ navigation }) => {
 
   const imagePress = (item) => {
     setModalVisible(true);
+    setModalPost(item);
   };
 
   const renderImage = ({item}) => (
     <TouchableOpacity style={{}} onPress={() => imagePress(item)}>
       <Image
-        source={item}
+        source={{uri: item.url}}
         style={styles.image}
       />
     </TouchableOpacity>
@@ -54,11 +74,11 @@ const UserPage = ({ navigation }) => {
     <View style={{backgroundColor: 'white', width: '100%', height: '100%', blurRadius:"100%"}}>
       <View style={styles.userInfoContainer}>
         <View style={styles.uiStatsBox}>
-          <UserPic />
-          <Posts />
-          <Friends navigation={navigation}/>
+          <UserPic currentUser={currentUser}/>
+          <Posts numPosts={myPosts.length}/>
+          <Friends numFriends={friends.length} navigation={navigation}/>
         </View>
-        <Username />
+        <Username currentUser={currentUser}/>
         <Bio />
       </View>
       <NavBar tab={tab} setTab={setTab} onWins={onWins} onPosts={onPosts}/>
@@ -66,28 +86,33 @@ const UserPage = ({ navigation }) => {
       <Divider style={{ marginTop: 0, marginBottom: 5 }} color="#B19CD9" leadingInset={20} trailingInset={20}/>
       <View style={{flex:1}} >
         {tab === 'posts' ?
-          <FlatList
-          numColumns={3}
-          contentContainerStyle={styles.flatListContainer}
-          style={styles.imageList}
-          data={DATA}
-          renderItem={renderImage}
-          keyExtractor={(item, index) => index.toString()} />
+          myPosts ?
+            <FlatList
+            numColumns={3}
+            contentContainerStyle={styles.flatListContainer}
+            style={styles.imageList}
+            data={myPosts}
+            renderItem={renderImage}
+            keyExtractor={(item, index) => item.id} />
+            : null
           : <PersonalWins/>
         }
       </View>
-      <Modal
-        animationType="fade"
-        transparent={true}
-        visible={modalVisible} >
+      {modalPost ?
+        <Modal
+          animationType="fade"
+          transparent={true}
+          visible={modalVisible} >
           <BlurView intensity={25} style={styles.blurContainer}>
-        <TouchableOpacity
-          style={{ height: '100%', width: '95%', alignSelf: "center", flexGrow:"5", justifyContent: "center"}}
-          onPress={() => setModalVisible(false)} >
-          <SinglePostView />
-        </TouchableOpacity>
-        </BlurView>
-      </Modal>
+            <TouchableOpacity
+              style={{ height: '100%', width: '95%', alignSelf: "center", flexGrow:"5", justifyContent: "center"}}
+              onPress={() => setModalVisible(false)} >
+              <SinglePostView post={modalPost} navigation={navigation} currentUser={currentUser}/>
+            </TouchableOpacity>
+          </BlurView>
+        </Modal>
+        : null
+      }
     </View>
   );
 };
