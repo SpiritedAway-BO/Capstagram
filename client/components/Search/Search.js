@@ -1,8 +1,9 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState, useEffect, useContext} from 'react';
 import {Image, View, Platform, TouchableOpacity, Text, StyleSheet, FlatList, TouchableWithoutFeedback, Keyboard, KeyboardAvoidingView, TextInput} from 'react-native';
 import { Avatar, VStack } from '@react-native-material/core';
 import { Ionicons } from '@expo/vector-icons';
 import { auth } from '../../components/Auth/firebase/firebase';
+import { AppContext } from '../../contexts/AppContext';
 import axios from 'axios';
 
 
@@ -14,14 +15,28 @@ export default function Search() {
   const [ users, setUsers ] = useState(null);
   const [ filteredUsers, setFilteredUsers ] = useState();
   const [ searchInput, setSearchInput ] = useState();
+  const { friends, setFriends } = useContext(AppContext);
+  const { mainFeedData, setMainFeedData } = useContext(AppContext);
+  const { currentUser, setCurrentUser } = useContext(AppContext);
+  const [ tryThis, setTryThis] = useState(null);
+  let friendsArr = [];
 
   useEffect(() => {
-    axios.get('http://localhost:8000/users')
+    axios.get('https://bitter-lamps-eat-75-80-43-25.loca.lt/users')
       .then((res) => {
+        console.log(friends);
         setUsers(res.data);
         setFilteredUsers(res.data);
       });
   }, []);
+
+  useEffect(() => {
+    friends.forEach((user) => {
+      friendsArr.push(user.username);
+    });
+    setTryThis(friendsArr);
+    console.log(friendsArr);
+  }, [friends]);
 
 
   const handleSearch = (e, input) => {
@@ -34,11 +49,19 @@ export default function Search() {
   };
 
   const handleAdd = (user) => {
-    console.log(auth.currentUser.uid);
-    console.log(user.id);
+    // console.log(auth.currentUser.uid);
+    // console.log(user.id);
+    friendsArr.push(user.username);
 
-    axios.post('http://localhost:8000/user/friends', {firebaseID: auth.currentUser.uid, friendID: user.id })
-      .then(console.log('added:', user.id))
+    axios.post('https://bitter-lamps-eat-75-80-43-25.loca.lt/user/friends', {firebaseID: auth.currentUser.uid, friendID: user.id })
+      .then(() => {
+        console.log('added:', user.id);
+        axios.get(`https://bitter-lamps-eat-75-80-43-25.loca.lt/photos/${currentUser.uid}`)
+          .then(res => {
+            setMainFeedData(res.data);
+          })
+          .catch(err => console.log('error updating main feed with friend', err));
+      })
       .catch(err => console.log(err));
   };
 
@@ -47,14 +70,18 @@ export default function Search() {
       <View style={styles.item}>
         <View style={styles.userInfo}>
           <View style={styles.avatarView}>
-            <Avatar image={{ uri: 'https://res.cloudinary.com/cwhrcloud/image/upload/v1669246271/orange_auy0ff.png' }}
+            <Avatar image={{ uri: user.profilePicURI }}
               size={35}
               styles={styles.avatar}/>
             <Text style={styles.text}>{user.username}</Text>
           </View>
-          <View>
-            <Ionicons style={styles.icon} name="ios-person-add-outline" size={15} color="#FF842B" onPress={() => handleAdd(user)}/>
-          </View>
+          { tryThis.includes(user.username) ?
+            <View>
+              <Ionicons style={styles.icon} name="ios-person-add-sharp" size={20} color="#FF842B" onPress={() => handleAdd(user)}/>
+            </View> :
+            <View>
+              <Ionicons style={styles.icon} name="ios-person-add-outline" size={20} color="#FF842B" onPress={() => handleAdd(user)}/>
+            </View>}
         </View>
       </View>
     );
