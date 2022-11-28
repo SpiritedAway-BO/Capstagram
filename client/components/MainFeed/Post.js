@@ -13,7 +13,7 @@ const Post = ({ post, navigation }) => {
     <View style={styles.postContainer}>
       <View style={styles.creatorInfo}>
         <Avatar
-          image={{ uri: post.creator.profilePicUri }}
+          image={{ uri: post.creator.profilePicURI }}
           size={35}
           style={styles.avatar} />
         <Text style={styles.username}>{post.creator.username}</Text>
