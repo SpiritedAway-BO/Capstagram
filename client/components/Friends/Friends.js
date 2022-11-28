@@ -10,12 +10,11 @@ import {LOCALTUNNEL} from '../Auth/firebase/config.js';
 
 
 const Friends = () => {
-  const {currentUser, setCurrentUser} = useContext(AppContext);
-
-  const {friends} = useContext(AppContext);
-
-  console.log('currentUser', currentUser);
-
+  const {friends, setFriends, currentUser, setCurrentUser} = useContext(AppContext);
+  console.log('friends', friends)
+  useEffect(() => {
+    setFriends(friends)
+  }, [])
 
   const renderFriend = ({ item }) => (
     <FriendItem caption={item} />
