@@ -11,7 +11,7 @@ export default function UploadPhoto({ photo, setPhoto }) {
   useEffect(() => {
     axios.get(`http://localhost:8000/user/${auth.currentUser.uid}`)
       .then(response => {
-        console.log(response.data);
+        // console.log(response.data);
         setPhoto(response.data.profilePicURI);
       })
       .catch(err => console.log(err));
