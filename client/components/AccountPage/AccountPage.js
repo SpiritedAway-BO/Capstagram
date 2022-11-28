@@ -6,6 +6,7 @@ import { VStack } from '@react-native-material/core';
 import { MaterialIcons } from '@expo/vector-icons';
 import { AppContext } from '../../contexts/AppContext.js';
 
+
 export default function AccountPage({ navigation }) {
 
   const [photo, setPhoto] = useState('https://res.cloudinary.com/cwhrcloud/image/upload/v1669246271/orange_auy0ff.png');
