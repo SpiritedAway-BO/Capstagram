@@ -44,11 +44,11 @@ const CaptionsGalore = () => {
     /***** REPLACE PHOTOID WITH USER SELECTED PHOTOID */
     /** make a default for if usename is null */
     console.log(currentPost.id, currentUser.uid, newCaption)
-    axios.post(`https://bitter-lamps-eat-75-80-43-25.loca.lt/captions`, { photoId: currentPost.id, userId: currentUser.uid, body: newCaption })
+    axios.post(`${LOCALTUNNEL}/captions`, { photoId: currentPost.id, userId: currentUser.uid, body: newCaption })
       .then(results => {
         getCaptions(); //helper function
         // RE-RENDER MAIN FEED
-        axios.get(`https://bitter-lamps-eat-75-80-43-25.loca.lt/photos/${currentUser.uid}`)
+        axios.get(`${LOCALTUNNEL}/photos/${currentUser.uid}`)
           .then(res => {
             setMainFeedData(res.data);
           })
