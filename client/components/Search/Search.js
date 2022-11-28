@@ -22,8 +22,7 @@ export default function Search() {
   let friendsArr = [];
 
   useEffect(() => {
-    axios.get('https://localhost:8000/users')
->>>>>>> main
+    axios.get(`${LOCALTUNNEL}/users`)
       .then((res) => {
         console.log(friends);
         setUsers(res.data);
@@ -52,10 +51,10 @@ export default function Search() {
     // console.log(user.id);
     friendsArr.push(user.username);
 
-    axios.post('https://localhost:8000/user/friends', {firebaseID: auth.currentUser.uid, friendID: user.id })
+    axios.post('http://localhost:8000/user/friends', {firebaseID: auth.currentUser.uid, friendID: user.id })
       .then(() => {
         console.log('added:', user.id);
-        axios.get(`https://localhost:8000/photos/${currentUser.uid}`)
+        axios.get(`${LOCALTUNNEL}/photos/${currentUser.uid}`)
           .then(res => {
             setMainFeedData(res.data);
           })
