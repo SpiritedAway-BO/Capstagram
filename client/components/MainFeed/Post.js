@@ -7,7 +7,7 @@ import { AppContext } from '../../contexts/AppContext.js';
 const Post = ({ post, navigation }) => {
   const { setCurrentPost } = useContext(AppContext);
 
-  const captions = post.captions.slice().sort((a, b) => b.likes - a.likes).slice(0, 3);
+  const captions = post.captions.slice().sort((a, b) => Number(a.likes) - Number(b.likes)).slice(0, 3);
 
   return (
     <View style={styles.postContainer}>
