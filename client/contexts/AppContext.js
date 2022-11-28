@@ -19,12 +19,13 @@ export const AppProvider = ({ children }) => {
     //   .then(res => console.log(res.data))
     //   .catch(err => console.log(err));
   }, []);
-  if (Object.keys(currentUser) > 0) {
+  if (currentUser) {
     console.log('currentUser in AppContext', currentUser.uid);
   }
   /** INSERT VARIABLE NAMES into value deconstruction to make them available in other modules */
   const value = {
     currentUser,
+    setCurrentUser,
     mainFeedData,
     setMainFeedData,
     currentPost,
