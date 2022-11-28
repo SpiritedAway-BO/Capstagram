@@ -7,23 +7,24 @@ import { AppContext } from '../../contexts/AppContext.js';
 const Post = ({ post, navigation }) => {
   const { setCurrentPost } = useContext(AppContext);
 
-  const captions = post.captions;
+  const captions = post.captions.slice().sort((a, b) => b.likes - a.likes).slice(0, 3);
+
   return (
     <View style={styles.postContainer}>
       <View style={styles.creatorInfo}>
         <Avatar
-          image={{ uri: 'https://mui.com/static/images/avatar/1.jpg' }}
+          image={{ uri: post.creator.profilePicURI }}
           size={35}
-          style={styles.avatar}/>
-        <Text style={styles.username}>{post.creator}</Text>
+          style={styles.avatar} />
+        <Text style={styles.username}>{post.creator.username}</Text>
       </View>
       <View>
         <Image
-          source={{uri: post.uri}}
-          style={styles.image}/>
+          source={{ uri: post.url }}
+          style={styles.image} />
       </View>
       <View style={styles.captionsContainer}>
-        {captions.map(caption => <Caption key={caption._id} caption={caption}/>)}
+        {captions.map(caption => <Caption key={caption.id} caption={caption} />)}
       </View>
       <View style={styles.viewAllContainer}>
         <Text
@@ -32,7 +33,7 @@ const Post = ({ post, navigation }) => {
             setCurrentPost(post);
             navigation.navigate('Captions');
           }}>
-            View all # captions
+          View all {post.captions.length} captions
         </Text>
       </View>
     </View>

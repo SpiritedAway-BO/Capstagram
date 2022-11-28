@@ -6,18 +6,11 @@ import { AppContext } from '../../contexts/AppContext.js';
 const MainFeed = ({ navigation }) => {
   const { mainFeedData } = useContext(AppContext);
 
-  // console.log(mainFeedData);
-
   if (mainFeedData) {
     return (
       <View style={styles.mainContainer}>
         <ScrollView style={styles.feedContainer}>
-          {mainFeedData.map(post => <Post key={post._id} post={post} navigation={navigation} />)}
-          {/* <Post navigation={navigation}/>
-        <Post navigation={navigation}/>
-        <Post navigation={navigation}/>
-        <Post navigation={navigation}/>
-        <Post navigation={navigation}/> */}
+          {mainFeedData.map(post => <Post key={post.id} post={post} navigation={navigation} />)}
         </ScrollView>
       </View>
     );

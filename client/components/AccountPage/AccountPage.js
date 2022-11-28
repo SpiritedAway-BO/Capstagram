@@ -1,9 +1,10 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import UploadPhoto from './UploadPhoto.js';
 import { Image, View, Platform, TouchableOpacity, Text, StyleSheet } from 'react-native';
 import { auth, signOutUser } from '../Auth/firebase/firebase.js';
 import { VStack } from '@react-native-material/core';
 import { MaterialIcons } from '@expo/vector-icons';
+
 
 export default function AccountPage({ navigation }) {
 
@@ -17,7 +18,7 @@ export default function AccountPage({ navigation }) {
     });
   };
 
-  console.log('auth info', auth.currentUser.displayName, auth.currentUser.uid, auth.currentUser);
+  // console.log('auth info', auth.currentUser.displayName, auth.currentUser.uid, auth.currentUser);
 
   return (
     <View style={AccountPageStyles.AccountPageContainer}>
