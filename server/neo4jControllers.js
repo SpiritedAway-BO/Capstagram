@@ -8,7 +8,7 @@ const getCaptionsModel = async (photoId) => {
         const returnObj = record.get('c').properties;
         returnObj.captioner = record.get('u').properties;
         returnObj.likeUsers = record.get('collect(l)').map((record => record.properties));
-        console.log(returnObj.likeUsers);
+        returnObj.likes = returnObj.likeUsers.length;
         return returnObj;
       }))
       .catch(err => console.log(err));
