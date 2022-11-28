@@ -22,7 +22,7 @@ const CaptionsGalore = () => {
   );
 
   useEffect(() => {
-    getCaptions();
+    setCaptionArray(currentPost.captions);
   }, []);
 
   const getCaptions = () => {
@@ -43,7 +43,7 @@ const CaptionsGalore = () => {
     // console.log('currentUser', currentUser)
     /***** REPLACE PHOTOID WITH USER SELECTED PHOTOID */
     /** make a default for if usename is null */
-    console.log(currentPost.id, currentUser.uid, newCaption)
+    // console.log(currentPost.id, currentUser.uid, newCaption)
     axios.post(`${LOCALTUNNEL}/captions`, { photoId: currentPost.id, userId: currentUser.uid, body: newCaption })
       .then(results => {
         getCaptions(); //helper function
