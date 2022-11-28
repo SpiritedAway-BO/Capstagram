@@ -15,10 +15,7 @@ const firebaseConfig = {
 
 const app = initializeApp(firebaseConfig);
 
-export const auth = async () => {
-  return await getAuth(app);
-}
-// export const auth = getAuth(app);
+export const auth = getAuth(app);
 export const storage = getStorage(app);
 
 export const createUser = (email, password, displayName) => {
