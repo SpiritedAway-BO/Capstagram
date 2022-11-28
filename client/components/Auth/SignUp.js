@@ -39,7 +39,7 @@ const SignUp = ({ navigation }) => {
         });
         setTimeout(() => {
           console.log(auth.currentUser.uid);
-          axios.post('http://localhost:8000/user',
+          axios.post('https://bitter-lamps-eat-75-80-43-25.loca.lt/user',
             {
               userId: auth.currentUser.uid,
               username,
