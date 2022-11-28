@@ -131,7 +131,7 @@ module.exports = {
               returnObj.likeUsers = values[1];
               returnArr.push(returnObj);
             })*/
-            returnArr.push(returnObj);
+          returnArr.push(returnObj);
         }
         res.status(200);
         res.end(JSON.stringify(returnArr));
@@ -198,11 +198,11 @@ module.exports = {
             })
         } else {
           const likeRemoveResult = await session.executeWrite((tx) => tx.run(`MATCH (c:Caption {id: '${req.params.captionId}'})<-[r:LIKES]-(:User {id: '${req.body.userId}'}) DELETE r`))
-          .then(() => {
-            console.log('Like removed on photo ', req.params.captionId, ' by user ', req.body.userId);
+            .then(() => {
+              console.log('Like removed on photo ', req.params.captionId, ' by user ', req.body.userId);
               res.status(204);
               res.end();
-          })
+            })
         }
         // Numeric likes value
         /*
