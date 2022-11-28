@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useContext } from 'react';
-import { Image, View, Platform, TouchableOpacity, Text, StyleSheet, FlatList, TouchableWithoutFeedback, Keyboard, KeyboardAvoidingView, TextInput } from 'react-native';
+import { Image, View, Platform, TouchableOpacity, Text, StyleSheet, FlatList, TouchableWithoutFeedback, Keyboard, KeyboardAvoidingView, TextInput, SafeAreaView} from 'react-native';
 import { Avatar, VStack } from '@react-native-material/core';
 import { Ionicons } from '@expo/vector-icons';
 import { auth } from '../../components/Auth/firebase/firebase';
@@ -92,13 +92,16 @@ export default function Search() {
   };
 
   return (
+    <SafeAreaView style={styles.container}>
     <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
-      <KeyboardAvoidingView behavior="padding" style={styles.container}>
+      <KeyboardAvoidingView behavior="padding" >
         <View style={styles.inputContainer}>
           <TextInput style={styles.input} placeholder='Search' placeholderTextColor='#D3D3D3'
             onChangeText={text => setSearchInput(text)} onSubmitEditing={(e) => handleSearch(e, searchInput)}
             enablesReturnKeyAutomatically />
         </View>
+      </KeyboardAvoidingView>
+    </TouchableWithoutFeedback>
         <View style={styles.listContainer}>
           <VStack spacing={7} divider={true} w={'100%'}>
             <FlatList
@@ -108,8 +111,7 @@ export default function Search() {
             />
           </VStack>
         </View>
-      </KeyboardAvoidingView>
-    </TouchableWithoutFeedback>
+    </SafeAreaView>
   );
 
 }
