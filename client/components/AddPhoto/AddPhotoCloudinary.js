@@ -64,24 +64,25 @@ const AddPhotoCloudinary = ({ navigation }) => {
       .then(data => {
         console.log('response data', data);
         // setPhoto(data.secure_url);
-        axios.post('http://localhost:8000/photos', {
+        axios.post('https://bitter-lamps-eat-75-80-43-25.loca.lt/photos', {
           currentUser: auth.currentUser,
           uri: data.secure_url
         })
-          .then(results => {s
+          .then(results => {
             console.log('photo posted');
-            axios.get(`${LOCALTUNNEL}/photos/${auth.currentUser.uid}`)
-              .then(res => {
-                setMainFeedData(res.data[0].photos);
-              })
-              .catch(err => console.log('error getting main feed in add photo', err));
+            // axios.get(`http://localhost:8000/photos/${auth.currentUser.uid}`)
+            //   .then(res => {
+            //     console.log('addPhoto res.data', res.data);
+            //     setMainFeedData(res.data);
+            //   })
+            //   .catch(err => console.log('error getting main feed in add photo', err));
           })
           .catch(err => console.log('error posting photo', err));
       })
       .catch(err => {
         Alert.alert('An Error Occured While Uploading');
       });
-    navigation.navigate('Home');
+    navigation.navigate('Profile');
   };
 
   return (
