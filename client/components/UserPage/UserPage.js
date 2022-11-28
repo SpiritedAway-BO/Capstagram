@@ -30,7 +30,7 @@ const UserPage = ({ navigation }) => {
 
   const [tab, setTab] = React.useState('posts');
   const [modalVisible, setModalVisible] = React.useState(false);
-  const [myPosts, setMyPosts] = React.useState([]);
+  const [myPosts, setMyPosts] = React.useState(null);
   const [modalPost, setModalPost] = React.useState({});
 
   React.useEffect(() => {
@@ -76,11 +76,20 @@ const UserPage = ({ navigation }) => {
     <View style={{backgroundColor: 'white', width: '100%', height: '100%', blurRadius:"100%"}}>
       <View style={styles.userInfoContainer}>
         <View style={styles.uiStatsBox}>
-          <UserPic myPosts={myPosts}/>
-          <Posts numPosts={myPosts.results.length}/>
-          <Friends numFriends={friends.length} navigation={navigation}/>
+          { myPosts ?
+            <>
+            <UserPic myPosts={myPosts} />
+            <Posts numPosts={myPosts.results.length} />
+            <Friends numFriends={friends.length} navigation={navigation}/>
+            </>
+            :
+            null
+          }
         </View>
+        { myPosts ?
         <Username myPosts={myPosts}/>
+        : null
+        }
         <Bio />
       </View>
       <NavBar tab={tab} setTab={setTab} onWins={onWins} onPosts={onPosts}/>
