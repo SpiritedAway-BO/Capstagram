@@ -19,9 +19,7 @@ export const AppProvider = ({ children }) => {
     //   .then(res => console.log(res.data))
     //   .catch(err => console.log(err));
   }, []);
-  if (currentUser) {
-    console.log('currentUser in AppContext', currentUser.uid);
-  }
+
   /** INSERT VARIABLE NAMES into value deconstruction to make them available in other modules */
   const value = {
     currentUser,
@@ -37,7 +35,7 @@ export const AppProvider = ({ children }) => {
   /** MAKES CONTEXT AVAILABLE **/
   useEffect(() => {
     if (currentUser) {
-      axios.get(`http://localhost:8000/photos/${currentUser.uid}`)
+      axios.get(`${LOCALTUNNEL}/photos/${currentUser.uid}`)
         .then(res => {
           console.log(res.data);
           setMainFeedData(res.data);
@@ -49,7 +47,7 @@ export const AppProvider = ({ children }) => {
 
   useEffect(() => {
     if (currentUser) {
-      axios.get(`http://localhost:8000/user/${currentUser.uid}/friends`)
+      axios.get(`${LOCALTUNNEL}/user/${currentUser.uid}/friends`)
         .then(res => {
           setFriends(res.data);
         })

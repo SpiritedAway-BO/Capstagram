@@ -5,7 +5,7 @@ import { Ionicons } from '@expo/vector-icons';
 import { auth } from '../../components/Auth/firebase/firebase';
 import { AppContext } from '../../contexts/AppContext';
 import axios from 'axios';
-
+import { LOCALTUNNEL } from '../Auth/firebase/config.js';
 
 export default function Search() {
 
@@ -22,7 +22,7 @@ export default function Search() {
   let friendsArr = [];
 
   useEffect(() => {
-    axios.get('http://localhost:8000/users')
+    axios.get(`${LOCALTUNNEL}/users`)
       .then((res) => {
         console.log(friends);
         setUsers(res.data);
@@ -51,10 +51,10 @@ export default function Search() {
     // console.log(user.id);
     friendsArr.push(user.username);
 
-    axios.post('http://localhost:8000/user/friends', { firebaseID: auth.currentUser.uid, friendID: user.id })
+    axios.post(`${LOCALTUNNEL}/user/friends`, {firebaseID: auth.currentUser.uid, friendID: user.id })
       .then(() => {
         console.log('added:', user.id);
-        axios.get(`http://localhost:8000/photos/${currentUser.uid}`)
+        axios.get(`${LOCALTUNNEL}/photos/${currentUser.uid}`)
           .then(res => {
             setMainFeedData(res.data);
           })
