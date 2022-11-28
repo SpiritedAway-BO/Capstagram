@@ -17,48 +17,42 @@ const CaptionsGalore = () => {
   const [photoObject, setPhotoObject] = useState('6382cd1905e5b94830a216bf');
   const [captionArray, setCaptionArray] = useState([]);
 
-  const renderCaption = ({ item }) => {
-    // console.log('item in renderItem', item);
+  const renderCaption = ({ item }) => (
+    <CaptionItem caption={item} />
+  );
+  // useEffect(() => {
+  //   getCaptions();
+  // }, []);
 
-    return (
-      <CaptionItem caption={item} />
-    );
-  }
-  // console.log('captionArray', captionArray)
-  useEffect(() => {
-    getCaptions();
-  }, []);
-  // console.log('currentPost.id', currentPost.id)
   const getCaptions = () => {
-    if (currentPost) {
-      console.log( 'yes current post')
-      axios.get(`https://breezy-areas-fold-173-228-53-12.loca.lt/captions/${currentPost.id}`)
+    if (currentPost._id) {
+      axios.get(`${LOCALTUNNEL}/captions/${currentPost._id}`)
       .then(results => {
-        // console.log('results.data', results.data)
-        let reverseCaptionsArray = results.data.reverse();
+        let reverseCaptionsArray = results.data[0].photos[0].captions.reverse();
         setCaptionArray(reverseCaptionsArray);
       })
       .catch(err => console.log('error in caption get'))
     }
   };
 
-  const handleCaptionSubmit = () => {
-    // console.log('currentUser', currentUser)
-    /***** REPLACE PHOTOID WITH USER SELECTED PHOTOID */
-    /** make a default for if usename is null */
-    axios.post(`${LOCALTUNNEL}/captions/${}`, {username: currentUser.captioner.username, photoID: currentPost._id, captionBody: newCaption})
-      .then(results => {
-        getCaptions(); //helper function
-      })
-      .then(results => console.log('posted new caption'))
-      .catch(err => console.log('errors in captions galore'));
-    setNewCaption(''); //reset
-  }
+  // console.log('current post', currentPost._id);
+  // const handleCaptionSubmit = () => {
+  //   // console.log('currentUser', currentUser)
+  //   /***** REPLACE PHOTOID WITH USER SELECTED PHOTOID */
+  //   /** make a default for if usename is null */
+  //   axios.post(`${LOCALTUNNEL}/captions/${}`, {username: currentUser.captioner.username, photoID: currentPost._id, captionBody: newCaption})
+  //     .then(results => {
+  //       getCaptions(); //helper function
+  //     })
+  //     .then(results => console.log('posted new caption'))
+  //     .catch(err => console.log('errors in captions galore'));
+  //   setNewCaption(''); //reset
+  // }
   // console.log('captionArray', captionArray);
   return (
     <SafeAreaView style={styles.container}>
       <FlatList //this is like map
-        data={captionArray}
+        data={currentPost.captions}
         renderItem={renderCaption}
         keyExtractor={item => item.id}
         />

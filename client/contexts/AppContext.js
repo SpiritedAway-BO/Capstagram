@@ -6,7 +6,6 @@ import { LOCALTUNNEL } from '../components/Auth/firebase/config.js';
 export const AppContext = createContext(null);
 
 export const AppProvider = ({ children }) => {
-  const [username, setUsername] = useState('stephc123');
   const [currentUser, setCurrentUser] = useState('');
   const [mainFeedData, setMainFeedData] = useState([]);
   const [currentPost, setCurrentPost] = useState(null);
@@ -24,8 +23,6 @@ export const AppProvider = ({ children }) => {
   // console.log('currentUser in AppContext', currentUser.uid)
   /** INSERT VARIABLE NAMES into value deconstruction to make them available in other modules */
   const value = {
-    username,
-    setUsername,
     currentUser,
     mainFeedData,
     setMainFeedData,
