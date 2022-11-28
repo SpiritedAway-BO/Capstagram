@@ -25,7 +25,7 @@ export default function Search() {
 <<<<<<< HEAD
     axios.get('https://shaggy-streets-act-75-80-43-25.loca.lt/users')
 =======
-    axios.get('https://bitter-lamps-eat-75-80-43-25.loca.lt/users')
+    axios.get('https://localhost:8000/users')
 >>>>>>> main
       .then((res) => {
         console.log(friends);
@@ -55,10 +55,10 @@ export default function Search() {
     // console.log(user.id);
     friendsArr.push(user.username);
 
-    axios.post('https://bitter-lamps-eat-75-80-43-25.loca.lt/user/friends', {firebaseID: auth.currentUser.uid, friendID: user.id })
+    axios.post('https://localhost:8000/user/friends', {firebaseID: auth.currentUser.uid, friendID: user.id })
       .then(() => {
         console.log('added:', user.id);
-        axios.get(`https://bitter-lamps-eat-75-80-43-25.loca.lt/photos/${currentUser.uid}`)
+        axios.get(`https://localhost:8000/photos/${currentUser.uid}`)
           .then(res => {
             setMainFeedData(res.data);
           })

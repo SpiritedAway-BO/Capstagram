@@ -36,7 +36,7 @@ export const AppProvider = ({ children }) => {
   /** MAKES CONTEXT AVAILABLE **/
   useEffect(() => {
     if (currentUser) {
-      axios.get(`https://bitter-lamps-eat-75-80-43-25.loca.lt/photos/${currentUser.uid}`)
+      axios.get(`https://localhost:8000/photos/${currentUser.uid}`)
         .then(res => {
           console.log(res.data);
           setMainFeedData(res.data);
@@ -48,7 +48,7 @@ export const AppProvider = ({ children }) => {
 
   useEffect(() => {
     if (currentUser) {
-      axios.get(`https://bitter-lamps-eat-75-80-43-25.loca.lt/user/${currentUser.uid}/friends`)
+      axios.get(`https://localhost:8000/user/${currentUser.uid}/friends`)
         .then(res => {
           setFriends(res.data);
         })
