@@ -4,13 +4,13 @@ import { Avatar } from '@react-native-material/core';
 import Caption from '../../../MainFeed/Caption.js';
 
 
-const Post = ({ post, currentUser, navigation }) => {
+const SinglePostView = ({ post, currentUser, navigation }) => {
 
 
   return (
     <View style={styles.postContainer}>
       <View style={styles.creatorInfo}>
-        {currentUser.photoURL ?
+        {currentUser.photoURL !== undefined ?
         <Avatar
             image={{ uri: currentUser.photoURL }}
             size={35}
@@ -23,7 +23,7 @@ const Post = ({ post, currentUser, navigation }) => {
         }
         <Text style={styles.username}>{currentUser.displayName}</Text>
       </View>
-      <View>
+      <View style={{height:'80%'}}>
         <Image
           source={{uri: post.url}}
           style={styles.image}/>
@@ -72,7 +72,7 @@ const styles = StyleSheet.create({
   },
   image: {
     width: '100%',
-    height: 350,
+    height: '100%',
   },
   captionsContainer: {
     padding: 5,
@@ -88,4 +88,4 @@ const styles = StyleSheet.create({
   }
 });
 
-export default Post;
+export default SinglePostView;

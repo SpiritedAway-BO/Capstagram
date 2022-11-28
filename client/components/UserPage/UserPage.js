@@ -9,6 +9,7 @@ import { BlurView } from 'expo-blur';
 import { useIsFocused } from '@react-navigation/native'
 
 import PersonalWins from '../PersonalWins/PersonalWins.js';
+import { LOCALTUNNEL } from '../Auth/firebase/config.js';
 
 import UserPic from './UPComponents/TopHalfComps/UserPic.js';
 import Posts from './UPComponents/TopHalfComps/Posts.js';
@@ -33,13 +34,13 @@ const UserPage = ({ navigation }) => {
 
   React.useEffect(() => {
     if (currentUser) {
-      Axios.get(`http://localhost:8000/user/${currentUser.uid}/photos`)
+      Axios.get(`${LOCALTUNNEL}/user/${currentUser.uid}/photos`)
         .then((res) => {
           setMyPosts(res.data);
           setModalPost(res.data[0]);
         })
         .catch((err) => console.log('Error @ UserPage Axios.get: ', err));
-      Axios.get(`http://localhost:8000/user/${currentUser.uid}/friends`)
+      Axios.get(`${LOCALTUNNEL}/user/${currentUser.uid}/friends`)
         .then(res => {
           setFriends(res.data);
         })
@@ -74,11 +75,11 @@ const UserPage = ({ navigation }) => {
     <View style={{backgroundColor: 'white', width: '100%', height: '100%', blurRadius:"100%"}}>
       <View style={styles.userInfoContainer}>
         <View style={styles.uiStatsBox}>
-          <UserPic currentUser={currentUser}/>
+          <UserPic myPosts={myPosts}/>
           <Posts numPosts={myPosts.length}/>
           <Friends numFriends={friends.length} navigation={navigation}/>
         </View>
-        <Username currentUser={currentUser}/>
+        <Username myPosts={myPosts}/>
         <Bio />
       </View>
       <NavBar tab={tab} setTab={setTab} onWins={onWins} onPosts={onPosts}/>
