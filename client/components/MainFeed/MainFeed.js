@@ -3,7 +3,7 @@ import { View, ScrollView, StyleSheet, RefreshControl } from 'react-native';
 import Post from './Post.js';
 import { AppContext } from '../../contexts/AppContext.js';
 import { auth } from '../Auth/firebase/firebase.js';
-import {LOCALTUNNEL} from '../../components/Auth/firebase/config';
+import { LOCALTUNNEL } from '../../components/Auth/firebase/config';
 import axios from 'axios';
 
 const MainFeed = ({ navigation }) => {
@@ -13,6 +13,7 @@ const MainFeed = ({ navigation }) => {
   useEffect(() => {
     setCurrentUser(auth.currentUser);
   }, []);
+
 
   const onRefresh = () => {
     setRefreshing(true);
@@ -32,7 +33,7 @@ const MainFeed = ({ navigation }) => {
     return (
       <View style={styles.mainContainer}>
         <ScrollView style={styles.feedContainer} refreshControl={
-          <RefreshControl refreshing={refreshing} onRefresh={onRefresh}/>
+          <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
         }>
           {mainFeedData.sort((a, b) => Number(b.timePosted) - Number(a.timePosted)).map(post => <Post key={post.id} post={post} navigation={navigation} />)}
         </ScrollView>

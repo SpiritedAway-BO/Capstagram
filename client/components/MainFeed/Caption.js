@@ -3,10 +3,13 @@ import { View, Text, StyleSheet } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { AppContext } from '../../contexts/AppContext.js';
 import { LOCALTUNNEL } from '../Auth/firebase/config.js';
+import { auth } from '../Auth/firebase/firebase.js';
 import axios from 'axios';
 
 export default function Caption({ caption }) {
   const { currentUser } = useContext(AppContext);
+
+  // console.log('log from caption', caption);
 
   const checkLike = () => {
     let heart = false;
@@ -45,11 +48,11 @@ export default function Caption({ caption }) {
       {liked ?
         <Text style={styles.likeNumber}>
           {caption.likes}
-          <Ionicons name="ios-heart" size={15} color="#FF842B" onPress={heart}/>
+          <Ionicons name="ios-heart" size={15} color="#FF842B" onPress={heart} />
         </Text> :
         <Text style={styles.likeNumber}>
           {caption.likes}
-          <Ionicons name="ios-heart-outline" size={15} color="#FF842B" onPress={heart}/>
+          <Ionicons name="ios-heart-outline" size={15} color="#FF842B" onPress={heart} />
         </Text>}
     </View>
   );
